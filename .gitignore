@@ -32,3 +32,4 @@ bun.*
 .~lock.*
 test_db_.tar
 .project
+production.py
