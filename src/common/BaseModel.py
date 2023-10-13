@@ -9,37 +9,10 @@
         historical (HistoricalRecords): Registros históricos del modelo.
 
     Methods:
-        save(): Guarda el registro en la base de datos.
-        delete(): Elimina el registro de la base de datos.
-        hard_delete(): Elimina el registro de la base de datos de forma permanente.
-        restore(): Restaura un registro eliminado.
-        get(): Obtiene un registro de la base de datos.
-        get_or_none(): Obtiene un registro de la base de datos o None si no existe.
-        get_or_404(): Obtiene un registro de la base de datos o lanza un error 404 si no existe.
-        get_or_create(): Obtiene un registro de la base de datos o lo crea si no existe.
-        all(): Obtiene todos los registros de la base de datos.
-        filter(): Obtiene los registros de la base de datos que cumplan con los filtros.
-        exclude(): Obtiene los registros de la base de datos que no cumplan con los filtros.
-        order_by(): Ordena los registros de la base de datos.
-        count(): Cuenta los registros de la base de datos.
-        exists(): Verifica si existen registros en la base de datos.
-        update(): Actualiza los registros de la base de datos que cumplan con los filtros.
-        bulk_create(): Crea varios registros en la base de datos.
-        bulk_update(): Actualiza varios registros en la base de datos.
-        bulk_delete(): Elimina varios registros en la base de datos.
-        bulk_hard_delete(): Elimina varios registros en la base de datos de forma permanente.
-        bulk_restore(): Restaura varios registros eliminados en la base de datos.
-        values(): Obtiene los valores de los registros de la base de datos.
-        values_list(): Obtiene los valores de los registros de la base de datos.
-        distinct(): Obtiene los valores de los registros de la base de datos sin repetir.
-        annotate(): Anota los registros de la base de datos.
-        aggregate(): Agrega los registros de la base de datos.
-        first(): Obtiene el primer registro de la base de datos.
-        last(): Obtiene el último registro de la base de datos.
-        latest(): Obtiene el último registro de la base de datos.
-        earliest(): Obtiene el primer registro de la base de datos.
-        union(): Une los registros de la base de datos.
-        intersection(): Intersecta los registros de la base de datos.
+        save: Guarda el registro en la base de datos, 
+              incluye el usuario creador y actualizador.
+        get_user: Obtiene el usuario creador o actualizador del registro.
+
 """
 
 
@@ -55,4 +28,65 @@ from accounts.models.CustomUserModel import CustomUserModel
 
 
 
-class BaseModel()
+class BaseModel(models.Model):
+
+    notes = models.TextField(
+        'notas',
+        blank=True,
+        default=None,
+        null=True,
+        help_text='Notas del registro.'
+    )
+
+    created_at = models.DateTimeField(
+        'fecha de creación',
+        auto_now_add=True,
+        help_text='Fecha de creación del registro.'
+    )
+
+    updated_at = models.DateTimeField(
+        'fecha de actualización',
+        auto_now=True,
+        help_text='Fecha de ultima actualización del registro.'
+    )
+
+    is_active = models.BooleanField(
+        'activo',
+        default=True,
+        help_text='Estado del registro.'
+    )
+
+    id_user_created = models.PositiveIntegerField(
+        'usuario creador',
+        default=0,
+        blank=True,
+        null=True,
+        help_text='Identificador del usuario creador del registro 0 es anonimo.'
+    )
+
+    id_user_updated = models.PositiveIntegerField(
+        'usuario actualizador',
+        default=0,
+        blank=True,
+        null=True,
+        help_text='Identificador del usuario actualizador del registro.'
+    )
+
+    history = HistoricalRecords(inherit=True)
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        
+        if user is None:
+            return super().save(*args, **kwargs)
+        
+        if not self.pk:
+            self.id_user_created = user.pk
+        
+        self.id_user_updated = user.pk
+        return super().save(*args, **kwargs)
+    
+    class Meta:
+        abstract = True
+        get_latest_by = 'created_at'
+        ordering = ['-created_at']
