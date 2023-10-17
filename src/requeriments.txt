@@ -14,3 +14,4 @@ ipdb
 django-utils-six
 requests
 psycopg2
+pillow

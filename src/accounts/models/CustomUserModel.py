@@ -4,7 +4,7 @@
 """
 
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
 from accounts.managers import CustomUserManager
 
@@ -32,12 +32,12 @@ STATUS_APPROVED = (
     ('pending', 'Pendiente'),
 )
 
-class CustomUserModel(AbstractBaseUser):
+class CustomUserModel(AbstractUser):
     role = models.CharField(
         'rol usuario',
         max_length=40,
         choices=ROLES,
-        default='guest'
+        default='guest',
         help_text='Rol del usuario en la plataforma.'
     )
 
@@ -51,7 +51,7 @@ class CustomUserModel(AbstractBaseUser):
     dni_number = models.CharField(
         'número de identificación',
         max_length=40,
-        blank=True
+        blank=True,
         help_text='Número de identificación del usuario.'
     )
 
@@ -71,13 +71,13 @@ class CustomUserModel(AbstractBaseUser):
         'estado de aprobación',
         max_length=40,
         choices=STATUS_APPROVED,
-        default='pending'
+        default='pending',
         help_text='Estado de aprobación del usuario.'
     )
 
     is_confirmed_mail = models.BooleanField(
         'correo electrónico confirmado',
-        default=False
+        default=False,
         help_text='Estado de confirmación del correo electrónico.'
     )
 
@@ -100,7 +100,7 @@ class CustomUserModel(AbstractBaseUser):
     )
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['contact', 'dni_number']
+    REQUIRED_FIELDS = []
     objects = CustomUserManager()
 
     @classmethod

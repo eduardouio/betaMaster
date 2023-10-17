@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-from settings.local import MY_SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = MY_SECRET_KEY
-
+SECRET_KEY = 'HOME_SCHOOL_098765redcvbnmk0987654edvbnp98765dvbnk097654323457l,mnbvftyjdk@#$%^&*EVILLOTA'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -79,8 +77,8 @@ WSGI_APPLICATION = 'homeSchool.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'home_schooling',
-        'USER': 'postgres',
+        'NAME': 'homeSchool',
+        'USER': 'eduardo',
         'PASSWORD': 'elian.2011',
         'HOST': '127.0.0.1',
         'PORT': '5432',

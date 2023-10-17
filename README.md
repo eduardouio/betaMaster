@@ -32,3 +32,15 @@ El sistema debe gestionar:
     La calificación de profesores, también con el registro de sus documentos
 
 Nuestro objetivo es facilitar el aprendizaje en el hogar, proporcionando a los estudiantes acceso a profesores cualificados y un entorno educativo estructurado a través de nuestra plataforma en línea.
+
+-- sql para borrar el modeloo
+DROP TABLE public.auth_group CASCADE;
+DROP TABLE public.auth_group_permissions CASCADE;
+DROP TABLE public.auth_permission CASCADE;
+DROP TABLE public.auth_user CASCADE;
+DROP TABLE public.auth_user_groups CASCADE;
+DROP TABLE public.auth_user_user_permissions CASCADE;
+DROP TABLE public.django_admin_log CASCADE;
+DROP TABLE public.django_content_type CASCADE;
+DROP TABLE public.django_migrations CASCADE;
+DROP TABLE public.django_session CASCADE;
