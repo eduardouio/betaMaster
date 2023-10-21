@@ -1,3 +1,28 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 
-# Register your models here.
+from schools.models import School
+
+
+@admin.register(School)
+class SchoolAdmin(SimpleHistoryAdmin):
+    list_display = (
+        'name',
+        'email',
+        'dni_collegue',
+        'id_user',
+    )
+    search_fields = (
+        'name',
+        'email',
+        'dni_collegue',
+        'id_user',
+    )
+    list_filter = (
+        'name',
+        'email',
+        'dni_collegue',
+        'id_user',
+    )   
+
+
