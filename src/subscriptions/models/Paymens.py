@@ -56,3 +56,13 @@ class Payment(BaseModel):
         null=True,
         blank=True
     )
+    invoice_number = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
+    invoice_xml = models.TextField(
+        blank=True,
+        null=True,
+        default=None
+    )
