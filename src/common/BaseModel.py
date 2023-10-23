@@ -27,7 +27,6 @@ from crum import get_current_user
 from accounts.models.CustomUserModel import CustomUserModel
 
 
-
 class BaseModel(models.Model):
 
     notes = models.TextField(
@@ -76,16 +75,16 @@ class BaseModel(models.Model):
 
     def save(self, *args, **kwargs):
         user = get_current_user()
-        
+
         if user is None:
             return super().save(*args, **kwargs)
-        
+
         if not self.pk:
             self.id_user_created = user.pk
-        
+
         self.id_user_updated = user.pk
         return super().save(*args, **kwargs)
-    
+
     class Meta:
         abstract = True
         get_latest_by = 'created_at'
