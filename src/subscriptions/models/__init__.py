@@ -1,0 +1,1 @@
+from subscriptions.models import SubscriptionModel
