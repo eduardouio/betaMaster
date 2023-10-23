@@ -10,19 +10,16 @@ class SchoolAdmin(SimpleHistoryAdmin):
         'name',
         'email',
         'dni_collegue',
-        'id_user',
     )
     search_fields = (
         'name',
         'email',
         'dni_collegue',
-        'id_user',
     )
     list_filter = (
         'name',
         'email',
         'dni_collegue',
-        'id_user',
     )   
 
 

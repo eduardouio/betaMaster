@@ -32,6 +32,7 @@ STATUS_APPROVED = (
     ('pending', 'Pendiente'),
 )
 
+
 class CustomUserModel(AbstractUser):
     role = models.CharField(
         'rol usuario',
@@ -41,11 +42,38 @@ class CustomUserModel(AbstractUser):
         help_text='Rol del usuario en la plataforma.'
     )
 
-    contact = models.CharField(
-        'contacto',
-        max_length=40,
+    state = models.CharField(
+        'Provincia',
+        max_length=100
+    )
+
+    city = models.CharField(
+        'Ciudad',
+        max_length=100
+    )
+
+    address = models.CharField(
+        'Dirección',
+        max_length=100,
         blank=True,
-        help_text='Número de contacto del usuario.'
+        null=True,
+        default=None,
+    )
+
+    phone = models.CharField(
+        'Teléfono',
+        max_length=50,
+        blank=True,
+        null=True,
+        default=None,
+    )
+
+    geolocation = models.CharField(
+        'Geolocalización',
+        max_length=500,
+        blank=True,
+        null=True,
+        default=None
     )
 
     dni_number = models.CharField(
@@ -93,12 +121,12 @@ class CustomUserModel(AbstractUser):
         auto_now_add=True,
         help_text='Fecha de aprobación del usuario.'
     )
-    
+
     notes = models.TextField(
         'notas',
         blank=True
     )
-    
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
@@ -109,7 +137,7 @@ class CustomUserModel(AbstractUser):
             return cls.objects.get(email=email)
         except ObjectDoesNotExist:
             return None
-    
+
     @classmethod
     def get_user_public_data(cls, email):
         user = cls.get(email)
@@ -131,6 +159,6 @@ class CustomUserModel(AbstractUser):
                 'is_active': user.is_active,
                 'date_joined': user.date_joined.isoformat(),
             }
-    
+
     def __str__(self) -> str:
         return self.email
