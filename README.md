@@ -34,13 +34,25 @@ El sistema debe gestionar:
 Nuestro objetivo es facilitar el aprendizaje en el hogar, proporcionando a los estudiantes acceso a profesores cualificados y un entorno educativo estructurado a través de nuestra plataforma en línea.
 
 -- sql para borrar el modeloo
-DROP TABLE public.auth_group CASCADE;
-DROP TABLE public.auth_group_permissions CASCADE;
-DROP TABLE public.auth_permission CASCADE;
-DROP TABLE public.auth_user CASCADE;
-DROP TABLE public.auth_user_groups CASCADE;
-DROP TABLE public.auth_user_user_permissions CASCADE;
-DROP TABLE public.django_admin_log CASCADE;
-DROP TABLE public.django_content_type CASCADE;
-DROP TABLE public.django_migrations CASCADE;
-DROP TABLE public.django_session CASCADE;
+DROP TABLE public.accounts_customusermodel;
+DROP TABLE public.accounts_customusermodel_groups;
+DROP TABLE public.accounts_customusermodel_user_permissions;
+DROP TABLE public."activeCourses_activecourse";
+DROP TABLE public."activeCourses_historicalactivecourse";
+DROP TABLE public.auth_group;
+DROP TABLE public.auth_group_permissions;
+DROP TABLE public.auth_permission;
+DROP TABLE public.django_admin_log;
+DROP TABLE public.django_content_type;
+DROP TABLE public.django_migrations;
+DROP TABLE public.django_session;
+DROP TABLE public.schools_historicalschool;
+DROP TABLE public.schools_school;
+DROP TABLE public."studyPlans_historicalstudyplan";
+DROP TABLE public."studyPlans_historicalstudyplandetail";
+DROP TABLE public."studyPlans_studyplan";
+DROP TABLE public."studyPlans_studyplandetail";
+DROP TABLE public.subscriptions_historicalpayment;
+DROP TABLE public.subscriptions_historicalsubscription;
+DROP TABLE public.subscriptions_payment;
+DROP TABLE public.subscriptions_subscription;
