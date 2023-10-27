@@ -12,10 +12,10 @@ class StudyPlan(BaseModel):
     )
     coordinator = models.ForeignKey(
         CustomUserModel,
+        on_delete=models.RESTRICT
     )
     date_start = models.DateTimeField(
         'Fecha Inicio',
-        auto_now_add=True,
         default=None,
         blank=True,
         null=True
