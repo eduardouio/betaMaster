@@ -13,15 +13,15 @@ class School(BaseModel):
     name = models.CharField(
         'Nombre Colegio',
         max_length=100,
-        unique=True,
+        unique=True
     )
     email = models.CharField(
         'Correo',
-        max_length=100,
+        max_length=100
     )
     dni_collegue = models.CharField(
         'Ruc Colegio',
-        max_length=50,
+        max_length=50
     )
     state = models.CharField(
         'Provincia',
@@ -36,7 +36,7 @@ class School(BaseModel):
         max_length=100,
         blank=True,
         null=True,
-        default=None,
+        default=None
     )
     geolocation = models.CharField(
         'Geolocalización',
@@ -50,36 +50,36 @@ class School(BaseModel):
         max_length=50,
         blank=True,
         null=True,
-        default=None,
+        default=None
     )
     website = models.URLField(
         'Sitio Web',
         max_length=100,
         blank=True,
-        null=True,
+        null=True
     )
     logo = models.ImageField(
         'Logo',
         upload_to='school/logos/',
         blank=True,
-        null=True,
+        null=True
     )
     description = models.TextField(
         'Descripción',
         blank=True,
         null=True,
-        default=None,
+        default=None
     )
     type_school = models.CharField(
         'Tipo Colegio',
         max_length=50,
         blank=True,
         null=True,
-        default=None,
+        default=None
     )
     id_owner = models.ForeignKey(
         CustomUserModel,
-        models.RESTRICT
+        on_delete=models.RESTRICT
     )
 
     def __str__(self) -> str:

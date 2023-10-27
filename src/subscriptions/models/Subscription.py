@@ -3,16 +3,19 @@ from common import BaseModel
 from accounts.models import CustomUserModel
 
 TYPE_SUBSCRIPTION = (
-    'SCHOOL', 'SCHOOL',
-    'TEACHER', 'TEACHER',
-    'STUDENT', 'STUDENT',
-    'OTHER', 'OTHER',
+    ('SCHOOL', 'SCHOOL'),
+    ('TEACHER', 'TEACHER'),
+    ('STUDENT', 'STUDENT'),
+    ('OTHER', 'OTHER'),
 )
 
 
 class Subscription(BaseModel):
     id_subscription = models.AutoField(primary_key=True)
-    id_user = models.ForeignKey(CustomUserModel)
+    id_user = models.ForeignKey(
+        CustomUserModel,
+        on_delete=models.RESTRICT
+    )
     date_start = models.DateTimeField(
         'Fecha Inicio',
         blank=True,
