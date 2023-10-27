@@ -1,3 +1,16 @@
+from simple_history.admin import SimpleHistoryAdmin
 from django.contrib import admin
 
-# Register your models here.
+from .models import ActiveCourse
+
+
+@admin.register(ActiveCourse)
+class ActiveCourseModelAdmin(SimpleHistoryAdmin):
+    list_display = (
+        'year',
+        'period',
+        'level',
+        'state',
+        'calification',
+        'description',
+    )

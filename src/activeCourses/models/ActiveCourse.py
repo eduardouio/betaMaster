@@ -18,16 +18,19 @@ STATES = (
 # es un solo profesor o varios?
 
 
-class ActiveCourses(BaseModel):
+class ActiveCourse(BaseModel):
     id_active_courses = models.AutoField(primary_key=True)
     id_school = models.ForeignKey(
-        School
+        School,
+        on_delete=models.RESTRICT
     )
     id_study_plan = models.ForeignKey(
-        StudyPlan
+        StudyPlan,
+        on_delete=models.RESTRICT
     )
     id_teacher = models.ForeignKey(
-        CustomUserModel
+        CustomUserModel,
+        on_delete=models.RESTRICT
     )
     year = models.PositiveIntegerField(
         'Año',
