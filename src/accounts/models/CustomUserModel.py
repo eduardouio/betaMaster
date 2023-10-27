@@ -41,17 +41,26 @@ class CustomUserModel(AbstractUser):
         default='guest',
         help_text='Rol del usuario en la plataforma.'
     )
-
+    country = models.CharField(
+        'País',
+        max_length=100,
+        blank=True,
+        default='ECUADOR'
+    )
     state = models.CharField(
         'Provincia',
         max_length=100
     )
-
     city = models.CharField(
         'Ciudad',
         max_length=100
     )
-
+    date_of_birth = models.DateField(
+        'Fecha de nacimiento',
+        blank=True,
+        null=True,
+        default=None,
+    )
     address = models.CharField(
         'Dirección',
         max_length=100,
@@ -59,7 +68,6 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None,
     )
-
     phone = models.CharField(
         'Teléfono',
         max_length=50,
@@ -67,7 +75,6 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None,
     )
-
     geolocation = models.CharField(
         'Geolocalización',
         max_length=500,
@@ -75,26 +82,22 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None
     )
-
     dni_number = models.CharField(
         'número de identificación',
         max_length=40,
         blank=True,
         help_text='Número de identificación del usuario.'
     )
-
     email = models.EmailField(
         'correo electrónico',
         unique=True
     )
-
     picture = models.ImageField(
         'imagen de perfil',
         upload_to='accounts/pictures',
         blank=True,
         help_text='Imagen de perfil del usuario.'
     )
-
     is_aproved = models.CharField(
         'estado de aprobación',
         max_length=40,
@@ -102,26 +105,22 @@ class CustomUserModel(AbstractUser):
         default='pending',
         help_text='Estado de aprobación del usuario.'
     )
-
     is_confirmed_mail = models.BooleanField(
         'correo electrónico confirmado',
         default=False,
         help_text='Estado de confirmación del correo electrónico.'
     )
-
     token = models.CharField(
         'token',
         max_length=40,
         blank=True,
         help_text='Token de acceso del usuario.'
     )
-
     date_aproved = models.DateTimeField(
         'fecha de aprobación',
         auto_now_add=True,
         help_text='Fecha de aprobación del usuario.'
     )
-
     notes = models.TextField(
         'notas',
         blank=True
