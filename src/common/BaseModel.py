@@ -85,6 +85,20 @@ class BaseModel(models.Model):
         self.id_user_updated = user.pk
         return super().save(*args, **kwargs)
 
+    def get_create_user(self):
+        '''Retorna el usuario creador del registro.'''
+        try:
+            return CustomUserModel.objects.get(pk=self.id_user_created)
+        except ObjectDoesNotExist:
+            return None
+
+    def get_update_user(self):
+        '''Retorna el usuario ultimo en actualizar el registro '''
+        try:
+            return CustomUserModel.objects.get(pk=self.id_user_updated)
+        except ObjectDoesNotExist:
+            return None
+
     class Meta:
         abstract = True
         get_latest_by = 'created_at'
