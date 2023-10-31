@@ -8,8 +8,11 @@ from schools.models import School
 class SchoolAdmin(SimpleHistoryAdmin):
     list_display = (
         'name',
+        'city',
+        'state',
         'email',
         'dni_collegue',
+        'type_school',
     )
     search_fields = (
         'name',
@@ -20,6 +23,4 @@ class SchoolAdmin(SimpleHistoryAdmin):
         'name',
         'email',
         'dni_collegue',
-    )   
-
-
+    )

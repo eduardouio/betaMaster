@@ -17,4 +17,10 @@ class CustomUserModelAdmin(SimpleHistoryAdmin):
         'is_confirmed_mail',
     )
 
+    list_filter = (
+        'role',
+        'is_active',
+    )
+
+
 admin.site.site_header = 'HomeSchooling'

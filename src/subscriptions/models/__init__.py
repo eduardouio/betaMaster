@@ -1,2 +1,2 @@
 from .Subscription import Subscription
-from .Payments import Payment
+from .Payment import Payment
