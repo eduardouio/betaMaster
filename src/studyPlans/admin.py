@@ -19,4 +19,20 @@ class StudyPlanAdmin(SimpleHistoryAdmin):
 
 @admin.register(StudyPlanDetail)
 class StudyPlanDetailAdmin(SimpleHistoryAdmin):
-    pass
+    list_display = (
+        'studyplan',
+        'asignature',
+        'level',
+        'credits',
+        'minimun_score',
+        'is_active',
+    )
+
+    list_filter = (
+        'id_study_plan__name',
+        'level',
+    )
+
+    def studyplan(self, obj):
+        return obj.id_study_plan.name
+    studyplan.short_description = 'Plan de Estudio'
