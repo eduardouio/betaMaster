@@ -1,6 +1,7 @@
 from django.db import models
 from common import BaseModel
 from accounts.models import CustomUserModel
+from activeCourses.models import ActiveCourse
 
 TYPE_SUBSCRIPTION = (
     ('SCHOOL', 'SCHOOL'),
@@ -14,6 +15,10 @@ class Subscription(BaseModel):
     id_subscription = models.AutoField(primary_key=True)
     id_user = models.ForeignKey(
         CustomUserModel,
+        on_delete=models.RESTRICT
+    )
+    id_active_course = models.ForeignKey(
+        ActiveCourse,
         on_delete=models.RESTRICT
     )
     date_start = models.DateTimeField(
