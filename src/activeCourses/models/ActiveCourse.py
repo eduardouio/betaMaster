@@ -32,6 +32,10 @@ class ActiveCourse(BaseModel):
         CustomUserModel,
         on_delete=models.RESTRICT
     )
+    id_student = models.ForeignKey(
+        CustomUserModel,
+        on_delete=models.RESTRICT
+    )
     year = models.PositiveIntegerField(
         'Año',
         default=0
