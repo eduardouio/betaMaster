@@ -7,7 +7,8 @@ import random
 from accounts.models import CustomUserModel
 from schools.models import School
 from studyPlans.models import StudyPlan, StudyPlanDetail
-
+from subscriptions.models import Subscription, Payment
+from activeCourses.models import ActiveCourse
 STATES_EC = {
     "Azuay": [
         "Cuenca", "Gualaceo", "Paute", "Santa Isabel", "Sigsig",
@@ -140,14 +141,18 @@ class Command(BaseCommand):
         self.create_schools(fake, 27)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
+        print('Registrando suscripciones')
+        self.create_active_courses(fake)
+        self.create_subscriptions(fake)
+        self.create_payments(fake)
         print('<==\t Datos de prueba generados')
 
     def create_users_by_profile(self, fake, role, quantity):
         for i in range(quantity):
             my_state = random.choice(list(STATES_EC.keys()))
             CustomUserModel.objects.create_user(
-                username=fake.user_name(),
-                email=fake.email(),
+                username=fake.user_name() + str(random.randint(0, 10)),
+                email=str(random.randint(0, 10)) + fake.email(),
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 date_of_birth=fake.date_of_birth(),
@@ -234,3 +239,97 @@ class Command(BaseCommand):
                         id_user_created=1,
                         id_user_updated=1,
                     )
+
+    def create_active_courses(self, fake):
+        all_schools = list(School.objects.all())
+        all_teachers = list(CustomUserModel.objects.filter(role='teacher'))
+        all_students = list(CustomUserModel.objects.filter(role='student'))
+        all_study_plans = StudyPlan.objects.all()
+        for study_plan in all_study_plans:
+            ActiveCourse.objects.create(
+                id_school=random.choice(all_schools),
+                id_study_plan=study_plan,
+                id_teacher=random.choice(all_teachers),
+                id_student=random.choice(all_students),
+                year=random.randint(2021, 2023),
+                period=random.choice(['2021-2022', '2022-2023', '2022-2023']),
+                calification=random.randint(1, 10),
+            )
+
+    def create_subscriptions(self, fake):
+        all_users = CustomUserModel.objects.exclude(
+            role='guest'
+        ).exclude(email='eduardouio7@gmail.com')
+        active_courses = list(ActiveCourse.objects.all())
+        for user in all_users:
+            if random.choice([True, False, True, True]):
+                my_cost = random.randint(21, 55)
+                my_role = user.role.upper() if user.role.upper() != 'cordinator' else 'OTHER'
+                Subscription.objects.create(
+                    id_user=user,
+                    id_active_course=random.choice(active_courses),
+                    date_start=fake.past_datetime(),
+                    date_end=fake.future_datetime(),
+                    type_subscription=my_role,
+                    cost=round((my_cost/1.008), 2),
+                    id_user_created=1,
+                    id_user_updated=1,
+                )
+
+    def create_payments(self, fake):
+        all_subscriptions = Subscription.objects.all()
+        all_banks = [
+            'Banco del Austro',
+            'Banco de Guayaquil',
+            'Banco de Machala',
+            'Banco de Loja',
+            'Banco de Pichincha',
+            'Banco de la Producción',
+            'Banco del Pacífico',
+            'Banco Solidario',
+            'Banco ProCredit',
+            'Banco Internacional',
+            'Banco Bolivariano',
+            'Banco Amazonas',
+            'Cooperativa de Ahorro y Crédito JEP',
+            'Cooperativa de Ahorro y Crédito Policía Nacional',
+            'Cooperativa de Ahorro y Crédito San Francisco',
+            'Cooperativa de Ahorro y Crédito Santa Ana',
+            'Cooperativa de Ahorro y Crédito 29 de Octubre',
+            'Cooperativa de Ahorro y Crédito Alianza del Valle',
+            'Cooperativa de Ahorro y Crédito CREA',
+            'Cooperativa de Ahorro y Crédito CACPECO',
+            'Cooperativa de Ahorro y Crédito ANDALUCIA',
+        ]
+        payment_status = [
+            'PENDING',
+            'PAID',
+            'FAILED',
+            'REFUNDED',
+            'CANCELLED',
+            'EXPIRED',
+        ]
+        if random.choice([True, False, True]):
+            for subscription in all_subscriptions:
+                paymen_values = [
+                    subscription.cost,
+                    round(subscription.cost/1.05), 2,
+                    round(subscription.cost/2.05), 2,
+                    round(subscription.cost/3.05), 2,
+                    round(subscription.cost/1.35), 2,
+                ]
+                Payment.objects.create(
+                    id_subscription=subscription,
+                    payment_date=fake.past_datetime(),
+                    payment_amount=random.choice(paymen_values),
+                    payment_status=random.choice(payment_status),
+                    transaction_id=fake.bban(),
+                    bank_name=random.choice(all_banks),
+                    owner_account=fake.iban(),
+                    dni_owner_account=fake.ssn(),
+                    account_number=fake.aba(),
+                    account_destination=random.choice(['11111111', '222222']),
+                    invoice_number=random.randint(100000, 999999),
+                    id_user_created=1,
+                    id_user_updated=1,
+                )
