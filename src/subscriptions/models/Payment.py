@@ -22,10 +22,9 @@ class Payment(BaseModel):
         'Fecha de Pago',
         auto_now_add=True
     )
-    payment_amount = models.DecimalField(
+    payment_amount = models.FloatField(
         'Monto de Pago',
-        max_digits=10,
-        decimal_places=2
+        default=0.0
     )
     payment_status = models.CharField(
         'Estado de Pago',

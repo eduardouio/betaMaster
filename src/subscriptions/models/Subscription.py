@@ -39,10 +39,8 @@ class Subscription(BaseModel):
         choices=TYPE_SUBSCRIPTION,
         default='OTHER',
     )
-    cost = models.DecimalField(
+    cost = models.FloatField(
         'Valor',
-        max_digits=5,
-        decimal_places=2,
         blank=True,
         null=True,
         default=None,

@@ -54,10 +54,8 @@ class ActiveCourse(BaseModel):
         choices=STATES,
         default='POR INICIAR',
     )
-    calification = models.DecimalField(
+    calification = models.FloatField(
         'Calificación',
-        max_digits=5,
-        decimal_places=2,
         blank=True,
         null=True,
         default=None,

@@ -131,17 +131,17 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
-        print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'student', 150)
-        self.create_users_by_profile(fake, 'teacher', 54)
-        self.create_users_by_profile(fake, 'coordinator', 10)
-        self.create_users_by_profile(fake, 'school', 27)
-        self.create_users_by_profile(fake, 'guest', 3)
-        print('RRegistrando escuelas')
-        self.create_schools(fake, 27)
-        print('Registrando planes de estudio')
-        self.create_stydu_plans(fake)
-        print('Registrando Cursos Activos')
+        # print('Creando usuarios de prueba \n')
+        # self.create_users_by_profile(fake, 'student', 150)
+        # self.create_users_by_profile(fake, 'teacher', 54)
+        # self.create_users_by_profile(fake, 'coordinator', 10)
+        # self.create_users_by_profile(fake, 'school', 27)
+        # self.create_users_by_profile(fake, 'guest', 3)
+        # print('RRegistrando escuelas')
+        # self.create_schools(fake, 27)
+        # print('Registrando planes de estudio')
+        # self.create_stydu_plans(fake)
+        # print('Registrando Cursos Activos')
         self.create_active_courses(fake)
         print('Registrando Subscripciones')
         self.create_subscriptions(fake)
@@ -246,17 +246,27 @@ class Command(BaseCommand):
         all_schools = list(School.objects.all())
         all_teachers = list(CustomUserModel.objects.filter(role='teacher'))
         all_students = list(CustomUserModel.objects.filter(role='student'))
+        states = [
+            'POR INICIAR',
+            'EN PROCESO',
+            'FINALIZADO',
+        ]
         all_study_plans = StudyPlan.objects.all()
-        for study_plan in all_study_plans:
-            ActiveCourse.objects.create(
-                id_school=random.choice(all_schools),
-                id_study_plan=study_plan,
-                id_teacher=random.choice(all_teachers),
-                id_student=random.choice(all_students),
-                year=random.randint(2021, 2023),
-                period=random.choice(['2021-2022', '2022-2023', '2022-2023']),
-                calification=random.randint(1, 10),
-            )
+        for i in range(7):
+            for study_plan in all_study_plans:
+                my_teacher = random.choice(all_teachers)
+                ActiveCourse.objects.create(
+                    id_school=random.choice(all_schools),
+                    id_study_plan=study_plan,
+                    id_teacher=my_teacher.pk,
+                    id_student=random.choice(all_students),
+                    year=random.randint(2021, 2023),
+                    state=random.choice(states),
+                    period=random.choice(
+                        ['2021-2022', '2022-2023', '2022-2023']
+                    ),
+                    calification=random.randint(1, 10),
+                )
 
     def create_subscriptions(self, fake):
         all_users = CustomUserModel.objects.exclude(
@@ -333,5 +343,5 @@ class Command(BaseCommand):
                     account_destination=random.choice(['11111111', '222222']),
                     invoice_number=random.randint(100000, 999999),
                     id_user_created=1,
-                    id_user_updated=1,
+                    id_user_updated=1
                 )
