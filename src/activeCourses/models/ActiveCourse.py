@@ -28,13 +28,13 @@ class ActiveCourse(BaseModel):
         StudyPlan,
         on_delete=models.RESTRICT
     )
-    id_teacher = models.ForeignKey(
-        CustomUserModel,
-        on_delete=models.RESTRICT
-    )
     id_student = models.ForeignKey(
         CustomUserModel,
         on_delete=models.RESTRICT
+    )
+    id_teacher = models.PositiveIntegerField(
+        'Profesor',
+        default=0
     )
     year = models.PositiveIntegerField(
         'Año',

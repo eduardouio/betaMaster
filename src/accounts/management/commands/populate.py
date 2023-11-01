@@ -141,9 +141,11 @@ class Command(BaseCommand):
         self.create_schools(fake, 27)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
-        print('Registrando suscripciones')
+        print('Registrando Cursos Activos')
         self.create_active_courses(fake)
+        print('Registrando Subscripciones')
         self.create_subscriptions(fake)
+        print('Pagos')
         self.create_payments(fake)
         print('<==\t Datos de prueba generados')
 
