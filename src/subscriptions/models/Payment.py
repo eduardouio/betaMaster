@@ -1,5 +1,4 @@
 from django.db import models
-from accounts.models import CustomUserModel
 from subscriptions.models import Subscription
 from common import BaseModel
 
@@ -15,10 +14,6 @@ PAYMENT_STATUS = (
 
 class Payment(BaseModel):
     id_payment = models.AutoField(primary_key=True)
-    id_user = models.ForeignKey(
-        CustomUserModel,
-        on_delete=models.RESTRICT
-    )
     id_subscription = models.ForeignKey(
         Subscription,
         on_delete=models.RESTRICT
