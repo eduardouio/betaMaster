@@ -14,3 +14,6 @@ class ActiveCourseModelAdmin(SimpleHistoryAdmin):
         'calification',
         'description',
     )
+    list_filter = (
+        'state',
+    )

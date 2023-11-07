@@ -289,6 +289,7 @@ class Command(BaseCommand):
                 )
 
     def create_payments(self, fake):
+        print('creando pagos')
         all_subscriptions = Subscription.objects.all()
         all_banks = [
             'Banco del Austro',
@@ -321,8 +322,8 @@ class Command(BaseCommand):
             'CANCELLED',
             'EXPIRED',
         ]
-        if random.choice([True, False, True]):
-            for subscription in all_subscriptions:
+        for subscription in all_subscriptions:
+            if random.choice([True, False, True, True]):
                 paymen_values = [
                     subscription.cost,
                     round(subscription.cost/1.05), 2,
