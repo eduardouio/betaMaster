@@ -11,12 +11,6 @@ STATES = (
     ('FINALIZADO', 'FINALIZADO'),
 )
 
-# SE REGISTRAN UN SOLO PROFESOR PARA UN CURSO?
-# Como se majena el tema de los profesores?
-# como se manejan a los estudiantes, entiendo que cada uno tiene un plan de
-# estudio
-# es un solo profesor o varios?
-
 
 class ActiveCourse(BaseModel):
     id_active_courses = models.AutoField(primary_key=True)
