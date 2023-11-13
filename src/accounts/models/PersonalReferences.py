@@ -1,5 +1,5 @@
 from django.db import models
-from common.models import BaseModel
+from common import BaseModel
 from .CustomUserModel import CustomUserModel
 
 TYPE_REFERENCES = (

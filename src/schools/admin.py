@@ -11,16 +11,15 @@ class SchoolAdmin(SimpleHistoryAdmin):
         'city',
         'state',
         'email',
-        'dni_collegue',
+        'ami_code',
         'type_school',
     )
     search_fields = (
         'name',
         'email',
-        'dni_collegue',
+        'ami_code',
     )
     list_filter = (
         'name',
         'email',
-        'dni_collegue',
     )
