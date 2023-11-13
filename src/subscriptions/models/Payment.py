@@ -68,6 +68,13 @@ class Payment(BaseModel):
         null=True,
         blank=True
     )
+    photo_voucher = models.ImageField(
+        'Foto de Voucher',
+        upload_to='payment/vouchers/',
+        blank=True,
+        null=True,
+        default=None
+    )
     bank_destination = models.CharField(
         'Banco de Destino',
         max_length=100,
