@@ -175,7 +175,7 @@ class Command(BaseCommand):
                 name='Colegio  ' + fake.company(),
                 address=fake.address(),
                 geolocation=fake.local_latlng(country_code='EC'),
-                dni_collegue=fake.ssn(),
+                ami_code=fake.ssn(),
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),
                 phone=fake.phone_number(),

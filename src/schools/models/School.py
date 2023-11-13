@@ -19,8 +19,8 @@ class School(BaseModel):
         'Correo',
         max_length=100
     )
-    dni_collegue = models.CharField(
-        'Ruc Colegio',
+    ami_code = models.CharField(
+        'CODIGO AMI',
         max_length=50
     )
     state = models.CharField(
