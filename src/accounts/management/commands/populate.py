@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 import random
 # importamos los modelos
-from accounts.models import CustomUserModel
+from accounts.models import CustomUserModel, PersonalReferences
 from schools.models import School
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription, Payment
@@ -147,6 +147,8 @@ class Command(BaseCommand):
         self.create_subscriptions(fake)
         print('Pagos')
         self.create_payments(fake)
+        print('Referencias Personales')
+        self.create_personal_references(fake)
         print('<==\t Datos de prueba generados')
 
     def create_users_by_profile(self, fake, role, quantity):
@@ -346,3 +348,22 @@ class Command(BaseCommand):
                     id_user_created=1,
                     id_user_updated=1
                 )
+
+    def create_personal_references(self, fake):
+        all_users = CustomUserModel.objects.filter(
+            role='teacher'
+        )
+        for user in all_users:
+            PersonalReferences.objects.create(
+                id_user=user,
+                type=random.choice(['personal', 'professional']),
+                enterprise=fake.company(),
+                name_contact=fake.name(),
+                phone_contact=fake.phone_number(),
+                email_contact=fake.email(),
+                relationship=random.choice(
+                    ['family', 'boss', 'buddy', 'other']),
+                is_verified=random.choice([True, False]),
+                verification_date=fake.past_datetime(),
+                verification_by=random.randint(1, 10),
+            )

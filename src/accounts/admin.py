@@ -1,7 +1,7 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import CustomUserModel
+from .models import CustomUserModel, PersonalReferences
 
 
 @admin.register(CustomUserModel)
@@ -20,6 +20,29 @@ class CustomUserModelAdmin(SimpleHistoryAdmin):
     list_filter = (
         'role',
         'is_active',
+    )
+
+
+@admin.register(PersonalReferences)
+class PersonalReferencesAdmin(SimpleHistoryAdmin):
+    list_display = (
+        'id_reference',
+        'id_user',
+        'type',
+        'enterprise',
+        'name_contact',
+        'phone_contact',
+        'email_contact',
+        'relationship',
+        'is_verified',
+        'verification_date',
+        'verification_by',
+    )
+
+    list_filter = (
+        'type',
+        'relationship',
+        'is_verified',
     )
 
 
