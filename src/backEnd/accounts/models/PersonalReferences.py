@@ -26,6 +26,13 @@ class PersonalReferences(BaseModel):
         max_length=100,
         choices=TYPE_REFERENCES,
     )
+    document = models.FileField(
+        'Documento',
+        upload_to='references/',
+        blank=True,
+        null=True,
+        default=None
+    )
     enterprise = models.CharField(
         'Empresa',
         max_length=100
