@@ -98,6 +98,13 @@ class CustomUserModel(AbstractUser):
         blank=True,
         help_text='Imagen de perfil del usuario.'
     )
+    cv = models.FileField(
+        'curriculum vitae',
+        upload_to='accounts/cv',
+        blank=True,
+        null=True,
+        default=None,
+    )
     is_aproved = models.CharField(
         'estado de aprobación',
         max_length=40,
