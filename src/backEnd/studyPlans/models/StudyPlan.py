@@ -20,6 +20,13 @@ class StudyPlan(BaseModel):
         blank=True,
         null=True
     )
+    document = models.FileField(
+        'Documento Plan Estudio',
+        upload_to='studyPlans/',
+        blank=True,
+        null=True,
+        default=None
+    )
     due_date = models.DateTimeField(
         'Vencimiento',
         blank=True,

@@ -257,7 +257,7 @@ class Command(BaseCommand):
         for i in range(7):
             for study_plan in all_study_plans:
                 my_teacher = random.choice(all_teachers)
-                ActiveCourse.objects.create(
+                active_course = ActiveCourse(
                     id_school=random.choice(all_schools),
                     id_study_plan=study_plan,
                     id_teacher=my_teacher.pk,
@@ -269,6 +269,16 @@ class Command(BaseCommand):
                     ),
                     calification=random.randint(1, 10),
                 )
+                active_course.save()
+                active_course.teacher.add(my_teacher)
+                # agregamos un profesor adicional en algunos casos
+                if random.choice([True, False, True, True]):
+                    active_course.teacher.add(random.choice(all_teachers))
+                if random.choice([True, False, False, False]):
+                    active_course.teacher.add(random.choice(all_teachers))
+                if random.choice([True, False, True, False]):
+                    active_course.teacher.add(random.choice(all_teachers))
+                active_course.save()
 
     def create_subscriptions(self, fake):
         all_users = CustomUserModel.objects.exclude(

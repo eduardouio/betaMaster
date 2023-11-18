@@ -2,9 +2,12 @@ from django.db import models
 from accounts.models import CustomUserModel
 from common import BaseModel
 
-TYPE_SCHOOL = (
-    ('PUBLICO', 'PUBLICO'),
-    ('PRIVADO', 'PRIVADO')
+OFFERED_SERVICES = (
+    ('inicial', 'Eduación Inicial'),
+    ('basica', 'Eduación Básica'),
+    ('bgu', 'Bachillerato General Unificado'),
+    ('tecnico', 'Bachillerato Técnico'),
+    ('otro', 'Otro')
 )
 
 
@@ -62,7 +65,15 @@ class School(BaseModel):
         'Logo',
         upload_to='school/logos/',
         blank=True,
-        null=True
+        null=True,
+        default=None
+    )
+    presentation_document = models.FileField(
+        'Presentación',
+        upload_to='schools/',
+        blank=True,
+        null=True,
+        default=None
     )
     description = models.TextField(
         'Descripción',
@@ -70,9 +81,9 @@ class School(BaseModel):
         null=True,
         default=None
     )
-    type_school = models.CharField(
-        'Tipo Colegio',
-        max_length=50,
+    offer_services = models.CharField(
+        'Servicios Ofrecidos',
+        max_length=250,
         blank=True,
         null=True,
         default=None

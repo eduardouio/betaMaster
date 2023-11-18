@@ -12,7 +12,6 @@ class SchoolAdmin(SimpleHistoryAdmin):
         'state',
         'email',
         'ami_code',
-        'type_school',
     )
     search_fields = (
         'name',
