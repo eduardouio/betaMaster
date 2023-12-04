@@ -17,6 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False
+admin.site.site_title = 'Sistema Toma de Inventario'
+admin.site.site_description = 'Sistema Toma de Inventario'
+admin.site.site_header = 'Admin Sistema Toma de Inventario'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
