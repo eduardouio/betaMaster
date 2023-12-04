@@ -156,7 +156,7 @@ class Command(BaseCommand):
             my_state = random.choice(list(STATES_EC.keys()))
             CustomUserModel.objects.create_user(
                 username=fake.user_name() + str(random.randint(0, 10)),
-                email=str(random.randint(0, 10)) + fake.email(),
+                email=str(random.randint(0, 10)) + '_' + fake.email(),
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 date_of_birth=fake.date_of_birth(),
@@ -260,14 +260,13 @@ class Command(BaseCommand):
                 active_course = ActiveCourse(
                     id_school=random.choice(all_schools),
                     id_study_plan=study_plan,
-                    id_teacher=my_teacher.pk,
-                    id_student=random.choice(all_students),
+                    student=random.choice(all_students),
                     year=random.randint(2021, 2023),
                     state=random.choice(states),
                     period=random.choice(
                         ['2021-2022', '2022-2023', '2022-2023']
                     ),
-                    calification=random.randint(1, 10),
+                    calification=random.randint(1, 10)
                 )
                 active_course.save()
                 active_course.teacher.add(my_teacher)
