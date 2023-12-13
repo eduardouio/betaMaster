@@ -2,3 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+.menu-item {
+  @apply rounded-md hover:rounded-xl duration-500 hover:scale-105 hover:shadow-lg hover:ring-1 hover:ring-blue-500 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-blue-400 hover:text-white
+}
+
+.menu-item-active {
+  @apply rounded-xl shadow-lg ring-1 ring-blue-500 bg-gradient-to-tr from-blue-500 to-blue-400 text-white
+}
+
+.x-input {
+  @apply text-base leading-tight text-gray-700 border-2 shadow focus:border-blue-500
+}
+
+ /* Custom style */
+ .header-right {
+  width: calc(100% - 3.5rem);
+}
+.sidebar:hover {
+  width: 16rem;
+}
+@media only screen and (min-width: 768px) {
+  .header-right {
+      width: calc(100% - 16rem);
+  }        
+}

@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tw:build": "tailwindcss -i ./src/App.css -o ./public/css/App.css",
+    "tw:build": "tailwindcss -i ./src/assets/main.css -o ./public/css/App.css",
     "test:unit": "vitest"
   },
   "dependencies": {

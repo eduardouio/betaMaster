@@ -1,13 +1,17 @@
 <script setup>
-import userRegisterForm from '../components/userRegisterForm.vue';
-</script>
+  import NavBar from '../components/NavBar.vue';
+  import { onMounted } from 'vue';
 
+  onMounted(()=>{
+    console.log('home Montado');
+});
+
+console.log('Mensaje de la plantilla Home');
+
+</script>
 <template>
-  <main>
-    <userRegisterForm />
-  </main>
+  <div>
+    <NavBar :itemSelected="'home'"/>
+  
+  </div>
 </template>
-
-<script>
-</script>
-
