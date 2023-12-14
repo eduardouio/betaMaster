@@ -10,9 +10,6 @@
   @apply rounded-xl shadow-lg ring-1 ring-blue-500 bg-gradient-to-tr from-blue-500 to-blue-400 text-white
 }
 
-.x-input {
-  @apply text-base leading-tight text-gray-700 border-2 shadow focus:border-blue-500
-}
 
  /* Custom style */
  .header-right {
