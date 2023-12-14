@@ -90,70 +90,75 @@
             </div>
             <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
               <div class="text-gray-700 ">
-                <strong class="font-medium text-lg">Datos Adicionales</strong>
+                <strong class="font-medium text-lg">Experiencia Profesional</strong>
+                <div class="card card-side bg-base-100">
+              </div>
+              </div>
+              <div class="lg:col-span-3">
+                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
+                  <div class="md:col-span-6">
+                    <label for="full_name">Hoja de Vida</label>
+                    <input type="file" class="input input-bordered input-secondary focus:input-primary w-full" placeholder="Sus Nombres" />
+                  </div>
+                  <div class="md:col-span-6">
+                    <label for="">Referencias</label>
+                    <div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead class="text-gray-600">
+      <tr>
+        <th>#</th>
+        <th>Institución</th>
+        <th>Contacto</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- row 1 -->
+      <tr>
+        <th>1</th>
+        <td>Cy Ganderton</td>
+        <td>Quality Control Specialist</td>
+        <td class="text-error">Rechazado</td>
+      </tr>
+      <!-- row 2 -->
+      <tr class="hover">
+        <th>2</th>
+        <td>Hart Hagerty</td>
+        <td>Desktop Support Technician</td>
+        <td>Purple</td>
+      </tr>
+      <!-- row 3 -->
+      <tr>
+        <th>3</th>
+        <td>Brice Swyre</td>
+        <td>Tax Accountant</td>
+        <td>Red</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
+              <div class="text-gray-700 ">
+                <strong class="font-medium text-lg">Acciones de cuenta</strong>
                 <div class="card card-side bg-base-100">
               </div>
               </div>
               <div class="lg:col-span-3">
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
                   <div class="md:col-span-3">
-                    <label for="full_name">Nombres</label>
+                    <label for="full_name">Contraseña</label>
                     <input type="text" class="input input-bordered input-secondary focus:input-primary w-full" placeholder="Sus Nombres" />
                   </div>
                   <div class="md:col-span-3">
-                    <label for="full_name">Apellidos</label>
+                    <label for="full_name">Repita Contraseña</label>
                     <input type="text" class="input input-secondary focus:input-primary w-full md:h-11" placeholder="Sus Apellidos"/>
                   </div>
-                  <div class="md:col-span-3">
-                    <label for="full_name">Identificación</label>
-                    <input type="text" class="input input-secondary focus:input-primary w-full md:h-11" placeholder="Sus Apellidos"/>
-                  </div>
-                  <div class="md:col-span-3">
-                    <label for="address">Correo Electronico:</label>
-                    <input type="email"  class="input input-secondary focus:input-primary w-full md:h-11 md:h-11" placeholder="nombre@dominio.com" />
-                  </div>
-                  <div class="md:col-span-4">
-                    <label for="email">Dirección:</label>
-                    <input type="text" class="input input-secondary focus:input-primary w-full md:h-11 md:h-11" placeholder="Su Dirección" />
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="city">Pais</label>
-                    <input type="text" maxlength="13" class="input input-secondary focus:input-primary w-full md:h-11"/>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="country">Provincia</label>
-                    <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                      <select class="input input-secondary focus:input-primary w-full md:h-11">
-                        <option value="">Seleccione...</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="state">Ciudad</label>
-                    <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                      <select class="input input-secondary focus:input-primary w-full md:h-11">
-                        <option value="">Seleccione...</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="zipcode">Canton</label>
-                    <select class="input input-secondary focus:input-primary w-full md:h-11">
-                        <option value="">Seleccione...</option>
-                      </select>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="zipcode">Celular</label>
-                    <input type="text" class="input input-secondary focus:input-primary w-full md:h-11"/>
-                  </div>     
-                  <div class="md:col-span-2">
-                    <label for="zipcode">Fijo</label>
-                    <input type="text" class="input input-secondary focus:input-primary w-full md:h-11"/>
-                  </div>     
-                  <div class="md:col-span-2">
-                    <label for="zipcode">Código ZIP</label>
-                    <input type="text" class="input input-secondary focus:input-primary w-full md:h-11"/>
-                  </div>
+                  
                   <div class="md:col-span-6 text-right py-5">
                     <div class="inline-flex items-end">
                       <button class="btn btn-primary text-white">Actualizar Información</button>
