@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import DashBoardTeacher from '../views/DashBoardTeacher.vue'
+import TeacherProfile from '../components/dashboard/TeacherProfile.vue'
+import TeacherProfileForm from '../components/dashboard/TeacherProfileForm.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,9 +19,19 @@ const router = createRouter({
       component: RegisterView
     },
     {
-      path: '/dashboardTeacher',
-      name: 'dashboardTeacher',
-      component: DashBoardTeacher
+      path: '/dashboard-teacher',
+      name: 'dashboard-teacher',
+      component: DashBoardTeacher,
+      children:[
+        {
+          path: 'profile',
+          component: TeacherProfile,
+        },
+        {
+          path: 'teacher-profile-form',
+          component: TeacherProfileForm,
+        }
+      ],
     }
   ]
 })

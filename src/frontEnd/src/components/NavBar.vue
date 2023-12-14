@@ -71,7 +71,7 @@
                         </a>
                     </li>
                     <li class="menu-item" :class="{ 'menu-item-active': itemSelected === 'maestros' }">
-                        <RouterLink to="/dashboardTeacher">
+                        <RouterLink to="/dashboard-teacher">
                             <UserGroupIcon class="w-6 h-6" />
                             Maestros
                         </RouterLink>
