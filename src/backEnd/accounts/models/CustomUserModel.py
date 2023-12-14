@@ -55,6 +55,12 @@ class CustomUserModel(AbstractUser):
         'Ciudad',
         max_length=100
     )
+    canton = models.CharField(
+        'Cantón',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     date_of_birth = models.DateField(
         'Fecha de nacimiento',
         blank=True,
@@ -69,6 +75,13 @@ class CustomUserModel(AbstractUser):
         default=None,
     )
     phone = models.CharField(
+        'Teléfono',
+        max_length=50,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    phone_2 = models.CharField(
         'Teléfono',
         max_length=50,
         blank=True,
