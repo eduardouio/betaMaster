@@ -60,6 +60,7 @@ class CustomUserModel(AbstractUser):
         max_length=100,
         blank=True,
         null=True,
+        default=None
     )
     date_of_birth = models.DateField(
         'Fecha de nacimiento',
@@ -86,7 +87,7 @@ class CustomUserModel(AbstractUser):
         max_length=50,
         blank=True,
         null=True,
-        default=None,
+        default=None
     )
     geolocation = models.CharField(
         'Geolocalización',
@@ -110,6 +111,13 @@ class CustomUserModel(AbstractUser):
         upload_to='accounts/pictures',
         blank=True,
         help_text='Imagen de perfil del usuario.'
+    )
+    presentation = models.TextField(
+        'presentación',
+        blank=True,
+        null=True,
+        default=None,
+        help_text='Presentación del usuario'
     )
     cv = models.FileField(
         'curriculum vitae',
