@@ -71,11 +71,11 @@ import { RouterLink } from 'vue-router';
                                 </path>
                             </svg>
                         </span>
+                        <RouterLink to="/dashboard-teacher/profile">
                         <span class="ml-2 text-sm tracking-wide truncate">
-                            <RouterLink to="/dashboard-teacher/profile">
                                 Perfil
-                            </RouterLink>
-                        </span>
+                            </span>
+                        </RouterLink>
                     </a>
                 </li>
                 <li>
