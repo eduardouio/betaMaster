@@ -23,7 +23,7 @@ import { RouterLink } from 'vue-router';
                         </span>
                     </div>
                     <p class="text-gray-700">MSC ING Tutor</p>
-                    <p class="text-sm text-gray-500">Quito-Ecuador</p>
+                    <span class="ring-2 ring-secondary rounded-md p-1 pl-3 pr-3 bg-error text-white">En revision</span>
                 </div>
                 <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                     <div class="flex items-center space-x-4 mt-2">
@@ -36,6 +36,7 @@ import { RouterLink } from 'vue-router';
                             </svg>
                             <RouterLink to="/dashboard-teacher/teacher-profile-form"><span>Modificar Perfil</span></RouterLink>
                         </button>
+                    
                     </div>
                 </div>
             </div>
