@@ -14,7 +14,7 @@ module.exports = {
           "neutral": "#0c0902",
           "base-100": "#fffdfc",
           "info": "#008dff",
-          "success": "#00ffbc",
+          "success": "#008260",
           "warning": "#e66000",
           "error": "#f5050e",
         },
