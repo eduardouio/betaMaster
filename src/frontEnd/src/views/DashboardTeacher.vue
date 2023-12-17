@@ -2,8 +2,8 @@
 import HeaderDashboard from '../components/dashboard/HeaderDashboard.vue';
 import SideBar from '../components/dashboard/SideBar.vue';
 import { RouterView } from 'vue-router';
-
 </script>
+
 <template>
     <div>
         <div
@@ -12,8 +12,9 @@ import { RouterView } from 'vue-router';
             <SideBar />
             <!--Contenido del dashboard-->
             <div class="h-full ml-14 mt-14 mb-10 md:ml-64 lg:pt-4 lg:pl-4">
-                     <RouterView />
+                <RouterView />
             </div>
+            <!--/Contenido del dashboard-->
         </div>
     </div>
 </template>
