@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router';
                         class="w-full h-full rounded-tl-lg rounded-tr-lg">
                 </div>
                 <div class="flex flex-col items-center -mt-20">
-                    <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg"
+                    <img src="https://static.vecteezy.com/system/resources/previews/023/254/079/non_2x/smiling-male-teacher-character-pointing-free-png.png"
                         class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
                         <p class="text-2xl">Eduardo Vinicio Villota Montenegro</p>
@@ -34,7 +34,7 @@ import { RouterLink } from 'vue-router';
                                     d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z">
                                 </path>
                             </svg>
-                            <RouterLink to="/dashboard-teacher/teacher-profile-form"><span>Modificar Perfil</span></RouterLink>
+                            <RouterLink to="/dashboard-teacher/edit"><span>Modificar Perfil</span></RouterLink>
                         </button>
                     
                     </div>
@@ -107,7 +107,7 @@ import { RouterLink } from 'vue-router';
         </div>
         <div class="bg-white rounded-lg shadow-xl p-8">
             <div class="flex items-center justify-between">
-                <h4 class="text-xl text-gray-900 font-bold">Connections (12)</h4>
+                <h4 class="text-xl text-gray-900 font-bold">Estudiantes (12)</h4>
             </div>
             <div
                 class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
@@ -116,21 +116,24 @@ import { RouterLink } from 'vue-router';
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Diane Aguilar</p>
-                    <p class="text-xs text-gray-500 text-center">UI/UX Design at Upwork</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
-                    <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection2.jpg"
+                    <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg"
                         class="w-16 rounded-full">
-                    <p class="text-center font-bold text-sm mt-1">Frances Mather</p>
-                    <p class="text-xs text-gray-500 text-center">Software Engineer at Facebook</p>
+                    <p class="text-center font-bold text-sm mt-1">Diane Aguilar</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection3.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Carlos Friedrich</p>
-                    <p class="text-xs text-gray-500 text-center">Front-End Developer at Tailwind CSS</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
@@ -151,77 +154,88 @@ import { RouterLink } from 'vue-router';
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection6.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">John McCleary</p>
-                    <p class="text-xs text-gray-500 text-center">Software Engineer at Laravel</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection7.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Amanda Noble</p>
-                    <p class="text-xs text-gray-500 text-center">Graphic Designer at Tailwind CSS</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection8.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Christine Drew</p>
-                    <p class="text-xs text-gray-500 text-center">Senior Android Developer at Google</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection9.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Lucas Bell</p>
-                    <p class="text-xs text-gray-500 text-center">Creative Writer at Upwork</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection10.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Debra Herring</p>
-                    <p class="text-xs text-gray-500 text-center">Co-Founder at Alpine.js</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection11.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Benjamin Farrior</p>
-                    <p class="text-xs text-gray-500 text-center">Software Engineer Lead at Microsoft</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection12.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Maria Heal</p>
-                    <p class="text-xs text-gray-500 text-center">Linux System Administrator at Twitter</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection13.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Edward Ice</p>
-                    <p class="text-xs text-gray-500 text-center">Customer Support at Instagram</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection14.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Jeffery Silver</p>
-                    <p class="text-xs text-gray-500 text-center">Software Engineer at Twitter</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection15.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Jennifer Schultz</p>
-                    <p class="text-xs text-gray-500 text-center">Project Manager at Google</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
                 <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600"
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection16.jpg"
                         class="w-16 rounded-full">
                     <p class="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
-                    <p class="text-xs text-gray-500 text-center">Team Lead at Facebook</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
                 </a>
             </div>
         </div>

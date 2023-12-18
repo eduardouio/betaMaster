@@ -1,3 +1,9 @@
+<script setup>
+import TableSchools from '../TableSchools.vue';
+</script>
+
 <template>
-    <h1>hola  Doy la lista de los colegios</h1>    
+    <div>
+        <TableSchools/>
+    </div>
 </template>

@@ -1,3 +1,6 @@
+<script setup>
+import TableCandidates from '../TableCandidates.vue';
+</script>
 <template>
-    <h1>Hola soy a lista de los estudiantes</h1>
+    <TableCandidates/>
 </template>
