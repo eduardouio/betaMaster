@@ -42,7 +42,7 @@ class Payment(BaseModel):
         max_length=100,
         null=True,
         blank=True
-    )    
+    )
     account_destination = models.CharField(
         'Cuenta de Destino',
         max_length=100,
