@@ -1,7 +1,7 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import CustomUserModel, PersonalReferences
+from .models import CustomUserModel, PersonalReferences, BankAccount
 
 
 @admin.register(CustomUserModel)
@@ -43,6 +43,16 @@ class PersonalReferencesAdmin(SimpleHistoryAdmin):
         'type',
         'relationship',
         'is_verified',
+    )
+
+
+@admin.register(BankAccount)
+class BankAccountAdmin(SimpleHistoryAdmin):
+    list_display = (
+        'owner_name',
+        'bank_name',
+        'tipe_account',
+        'is_active'
     )
 
 
