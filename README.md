@@ -56,3 +56,8 @@ DROP TABLE public.subscriptions_historicalpayment;
 DROP TABLE public.subscriptions_historicalsubscription;
 DROP TABLE public.subscriptions_payment;
 DROP TABLE public.subscriptions_subscription;
+
+
+Anotaciones de desarrollo
+    Los colegios son administrados desde el admin de Django
+    
