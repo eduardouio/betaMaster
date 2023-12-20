@@ -4,11 +4,12 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 import random
 # importamos los modelos
-from accounts.models import CustomUserModel, PersonalReferences
+from accounts.models import CustomUserModel, PersonalReferences, BankAccount
 from schools.models import School
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription, Payment
 from activeCourses.models import ActiveCourse
+
 STATES_EC = {
     "Azuay": [
         "Cuenca", "Gualaceo", "Paute", "Santa Isabel", "Sigsig",
@@ -124,6 +125,30 @@ STATES_EC = {
     ]
 }
 
+BANKS_NAME = [
+    'Banco del Austro',
+    'Banco de Guayaquil',
+    'Banco de Machala',
+    'Banco de Loja',
+    'Banco de Pichincha',
+    'Banco de la Producción',
+    'Banco del Pacífico',
+    'Banco Solidario',
+    'Banco ProCredit',
+    'Banco Internacional',
+    'Banco Bolivariano',
+    'Banco Amazonas',
+    'Cooperativa de Ahorro y Crédito JEP',
+    'Cooperativa de Ahorro y Crédito Policía Nacional',
+    'Cooperativa de Ahorro y Crédito San Francisco',
+    'Cooperativa de Ahorro y Crédito Santa Ana',
+    'Cooperativa de Ahorro y Crédito 29 de Octubre',
+    'Cooperativa de Ahorro y Crédito Alianza del Valle',
+    'Cooperativa de Ahorro y Crédito CREA',
+    'Cooperativa de Ahorro y Crédito CACPECO',
+    'Cooperativa de Ahorro y Crédito ANDALUCIA',
+]
+
 
 class Command(BaseCommand):
     help = 'Comando para generar datos de prueba'
@@ -132,12 +157,12 @@ class Command(BaseCommand):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
         print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'student', 150)
-        self.create_users_by_profile(fake, 'teacher', 54)
-        self.create_users_by_profile(fake, 'coordinator', 10)
+        self.create_users_by_profile(fake, 'student', 250)
+        self.create_users_by_profile(fake, 'teacher', 74)
+        self.create_users_by_profile(fake, 'coordinator', 12)
         self.create_users_by_profile(fake, 'school', 27)
-        self.create_users_by_profile(fake, 'guest', 3)
-        print('RRegistrando escuelas')
+        self.create_users_by_profile(fake, 'guest', 18)
+        print('Registrando escuelas')
         self.create_schools(fake, 27)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
@@ -145,7 +170,9 @@ class Command(BaseCommand):
         self.create_active_courses(fake)
         print('Registrando Subscripciones')
         self.create_subscriptions(fake)
-        print('Pagos')
+        print('creando Bancos')
+        self.create_user_banks(fake)
+        print('creando Pagos')
         self.create_payments(fake)
         print('Referencias Personales')
         self.create_personal_references(fake)
@@ -299,32 +326,28 @@ class Command(BaseCommand):
                     id_user_updated=1,
                 )
 
+    def create_user_banks(self, fake):
+        users = CustomUserModel.objects.exclude(role='guest').exclude(
+            email='eduardouio7@gmail.com'
+        )
+
+        for x in range(10):
+            for user in users:
+                if random.choice([False, True, False, False]):
+                    BankAccount.objects.create(
+                        id_user=user,
+                        nro_account=fake.aba(),
+                        bank_name=random.choice(BANKS_NAME),
+                        type_account=random.choice(['CORRIENTE', 'AHORROS']),
+                        email_notify=fake.email(),
+                        owner_name=' '.join([user.last_name, user.first_name]),
+                        owner_dni=user.dni_number,
+                    )
+
     def create_payments(self, fake):
         print('creando pagos')
         all_subscriptions = Subscription.objects.all()
-        all_banks = [
-            'Banco del Austro',
-            'Banco de Guayaquil',
-            'Banco de Machala',
-            'Banco de Loja',
-            'Banco de Pichincha',
-            'Banco de la Producción',
-            'Banco del Pacífico',
-            'Banco Solidario',
-            'Banco ProCredit',
-            'Banco Internacional',
-            'Banco Bolivariano',
-            'Banco Amazonas',
-            'Cooperativa de Ahorro y Crédito JEP',
-            'Cooperativa de Ahorro y Crédito Policía Nacional',
-            'Cooperativa de Ahorro y Crédito San Francisco',
-            'Cooperativa de Ahorro y Crédito Santa Ana',
-            'Cooperativa de Ahorro y Crédito 29 de Octubre',
-            'Cooperativa de Ahorro y Crédito Alianza del Valle',
-            'Cooperativa de Ahorro y Crédito CREA',
-            'Cooperativa de Ahorro y Crédito CACPECO',
-            'Cooperativa de Ahorro y Crédito ANDALUCIA',
-        ]
+
         payment_status = [
             'PENDING',
             'PAID',
@@ -335,6 +358,9 @@ class Command(BaseCommand):
         ]
         for subscription in all_subscriptions:
             if random.choice([True, False, True, True]):
+                user_bank = BankAccount.objects.filter(
+                    id_user=subscription.id_user
+                ).first()
                 paymen_values = [
                     subscription.cost,
                     round(subscription.cost/1.05), 2,
@@ -348,10 +374,7 @@ class Command(BaseCommand):
                     payment_amount=random.choice(paymen_values),
                     payment_status=random.choice(payment_status),
                     transaction_id=fake.bban(),
-                    bank_name=random.choice(all_banks),
-                    owner_account=fake.iban(),
-                    dni_owner_account=fake.ssn(),
-                    account_number=fake.aba(),
+                    id_bank=user_bank,
                     account_destination=random.choice(['11111111', '222222']),
                     invoice_number=random.randint(100000, 999999),
                     id_user_created=1,
