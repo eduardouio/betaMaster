@@ -34,28 +34,34 @@ El sistema debe gestionar:
 Nuestro objetivo es facilitar el aprendizaje en el hogar, proporcionando a los estudiantes acceso a profesores cualificados y un entorno educativo estructurado a través de nuestra plataforma en línea.
 
 -- sql para borrar el modeloo
-DROP TABLE public.accounts_customusermodel;
-DROP TABLE public.accounts_customusermodel_groups;
-DROP TABLE public.accounts_customusermodel_user_permissions;
-DROP TABLE public."activeCourses_activecourse";
-DROP TABLE public."activeCourses_historicalactivecourse";
-DROP TABLE public.auth_group;
-DROP TABLE public.auth_group_permissions;
-DROP TABLE public.auth_permission;
-DROP TABLE public.django_admin_log;
-DROP TABLE public.django_content_type;
-DROP TABLE public.django_migrations;
-DROP TABLE public.django_session;
-DROP TABLE public.schools_historicalschool;
-DROP TABLE public.schools_school;
-DROP TABLE public."studyPlans_historicalstudyplan";
-DROP TABLE public."studyPlans_historicalstudyplandetail";
-DROP TABLE public."studyPlans_studyplan";
-DROP TABLE public."studyPlans_studyplandetail";
-DROP TABLE public.subscriptions_historicalpayment;
-DROP TABLE public.subscriptions_historicalsubscription;
-DROP TABLE public.subscriptions_payment;
-DROP TABLE public.subscriptions_subscription;
+DROP TABLE public.accounts_bankaccount CASCADE;
+Z
+DROP TABLE public.accounts_customusermodel CASCADE;
+DROP TABLE public.accounts_customusermodel_groups CASCADE;
+DROP TABLE public.accounts_customusermodel_user_permissions CASCADE;
+DROP TABLE public.accounts_historicalbankaccount CASCADE;
+DROP TABLE public.accounts_historicalpersonalreferences CASCADE;
+DROP TABLE public.accounts_personalreferences CASCADE;
+DROP TABLE public."activeCourses_activecourse" CASCADE;
+DROP TABLE public."activeCourses_activecourse_teacher" CASCADE;
+DROP TABLE public."activeCourses_historicalactivecourse" CASCADE;
+DROP TABLE public.auth_group CASCADE;
+DROP TABLE public.auth_group_permissions CASCADE;
+DROP TABLE public.auth_permission CASCADE;
+DROP TABLE public.django_admin_log CASCADE;
+DROP TABLE public.django_content_type CASCADE;
+DROP TABLE public.django_migrations CASCADE;
+DROP TABLE public.django_session CASCADE;
+DROP TABLE public.schools_historicalschool CASCADE;
+DROP TABLE public.schools_school CASCADE;
+DROP TABLE public."studyPlans_historicalstudyplan" CASCADE;
+DROP TABLE public."studyPlans_historicalstudyplandetail" CASCADE;
+DROP TABLE public."studyPlans_studyplan" CASCADE;
+DROP TABLE public."studyPlans_studyplandetail" CASCADE;
+DROP TABLE public.subscriptions_historicalpayment CASCADE;
+DROP TABLE public.subscriptions_historicalsubscription CASCADE;
+DROP TABLE public.subscriptions_payment CASCADE;
+DROP TABLE public.subscriptions_subscription CASCADE;
 
 
 Anotaciones de desarrollo
