@@ -23,7 +23,7 @@ class BankAccount(BaseModel):
         'Nombre Banco',
         max_length=50
     )
-    tipe_account = models.CharField(
+    type_account = models.CharField(
         'Tipo Cuenta',
         max_length=50,
         choices=TYPE_ACCOUNT
