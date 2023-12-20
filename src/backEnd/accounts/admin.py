@@ -51,7 +51,7 @@ class BankAccountAdmin(SimpleHistoryAdmin):
     list_display = (
         'owner_name',
         'bank_name',
-        'tipe_account',
+        'type_account',
         'is_active'
     )
 

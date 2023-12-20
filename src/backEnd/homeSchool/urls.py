@@ -19,9 +19,9 @@ from django.urls import path
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = False
-admin.site.site_title = 'Sistema Toma de Inventario'
-admin.site.site_description = 'Sistema Toma de Inventario'
-admin.site.site_header = 'Admin Sistema Toma de Inventario'
+admin.site.site_title = 'HomeSchooling'
+admin.site.site_description = 'Sistema de Escuela En Casa'
+admin.site.site_header = 'HomeSchooling'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
