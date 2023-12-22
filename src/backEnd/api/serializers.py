@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.models import User, PersonalReferences
+from accounts.models import PersonalReferences, BankAccount, CustomUserModel
 from activeCourses.models import ActiveCourse
 from schools.models import School
 from studyPlans.models import StudyPlan, StudyPlanDetail
@@ -9,7 +9,7 @@ from subscriptions.models import Subscription
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUserModel
         exclude = ['password']
 
 
@@ -18,6 +18,11 @@ class PersonalReferencesSerializer(serializers.ModelSerializer):
         model = PersonalReferences
         fields = ['__all__']
 
+
+class BankAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BankAccount
+        fields = ['__all__']
 
 class ActiveCourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,3 +55,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = ['__all__']
         depth = 1
+
+
+class

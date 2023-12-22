@@ -361,6 +361,10 @@ class Command(BaseCommand):
                 user_bank = BankAccount.objects.filter(
                     id_user=subscription.id_user
                 ).first()
+
+                if user_bank is None:
+                    break
+
                 paymen_values = [
                     subscription.cost,
                     round(subscription.cost/1.05), 2,
