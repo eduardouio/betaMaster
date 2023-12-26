@@ -7,10 +7,28 @@ from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializerPublic(serializers.ModelSerializer):
     class Meta:
         model = CustomUserModel
-        exclude = ['password']
+        exclude = [
+            'password',
+            'last_login',
+            'token',
+            'is_staff',
+            'is_superuser',
+            'username',
+            'is_aproved',
+            'is_confirmed_mail',
+            'date_aproved',
+            'notes',
+            'user_permissions',
+            'groups'
+        ]
+
+
+class UserSerializerPrivate(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserModel
 
 
 class PersonalReferencesSerializer(serializers.ModelSerializer):
@@ -43,12 +61,18 @@ class StudyPlanSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth = 1
 
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        coordinator = UserSerializerPublic(obj.coordinator).data
+        data['coordinator'] = coordinator
+        return data
+
 
 class studyPlanDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyPlanDetail
         fields = '__all__'
-        depth = 1
+        depth = 2
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
