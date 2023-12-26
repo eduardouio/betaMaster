@@ -1,42 +1,40 @@
 from rest_framework.permissions import BasePermission
 
-MESSAGE = 'No tiene permiso para realizar esta acción'
+
+class MyBasePermission(BasePermission):
+    message = 'Su Perfil No tiene permiso para realizar esta acción'
 
 
-class isNotUserAS(BasePermission):
-    message = MESSAGE
-
+class IsNotUserAS(MyBasePermission):
     def __init__(self, role_exclude, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.role_exclude = role_exclude
 
     def has_permission(self, request, view):
+        if request.user.is_anonymous:
+            return False
         return request.user.role != self.role_exclude
 
 
-class IsSchoolUser(BasePermission):
-    message = MESSAGE
+class IsSchoolUser(MyBasePermission):
 
     def has_permission(self, request, view):
         return request.user.role == 'school'
 
 
-class IsSrudentlUser(BasePermission):
-    message = MESSAGE
+class IsSrudentlUser(MyBasePermission):
 
     def has_permission(self, request, view):
         return request.user.role == 'student'
 
 
-class IsTeacherUser(BasePermission):
-    message = MESSAGE
+class IsTeacherUser(MyBasePermission):
 
     def has_permission(self, request, view):
         return request.user.role == 'teacher'
 
 
-class IsGuestUser(BasePermission):
-    message = MESSAGE
+class IsGuestUser(MyBasePermission):
 
     def has_permission(self, request, view):
         return request.user.role == 'guest'
