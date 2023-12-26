@@ -1,8 +1,8 @@
-from rest_framework.generic import RetriveAPIView
-from studyPlans.models import StudyPlans
+from rest_framework.generics import RetrieveAPIView
+from studyPlans.models import StudyPlan
 from api.serializers import StudyPlanSerializer
 
 
-class DetailAPIView(RetriveAPIView):
-    queryset = StudyPlans.objects.all()
+class DetailStudyPlansAPIView(RetrieveAPIView):
+    queryset = StudyPlan.objects.all()
     serializer_class = StudyPlanSerializer
