@@ -16,7 +16,7 @@ class TestDetailStudyPlans:
             username='test',
             email='test@example.com',
             password='<PASSWORD.123>',
-            role='guest'
+            role='teacher'
         )
         client.force_login(my_user)
         return client
@@ -26,6 +26,7 @@ class TestDetailStudyPlans:
 
     def test_get_detailstudy(self, client):
         url = reverse('api:api-study-plan', kwargs={'pk': 1})
+        0/0
         response = client.get(url)
         assert response.status_code == 200
         response = response.json()

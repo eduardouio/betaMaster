@@ -33,3 +33,10 @@ class IsTeacherUser(BasePermission):
 
     def has_permission(self, request, view):
         return request.user.role == 'teacher'
+
+
+class IsGuestUser(BasePermission):
+    message = MESSAGE
+
+    def has_permission(self, request, view):
+        return request.user.role == 'guest'
