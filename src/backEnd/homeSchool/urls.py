@@ -27,5 +27,5 @@ admin.site.site_header = 'HomeSchooling'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    path('api/', include('api.urls', namespace='api')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
