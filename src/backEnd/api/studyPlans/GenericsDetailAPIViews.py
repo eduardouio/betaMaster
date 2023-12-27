@@ -43,3 +43,9 @@ class UserDataAPIView(BaseRetrieveAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPublic
     permission_classes = [IsNotUserAS, IsAuthenticated]
+
+
+class PersonalReferencesAPIView(BaseRetrieveAPIView):
+    queryset = PersonalReferences.objects.all()
+    serializer_class = PersonalReferencesSerializer
+    permission_classes = [IsNotUserAS, IsAuthenticated]
