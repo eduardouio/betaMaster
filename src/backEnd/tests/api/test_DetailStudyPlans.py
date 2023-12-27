@@ -2,11 +2,6 @@ import pytest
 from rest_framework.test import APIClient
 from django.urls import reverse
 from accounts.models import CustomUserModel as UserModel
-from api.studyPlans.GenericsAPIViews import (
-    DetailStudyPlanAPIView,
-    DetailStudyPlanDetailAPIView
-)
-
 
 @pytest.mark.django_db
 class TestDetailStudyPlans:

@@ -2,7 +2,7 @@ from api.serializers import StudyPlanSerializer, studyPlanDetailSerializer
 from rest_framework.generics import (CreateAPIView, ListAPIView,
                                      RetrieveAPIView, RetrieveUpdateAPIView)
 from studyPlans.models import StudyPlan, StudyPlanDetail
-from permissions.AppPermissions import IsNotUserAS
+from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.permissions import IsAuthenticated
 
 
