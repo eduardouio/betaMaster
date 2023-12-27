@@ -16,3 +16,6 @@ class TestAccountUser(BaseTest):
         assert response.status_code == 200
         response = response.json()
         assert response['id'] == 2
+        # verificamos la listas de referencias y cuentas
+        assert isinstance(response['references'], list)
+        assert isinstance(response['accounts'], list)

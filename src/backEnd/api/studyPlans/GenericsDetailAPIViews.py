@@ -1,13 +1,12 @@
-from accounts.models import BankAccount
-from accounts.models import CustomUserModel as UserModel
-from accounts.models import PersonalReferences
-from api.serializers import (BankAccountSerializer,
-                             PersonalReferencesSerializer, StudyPlanSerializer,
-                             UserSerializerPublic, studyPlanDetailSerializer)
+from api.serializers import (StudyPlanSerializer, UserSerializerPrivate,
+                             studyPlanDetailSerializer, ActiveCourseSerializer)
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
+
+from accounts.models import CustomUserModel as UserModel
 from studyPlans.models import StudyPlan, StudyPlanDetail
+from activeCourses.models import ActiveCourse
 
 
 class BaseRetrieveAPIView(RetrieveAPIView):
@@ -41,12 +40,12 @@ class DetailStudyPlanDetailAPIView(BaseRetrieveAPIView):
 # /api/user/<int:pk>/ -> api-user-data
 class UserDataAPIView(BaseRetrieveAPIView):
     queryset = UserModel.objects.all()
-    serializer_class = UserSerializerPublic
+    serializer_class = UserSerializerPrivate
     permission_classes = [IsNotUserAS, IsAuthenticated]
 
 
-# /api/bank-account/<int:pk>/ -> api-bank-account
-class PersonalReferencesAPIView(BaseRetrieveAPIView):
-    queryset = PersonalReferences.objects.all()
-    serializer_class = PersonalReferencesSerializer
+# /api/active-courses/<int:pk>/ -> api-active-courses
+class ActiveCourseAPIView(BaseRetrieveAPIView):
+    queryset = ActiveCourse.objects.all()
+    serializer_class = ActiveCourseSerializer
     permission_classes = [IsNotUserAS, IsAuthenticated]

@@ -26,11 +26,6 @@ class UserSerializerPublic(serializers.ModelSerializer):
         ]
 
 
-class UserSerializerPrivate(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUserModel
-
-
 class PersonalReferencesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalReferences
@@ -43,10 +38,36 @@ class BankAccountSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ActiveCourseSerializer(serializers.ModelSerializer):
+class UserSerializerPrivate(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserModel
+        exclude = [
+            'password',
+            'username',
+        ]
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        references = PersonalReferences.objects.filter(id_user=obj)
+        data['references'] = PersonalReferencesSerializer(references, many=True).data
+        accounts = BankAccount.objects.filter(id_user=obj)
+        data['accounts'] = BankAccountSerializer(accounts, many=True).data
+        return data
+
+
+class ActiveCourseSerializer(serializers.ModelSerializer):    
     class Meta:
         model = ActiveCourse
         fields = '__all__'
+        depth = 1
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        student = UserSerializerPublic(obj.student).data
+        data['student'] = student
+        teachers = UserSerializerPublic(obj.teacher.all(), many=True).data
+        data['teacher'] = teachers
+        return data
 
 
 class SchoolSerializer(serializers.ModelSerializer):
