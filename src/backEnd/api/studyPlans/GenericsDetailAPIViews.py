@@ -1,5 +1,10 @@
-from api.serializers import (StudyPlanSerializer, UserSerializerPrivate,
-                             studyPlanDetailSerializer, ActiveCourseSerializer)
+from api.serializers import (
+    StudyPlanSerializer,
+    UserSerializerPrivate,
+    studyPlanDetailSerializer,
+    ActiveCourseSerializer,
+    SubscriptionSerializer
+)
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from accounts.models import CustomUserModel as UserModel
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from activeCourses.models import ActiveCourse
+from subscriptions.models import Subscription
 
 
 class BaseRetrieveAPIView(RetrieveAPIView):
@@ -44,8 +50,15 @@ class UserDataAPIView(BaseRetrieveAPIView):
     permission_classes = [IsNotUserAS, IsAuthenticated]
 
 
-# /api/active-courses/<int:pk>/ -> api-active-courses
+# /api/active-courses/<int:pk>/ -> api-active-course
 class ActiveCourseAPIView(BaseRetrieveAPIView):
     queryset = ActiveCourse.objects.all()
     serializer_class = ActiveCourseSerializer
+    permission_classes = [IsNotUserAS, IsAuthenticated]
+
+
+# /api/subscription/<int:pk>/ -> api-subscription
+class SubscriptionAPIView(BaseRetrieveAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
     permission_classes = [IsNotUserAS, IsAuthenticated]

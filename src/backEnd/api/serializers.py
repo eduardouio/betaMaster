@@ -4,7 +4,7 @@ from accounts.models import PersonalReferences, BankAccount, CustomUserModel
 from activeCourses.models import ActiveCourse
 from schools.models import School
 from studyPlans.models import StudyPlan, StudyPlanDetail
-from subscriptions.models import Subscription
+from subscriptions.models import Subscription, Payment
 
 
 class UserSerializerPublic(serializers.ModelSerializer):
@@ -98,8 +98,26 @@ class StudyPlanSerializer(serializers.ModelSerializer):
         return data
 
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+
+
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
         depth = 1
+
+    def to_representation(self, obj):
+        # sobreescribimos el usuario
+        data = super().to_representation(obj)
+        student = UserSerializerPublic(obj.id_user).data
+        data['id_user'] = student
+
+        # incluimos pagos
+        payments = Payment.objects.filter(id_subscription=obj)
+        data['payments'] = PaymentSerializer(payments, many=True).data
+
+        return data

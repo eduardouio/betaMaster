@@ -4,11 +4,11 @@ from django.urls import reverse
 
 
 @pytest.mark.django_db
-class TestActiveCourses(BaseTest):
+class TestSubscription(BaseTest):
 
     @pytest.fixture
     def url(self):
-        url = reverse('api:api-active-course', kwargs={'pk': 1})
+        url = reverse('api:api-subscription', kwargs={'pk': 1})
         return url
 
     def test_get_active_courses(self, client_logged, url):
@@ -16,8 +16,7 @@ class TestActiveCourses(BaseTest):
         assert response.status_code == 200
         response = response.json()
 
-        # compronamos el depth
-        assert isinstance(response['id_school'], dict)
-        assert isinstance(response['id_study_plan'], dict)
-        assert isinstance(response['student'], dict)
-        assert isinstance(response['teacher'], list)
+        assert response['id_subscription'] == 1
+        assert isinstance(response['id_user'], dict)
+        assert isinstance(response['id_active_course'], dict)
+        assert isinstance(response['payments'], list)
