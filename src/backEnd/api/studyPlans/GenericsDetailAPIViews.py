@@ -45,6 +45,7 @@ class UserDataAPIView(BaseRetrieveAPIView):
     permission_classes = [IsNotUserAS, IsAuthenticated]
 
 
+# /api/bank-account/<int:pk>/ -> api-bank-account
 class PersonalReferencesAPIView(BaseRetrieveAPIView):
     queryset = PersonalReferences.objects.all()
     serializer_class = PersonalReferencesSerializer

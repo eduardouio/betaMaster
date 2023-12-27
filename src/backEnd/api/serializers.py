@@ -55,6 +55,12 @@ class SchoolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class studyPlanDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudyPlanDetail
+        fields = '__all__'
+
+
 class StudyPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyPlan
@@ -65,14 +71,9 @@ class StudyPlanSerializer(serializers.ModelSerializer):
         data = super().to_representation(obj)
         coordinator = UserSerializerPublic(obj.coordinator).data
         data['coordinator'] = coordinator
+        details = StudyPlanDetail.objects.filter(id_study_plan=obj)
+        data['details'] = studyPlanDetailSerializer(details, many=True).data    
         return data
-
-
-class studyPlanDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudyPlanDetail
-        fields = '__all__'
-        depth = 1
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
