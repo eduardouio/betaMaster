@@ -16,6 +16,7 @@ class TestDetailStudyPlans(BaseTest):
         assert response.status_code == 200
         response = response.json()
         assert response['id_study_plan'] == 1
-
         # comprobamos el depth de usuario
         assert response['coordinator']
+        # comprobamos el depth de detalles
+        assert response['details']
