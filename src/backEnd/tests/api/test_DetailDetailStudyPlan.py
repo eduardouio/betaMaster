@@ -1,13 +1,12 @@
 import pytest
-import random
 from rest_framework.test import APIClient
 from django.urls import reverse
+import random
 from accounts.models import CustomUserModel as UserModel
 
 
 @pytest.mark.django_db
-class TestDetailStudyPlans:
-
+class TestDetailDetailStudyPlans:
     @pytest.fixture
     def client_logged(self, client):
         self.user.role = random.choice(['student', 'teacher', 'school'])
@@ -24,24 +23,23 @@ class TestDetailStudyPlans:
 
     @pytest.fixture
     def url(self):
-        url = reverse('api:api-study-plan', kwargs={'pk': 1})
+        url = reverse('api:api-detail-study-plan', kwargs={'pk': 1})
         return url
 
     def setup_method(self):
         self.user = UserModel(
             username='test',
             email='test@example.com',
-            password='<PASSWORD.123>',
+            password='<PASSWORD>.123',
         )
 
     def test_get_detailstudy(self, client_logged, url):
         response = client_logged.get(url)
         assert response.status_code == 200
         response = response.json()
-        assert response['id_study_plan'] == 1
-
-        # comprobamos el depth de usuario
-        assert response['coordinator']
+        assert response['id_study_plan_detail'] == 1
+        # comprobamos el depth al plan de estudio
+        assert response['id_study_plan']
 
     def test_not_authorized(self, client_guest, url):
         message = 'Su Perfil No tiene permiso para realizar esta acción'
