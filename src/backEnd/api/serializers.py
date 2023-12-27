@@ -72,7 +72,7 @@ class studyPlanDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyPlanDetail
         fields = '__all__'
-        depth = 2
+        depth = 1
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
