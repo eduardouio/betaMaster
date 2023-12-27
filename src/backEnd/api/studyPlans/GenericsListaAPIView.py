@@ -9,11 +9,16 @@ from api.serializers import (
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 from accounts.models import CustomUserModel as UserModel
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from activeCourses.models import ActiveCourse
 from subscriptions.models import Subscription
+
+
+class BasePagination(PageNumberPagination):
+    page_size = 20
 
 
 # /api/study-plans/ -> api-list-study-plans
@@ -36,7 +41,12 @@ class ListUserByRoleAPIView(ListAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPrivate
     permission_classes = [IsAuthenticated]
+    pagination_class = BasePagination
 
     def get_queryset(self):
         role = self.kwargs['role_name']
-        return UserModel.objects.filter(role=role)
+        return UserModel.objects.filter(role=role).order_by('pk')
+
+    def paginate_queryset(self, queryset):
+        self.page_size = 10
+        return super().paginate_queryset(queryset)

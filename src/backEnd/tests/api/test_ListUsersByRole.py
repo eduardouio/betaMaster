@@ -19,21 +19,21 @@ class TestListStudyPlans(BaseTest):
         response = client_logged.get(url)
         assert response.status_code == 200
         response = response.json()
-        assert isinstance(response, list)
-        assert response[0]['role'] == 'student'
+        assert isinstance(response, dict)
+        assert response['results'][0]['role'] == 'student'
 
     def test_list_users_school(self, client_logged, url):
         url = url.replace('student', 'school')
         response = client_logged.get(url)
         assert response.status_code == 200
         response = response.json()
-        assert isinstance(response, list)
-        assert response[0]['role'] == 'school'
+        assert isinstance(response, dict)
+        assert response['results'][0]['role'] == 'school'
 
     def test_list_users_teacher(self, client_logged, url):
         url = url.replace('student', 'teacher')
         response = client_logged.get(url)
         assert response.status_code == 200
         response = response.json()
-        assert isinstance(response, list)
-        assert response[0]['role'] == 'teacher'
+        assert isinstance(response, dict)
+        assert response['results'][0]['role'] == 'teacher'
