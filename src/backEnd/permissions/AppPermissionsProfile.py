@@ -7,6 +7,10 @@ class MyBasePermission(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_anonymous:
             return False
+
+        if request.user.is_superuser:
+            return True
+
         return self.check_role(request.user)
 
     def check_role(self, user):
