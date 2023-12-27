@@ -49,13 +49,14 @@ class UserSerializerPrivate(serializers.ModelSerializer):
     def to_representation(self, obj):
         data = super().to_representation(obj)
         references = PersonalReferences.objects.filter(id_user=obj)
-        data['references'] = PersonalReferencesSerializer(references, many=True).data
+        data['references'] = PersonalReferencesSerializer(
+            references, many=True).data
         accounts = BankAccount.objects.filter(id_user=obj)
         data['accounts'] = BankAccountSerializer(accounts, many=True).data
         return data
 
 
-class ActiveCourseSerializer(serializers.ModelSerializer):    
+class ActiveCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActiveCourse
         fields = '__all__'
@@ -93,7 +94,7 @@ class StudyPlanSerializer(serializers.ModelSerializer):
         coordinator = UserSerializerPublic(obj.coordinator).data
         data['coordinator'] = coordinator
         details = StudyPlanDetail.objects.filter(id_study_plan=obj)
-        data['details'] = studyPlanDetailSerializer(details, many=True).data    
+        data['details'] = studyPlanDetailSerializer(details, many=True).data
         return data
 
 
