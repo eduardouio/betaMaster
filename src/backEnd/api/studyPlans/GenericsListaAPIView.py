@@ -29,3 +29,14 @@ class ListStudyPlanAPIView(ListAPIView):
             i.pop('details', None)
 
         return response
+
+
+# /api/users-by-role/<str:role>/ -> api-users-by-role-list
+class ListUserByRoleAPIView(ListAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializerPrivate
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        role = self.kwargs['role_name']
+        return UserModel.objects.filter(role=role)

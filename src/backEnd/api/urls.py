@@ -7,7 +7,8 @@ from api.studyPlans.GenericsDetailAPIViews import (
     PaymentAPIView,
 )
 from api.studyPlans.GenericsListaAPIView import (
-    ListStudyPlanAPIView
+    ListStudyPlanAPIView,
+    ListUserByRoleAPIView
 )
 
 from django.urls import path
@@ -18,7 +19,8 @@ urlpatterns = [
 
     # datos de usuario
     path('user/<int:pk>/', UserDataAPIView.as_view(), name='api-user-data'),
-
+    path('users-by-role/<str:role_name>/',
+         ListUserByRoleAPIView.as_view(), name='api-users-by-role-list'),
     # cursos activos
     path('active-course/<int:pk>/',
          ActiveCourseAPIView.as_view(), name='api-active-course'),
