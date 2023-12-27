@@ -6,6 +6,10 @@ from api.studyPlans.GenericsDetailAPIViews import (
     SubscriptionAPIView,
     PaymentAPIView,
 )
+from api.studyPlans.GenericsListaAPIView import (
+    ListStudyPlanAPIView
+)
+
 from django.urls import path
 
 app_name = 'api'
@@ -20,6 +24,8 @@ urlpatterns = [
          ActiveCourseAPIView.as_view(), name='api-active-course'),
 
     # planes de estudio
+    path('study-plans/', ListStudyPlanAPIView.as_view(),
+         name='api-list-study-plans'),
     path('study-plan/<int:pk>/',
          DetailStudyPlanAPIView.as_view(), name='api-study-plan'),
     path('study-plan-detail/<int:pk>/',

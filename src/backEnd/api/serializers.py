@@ -87,7 +87,6 @@ class StudyPlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyPlan
         fields = '__all__'
-        depth = 1
 
     def to_representation(self, obj):
         data = super().to_representation(obj)
