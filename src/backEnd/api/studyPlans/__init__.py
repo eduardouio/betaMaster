@@ -1,1 +1,1 @@
-from .GenericsDetailAPIViews import DetailStudyPlanAPIView, DetailStudyPlanDetailAPIView
+
