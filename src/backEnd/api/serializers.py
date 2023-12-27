@@ -103,12 +103,36 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = '__all__'
 
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        bank = BankAccount.objects.get(pk=obj.id_bank.pk)
+        data['id_bank'] = BankAccountSerializer(bank).data
+        return data
+
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
         depth = 1
+
+    def to_representation(self, obj):
+        # sobreescribimos el usuario
+        data = super().to_representation(obj)
+        student = UserSerializerPublic(obj.id_user).data
+        data['id_user'] = student
+
+        # incluimos pagos
+        payments = Payment.objects.filter(id_subscription=obj)
+        data['payments'] = PaymentSerializer(payments, many=True).data
+
+        return data
+
+
+class PaymentSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = '__all__'
 
     def to_representation(self, obj):
         # sobreescribimos el usuario

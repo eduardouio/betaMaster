@@ -3,7 +3,8 @@ from api.serializers import (
     UserSerializerPrivate,
     studyPlanDetailSerializer,
     ActiveCourseSerializer,
-    SubscriptionSerializer
+    SubscriptionSerializer,
+    PaymentSubscriptionSerializer
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import RetrieveAPIView
@@ -61,4 +62,11 @@ class ActiveCourseAPIView(BaseRetrieveAPIView):
 class SubscriptionAPIView(BaseRetrieveAPIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+    permission_classes = [IsNotUserAS, IsAuthenticated]
+
+
+# /api/payments-subscription/<int:pk>/ -> api-payments-subscription
+class PaymentAPIView(BaseRetrieveAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = PaymentSubscriptionSerializer
     permission_classes = [IsNotUserAS, IsAuthenticated]
