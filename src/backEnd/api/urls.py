@@ -1,4 +1,4 @@
-from api.studyPlans.GenericsDetailAPIViews import (
+from api.GenericsViews.GenericsDetailAPIViews import (
     DetailStudyPlanAPIView,
     DetailStudyPlanDetailAPIView,
     UserDataAPIView,
@@ -6,7 +6,7 @@ from api.studyPlans.GenericsDetailAPIViews import (
     SubscriptionAPIView,
     PaymentAPIView,
 )
-from api.studyPlans.GenericsListaAPIView import (
+from api.GenericsViews.GenericsListAPIView import (
     ListStudyPlanAPIView,
     ListUserByRoleAPIView
 )
