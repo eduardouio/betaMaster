@@ -1,11 +1,24 @@
+from typing import Any
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import CustomUserModel, PersonalReferences, BankAccount
+from .forms import CustomCreationForm, UserForm
 
 
-@admin.register(CustomUserModel)
-class CustomUserModelAdmin(SimpleHistoryAdmin):
+class CustomUserModelAdmin(UserAdmin):
+    form = UserForm
+    add_form = CustomCreationForm
+    model = CustomUserModel
+
+    fieldsets = (
+        ('Basico', {'fields': ('email', 'password', 'role', 'is_active', 'is_aproved', 'is_confirmed_mail')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'dni_number', 'date_of_birth', 'phone', 'address', 'country', 'state', 'city', 'canton', 'presentation', 'cv', 'notes')}),
+        ('Permissions', {'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+
     list_display = (
         'email',
         'first_name',
@@ -21,6 +34,16 @@ class CustomUserModelAdmin(SimpleHistoryAdmin):
         'role',
         'is_active',
     )
+
+    ordering = ('email', 'role')
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj:
+            self.form = CustomCreationForm
+        else:
+            self.form = UserForm
+
+        return super().get_form(request, obj, **kwargs)
 
 
 @admin.register(PersonalReferences)
@@ -56,4 +79,4 @@ class BankAccountAdmin(SimpleHistoryAdmin):
     )
 
 
-admin.site.site_header = 'HomeSchooling'
+admin.site.register(CustomUserModel, CustomUserModelAdmin)
