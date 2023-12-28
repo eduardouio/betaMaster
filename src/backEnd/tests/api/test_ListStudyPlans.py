@@ -18,4 +18,4 @@ class TestListStudyPlans(BaseTest):
         response = client_logged.get(url)
         assert response.status_code == 200
         response = response.json()
-        assert isinstance(response, list)
+        assert isinstance(response, dict)
