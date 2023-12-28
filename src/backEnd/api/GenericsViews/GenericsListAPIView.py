@@ -1,10 +1,8 @@
 from api.serializers import (
     StudyPlanSerializer,
     UserSerializerPrivate,
-    studyPlanDetailSerializer,
     ActiveCourseSerializer,
     SubscriptionSerializer,
-    PaymentSubscriptionSerializer,
     SchoolSerializer,
 )
 
