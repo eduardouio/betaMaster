@@ -4,43 +4,50 @@ from api.serializers import (
     studyPlanDetailSerializer,
     ActiveCourseSerializer,
     SubscriptionSerializer,
-    PaymentSubscriptionSerializer
+    PaymentSubscriptionSerializer,
+    SchoolSerializer,
 )
-from permissions.AppPermissionsProfile import IsNotUserAS
+
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 from accounts.models import CustomUserModel as UserModel
-from studyPlans.models import StudyPlan, StudyPlanDetail
+from studyPlans.models import StudyPlan
 from activeCourses.models import ActiveCourse
 from subscriptions.models import Subscription
+from schools.models import School
 
 
 class BasePagination(PageNumberPagination):
-    page_size = 20
+    page_size = 10
 
 
-# /api/courses/<int:pk>/ -> api-study-plan
+# /api/subscriptions/<int:pk>/ -> api-subscriptions-list
+class ListSubscriptionAPIView(ListAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+    pagination_class = BasePagination
+
+
+# /api/schools -> api-schools-list
+class ListSchoolsAPIView(ListAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+    pagination_class = BasePagination
+
+# /api/active-courses/ -> api-active-courses-list
+
+
 class ListActiveCourseAPIView(ListAPIView):
     queryset = ActiveCourse.objects.all()
     serializer_class = ActiveCourseSerializer
-    permission_classes = [IsAuthenticated]
     pagination_class = BasePagination
-
-    def get_queryset(self):
-        return ActiveCourse.objects.filter(user=self.kwargs['pk']).order_by('pk')
-
-    def paginate_queryset(self, queryset):
-        self.page_size = 10
-        return super().paginate_queryset(queryset)
 
 
 # /api/study-plans/ -> api-list-study-plans
 class ListStudyPlanAPIView(ListAPIView):
     queryset = StudyPlan.objects.all()
     serializer_class = StudyPlanSerializer
-    permission_classes = [IsAuthenticated]
     pagination_class = BasePagination
 
     def list(self, request, *args, **kwargs):
@@ -55,7 +62,6 @@ class ListStudyPlanAPIView(ListAPIView):
 class ListUserByRoleAPIView(ListAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPrivate
-    permission_classes = [IsAuthenticated]
     pagination_class = BasePagination
 
     def get_queryset(self):

@@ -29,6 +29,10 @@ class TestListStudyPlans(BaseTest):
         response = response.json()
         assert isinstance(response, dict)
         assert response['results'][0]['role'] == 'school'
+        # verificamos que contiene la paginacion
+        assert response['results']
+        assert response['count']
+        assert response['next']
 
     def test_list_users_teacher(self, client_logged, url):
         url = url.replace('student', 'teacher')
@@ -37,3 +41,7 @@ class TestListStudyPlans(BaseTest):
         response = response.json()
         assert isinstance(response, dict)
         assert response['results'][0]['role'] == 'teacher'
+        # verificamos que contiene la paginacion
+        assert response['results']
+        assert response['count']
+        assert response['next']

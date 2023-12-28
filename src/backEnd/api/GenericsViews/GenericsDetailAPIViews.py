@@ -8,7 +8,6 @@ from api.serializers import (
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated
 
 from accounts.models import CustomUserModel as UserModel
 from studyPlans.models import StudyPlan, StudyPlanDetail
@@ -17,7 +16,7 @@ from subscriptions.models import Subscription
 
 
 class BaseRetrieveAPIView(RetrieveAPIView):
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
     def get_permissions(self):
         permissions = []
@@ -34,39 +33,39 @@ class BaseRetrieveAPIView(RetrieveAPIView):
 class DetailStudyPlanAPIView(BaseRetrieveAPIView):
     queryset = StudyPlan.objects.all()
     serializer_class = StudyPlanSerializer
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
 
 # /api/study-plan-detail/<int:p>/ -> api-detail-study-plan
 class DetailStudyPlanDetailAPIView(BaseRetrieveAPIView):
     queryset = StudyPlanDetail.objects.all()
     serializer_class = studyPlanDetailSerializer
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
 
 # /api/user/<int:pk>/ -> api-user-data
 class UserDataAPIView(BaseRetrieveAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPrivate
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
 
 # /api/active-courses/<int:pk>/ -> api-active-course
 class ActiveCourseAPIView(BaseRetrieveAPIView):
     queryset = ActiveCourse.objects.all()
     serializer_class = ActiveCourseSerializer
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
 
 # /api/subscription/<int:pk>/ -> api-subscription
 class SubscriptionAPIView(BaseRetrieveAPIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]
 
 
 # /api/payments-subscription/<int:pk>/ -> api-payments-subscription
 class PaymentAPIView(BaseRetrieveAPIView):
     queryset = Subscription.objects.all()
     serializer_class = PaymentSubscriptionSerializer
-    permission_classes = [IsNotUserAS, IsAuthenticated]
+    permission_classes = [IsNotUserAS]

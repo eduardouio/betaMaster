@@ -8,7 +8,9 @@ from api.GenericsViews.GenericsDetailAPIViews import (
 )
 from api.GenericsViews.GenericsListAPIView import (
     ListStudyPlanAPIView,
-    ListUserByRoleAPIView
+    ListUserByRoleAPIView,
+    ListActiveCourseAPIView,
+    ListSubscriptionAPIView
 )
 
 from django.urls import path
@@ -24,6 +26,8 @@ urlpatterns = [
     # cursos activos
     path('active-course/<int:pk>/',
          ActiveCourseAPIView.as_view(), name='api-active-course'),
+    path('active-courses/', ListActiveCourseAPIView.as_view(),
+         name='api-active-courses-list'),
 
     # planes de estudio
     path('study-plans/', ListStudyPlanAPIView.as_view(),
@@ -36,6 +40,8 @@ urlpatterns = [
     # suscripciones
     path('subscription/<int:pk>/',
          SubscriptionAPIView.as_view(), name='api-subscription'),
+    path('subscriptions/', ListSubscriptionAPIView.as_view(),
+         name='api-subscriptions-list'),
 
     # pagos de suscripciones
     path('payments-subscription/<int:pk>/',
