@@ -182,7 +182,6 @@ class Command(BaseCommand):
         for i in range(quantity):
             my_state = random.choice(list(STATES_EC.keys()))
             CustomUserModel.objects.create_user(
-                username=fake.user_name() + str(random.randint(0, 10)),
                 email=str(random.randint(0, 10)) + '_' + fake.email(),
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),

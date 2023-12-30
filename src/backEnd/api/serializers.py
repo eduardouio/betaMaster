@@ -42,7 +42,6 @@ class UserSerializerPrivate(serializers.ModelSerializer):
         model = CustomUserModel
         exclude = [
             'password',
-            'username',
         ]
 
     def to_representation(self, obj):
