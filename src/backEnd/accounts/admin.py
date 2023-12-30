@@ -14,17 +14,39 @@ class CustomUserModelAdmin(UserAdmin):
     model = CustomUserModel
 
     fieldsets = (
-        ('Basico', {'fields': ('email', 'role', 'password', 'is_active', 'is_aproved', 'is_confirmed_mail')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'dni_number', 'date_of_birth', 'phone', 'address', 'country', 'state', 'city', 'canton', 'geolocation' ,'presentation', 'cv', 'notes')}),
-        ('Permissions', {'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Basico', {
+            'fields': (
+                'email', 'role', 'password', 'is_active', 'is_aproved',
+                'is_confirmed_mail'
+            )
+        }
+        ),
+        ('Información Personal', {
+            'fields': (
+                'first_name', 'last_name', 'dni_number', 'date_of_birth',
+                'phone', 'address', 'country', 'state', 'city', 'canton',
+                'geolocation', 'presentation', 'cv', 'notes'
+            )
+        }
+        ),
+        ('Permisos', {
+            'fields': (
+                'is_staff', 'is_superuser', 'groups', 'user_permissions'
+            )
+        }
+        ),
+        ('Otros', {'fields': ('last_login', 'date_joined')}),
     )
 
     add_fieldsets = (
-        (None, {
+        ('Básico', {
             'classes': ('wide',),
-            'fields': ('email', 'role', 'password1', 'password2', 'is_staff', 'is_active')}
-         ),
+            'fields': (
+                'email', 'role', 'password1', 'password2',
+                'is_staff', 'is_active'
+            )
+        }
+        ),
     )
 
     list_display = (
