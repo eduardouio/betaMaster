@@ -34,6 +34,11 @@ STATUS_APPROVED = (
 
 
 class CustomUserModel(AbstractUser):
+    username = None
+    email = models.EmailField(
+        'correo electrónico',
+        unique=True
+    )
     role = models.CharField(
         'rol usuario',
         max_length=40,
@@ -101,10 +106,6 @@ class CustomUserModel(AbstractUser):
         max_length=40,
         blank=True,
         help_text='Número de identificación del usuario.'
-    )
-    email = models.EmailField(
-        'correo electrónico',
-        unique=True
     )
     picture = models.ImageField(
         'imagen de perfil',

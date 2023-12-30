@@ -26,7 +26,6 @@ class BaseTest():
 
     def setup_method(self):
         self.user = UserModel(
-            username='test',
             email='test@example.com',
             password='<PASSWORD>.123',
         )

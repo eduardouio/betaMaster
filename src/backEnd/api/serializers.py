@@ -16,7 +16,6 @@ class UserSerializerPublic(serializers.ModelSerializer):
             'token',
             'is_staff',
             'is_superuser',
-            'username',
             'is_aproved',
             'is_confirmed_mail',
             'date_aproved',

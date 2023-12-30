@@ -1,22 +1,30 @@
-from typing import Any
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUserModel, PersonalReferences, BankAccount
-from .forms import CustomCreationForm, UserForm
+from accounts.models import CustomUserModel
+from accounts.models import PersonalReferences, BankAccount
+from accounts.forms import CustomCreationForm, CustomChangeForm
 
 
 class CustomUserModelAdmin(UserAdmin):
-    form = UserForm
     add_form = CustomCreationForm
+    form = CustomChangeForm
+
     model = CustomUserModel
 
     fieldsets = (
-        ('Basico', {'fields': ('email', 'password', 'role', 'is_active', 'is_aproved', 'is_confirmed_mail')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'dni_number', 'date_of_birth', 'phone', 'address', 'country', 'state', 'city', 'canton', 'presentation', 'cv', 'notes')}),
+        ('Basico', {'fields': ('email', 'role', 'password', 'is_active', 'is_aproved', 'is_confirmed_mail')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'dni_number', 'date_of_birth', 'phone', 'address', 'country', 'state', 'city', 'canton', 'geolocation' ,'presentation', 'cv', 'notes')}),
         ('Permissions', {'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'role', 'password1', 'password2', 'is_staff', 'is_active')}
+         ),
     )
 
     list_display = (
@@ -35,15 +43,7 @@ class CustomUserModelAdmin(UserAdmin):
         'is_active',
     )
 
-    ordering = ('email', 'role')
-
-    def get_form(self, request, obj=None, **kwargs):
-        if obj:
-            self.form = CustomCreationForm
-        else:
-            self.form = UserForm
-
-        return super().get_form(request, obj, **kwargs)
+    ordering = ('email',)
 
 
 @admin.register(PersonalReferences)
