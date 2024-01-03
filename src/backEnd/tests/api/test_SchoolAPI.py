@@ -165,3 +165,18 @@ class TestUpdateSchoolAPIView(BaseTest):
             url, data=data, content_type='application/json'
         )
         assert response.status_code == 403
+
+
+@pytest.mark.django_db
+class TestSchoolDetailAPIView(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-school-detail', kwargs={'pk': 1})
+        return url
+
+    def test_get_school(self, url, client_logged):
+        response = client_logged.get(url)
+        assert response.status_code == 200
+        response = response.json()
+    

@@ -6,6 +6,7 @@ from api.GenericsViews.GenericsDetailAPIViews import (
     ActiveCourseAPIView,
     SubscriptionAPIView,
     PaymentAPIView,
+    SchoolAPIView,
 )
 from api.GenericsViews.GenericsListAPIView import (
     ListStudyPlanAPIView,
@@ -65,6 +66,7 @@ urlpatterns = [
     path('payments-subscription/<int:pk>/',
          PaymentAPIView.as_view(), name='api-payments-subscription'),
     # colegios
+    path('school/<int:pk>/', SchoolAPIView.as_view(), name='api-school-detail'),
     path('school/add/', CreateSchoolAPIView.as_view(), name='api-add-school'),
     path('school/delete/<int:pk>/',
          DeleteSchoolAPIView.as_view(), name='api-delete-school'),
