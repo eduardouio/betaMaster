@@ -26,7 +26,9 @@ from api.GenericsViews.GenericsDeleteAPIView import (
 )
 from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdateBankAccountAPIView,
-    UpdateSchoolAPIView
+    UpdateSchoolAPIView,
+    UpdateUserAPIView,
+    UpdateUserPassword
 )
 from django.urls import path
 
@@ -34,6 +36,10 @@ app_name = 'api'
 
 urlpatterns = [
     # datos de usuario
+    path('user/update-password/<int:pk>/',
+         UpdateUserPassword.as_view(), name='api-update-user-password'),
+    path('user/update/<int:pk>/',
+         UpdateUserAPIView.as_view(), name='api-update-user'),
     path('user/add/', CreateUserAPIView.as_view(), name='api-add-user'),
     path('user/<int:pk>/', UserDataAPIView.as_view(), name='api-user-data'),
     path('users-by-role/<str:role_name>/',

@@ -93,3 +93,80 @@ class TestCreateUserModel(BaseTest):
         }
         response = client_logged.post(url, data=data)
         assert response.status_code == 400
+
+
+@pytest.mark.django_db
+class TestUpdateAPIView(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-update-user', kwargs={'pk': 2})
+        return url
+
+    def test_update_user(self, url, client_logged):
+        data = {
+            "id_user": 2,
+            "first_name": "test",
+            "last_name": "test",
+            "email": "test@hgf.com",
+        }
+        response = client_logged.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 200
+        # verificamos que se actualizo el usuario
+        user = CustomUserModel.objects.get(pk=2)
+        assert user.first_name == data['first_name']
+        assert user.last_name == data['last_name']
+
+    def test_update_user_error(self, url, client_logged):
+        data = {
+            "id_user": 2
+        }
+        response = client_logged.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 400
+
+
+@pytest.mark.django_db
+class TestUpdateUserPassword(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-update-user-password', kwargs={'pk': 2})
+        return url
+
+    def test_not_authorized(self, client_guest, url):
+        pass
+
+    def test_update_user_password(self, url, client_logged):
+        my_user = CustomUserModel.objects.create_user(
+            email="test-user1@gmail.com",
+            password="test111",
+            role="student"
+        )
+        data = {
+            "id_user": my_user.pk,
+            "password": "test",
+        }
+
+        url = url.replace('2', str(my_user.pk))
+        client_logged.force_login(my_user)
+        response = client_logged.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 200
+        # verificamos que se actualizo el usuario
+        user = CustomUserModel.objects.get(pk=my_user.pk)
+        assert user.check_password(data['password'])
+
+    def test_update_user_password_no_owner(self, url, client_logged):
+        data = {
+            "id_user": 2,
+            "password": "test",
+        }
+        response = client_logged.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 401
