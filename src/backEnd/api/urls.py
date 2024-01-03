@@ -22,8 +22,10 @@ from api.GenericsViews.GenericsDeleteAPIView import (
     DeleteBankAccountAPIView,
     DeleteSchoolAPIView
 )
-from api.GenericsViews.GenericsUdpadeAPIViews import UpdateBankAccountAPIView
-
+from api.GenericsViews.GenericsUdpadeAPIViews import (
+    UpdateBankAccountAPIView,
+    UpdateSchoolAPIView
+)
 from django.urls import path
 
 app_name = 'api'
@@ -67,4 +69,6 @@ urlpatterns = [
     path('school/delete/<int:pk>/',
          DeleteSchoolAPIView.as_view(), name='api-delete-school'),
     path('schools/', ListSchoolsAPIView.as_view(), name='api-schools-list'),
+    path('school/update/<int:pk>/',
+         UpdateSchoolAPIView.as_view(), name='api-update-school'),
 ]

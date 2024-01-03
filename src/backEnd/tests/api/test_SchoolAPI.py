@@ -111,3 +111,57 @@ class TestListSchoolsAPIView(BaseTest):
         response = response.json()
         assert response['count'] > 1
         assert response['results']
+
+
+@pytest.mark.django_db
+class TestUpdateSchoolAPIView(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-update-school', kwargs={'pk': 1})
+        return url
+
+    def test_update_school(self, url, client_logged):
+        data = {
+            "id_school": 1,
+            "name": "Test-test",
+            "address": "Test-test",
+            "phone": "12345998087",
+            "email": "gvc@d2.com",
+            "ami_code": "1232456789",
+            "state": "PICHINCHA",
+            "city": "QUITO",
+            "id_owner": 2,
+        }
+        response = client_logged.put(
+            url,
+            data=data,
+            content_type='application/json'
+        )
+        assert response.status_code == 200
+        # comprobamos el registro en la base de datos
+        school = School.objects.get(pk=1)
+        assert school.name == data['name']
+        assert school.address == data['address']
+        assert school.phone == data['phone']
+        assert school.email == data['email']
+        assert school.ami_code == data['ami_code']
+
+    def test_dont_access_user(self, client_guest, url):
+        data = {
+            "id_school": 1,
+        }
+        response = client_guest.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 403
+
+    def test_incomplete_data(self, client_guest, url):
+        data = {
+            "id_school": 1,
+            "name": "Test-test"
+        }
+        response = client_guest.put(
+            url, data=data, content_type='application/json'
+        )
+        assert response.status_code == 403
