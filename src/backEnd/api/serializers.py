@@ -37,6 +37,12 @@ class BankAccountSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserModel
+        fields = '__all__'
+
+
 class UserSerializerPrivate(serializers.ModelSerializer):
     class Meta:
         model = CustomUserModel

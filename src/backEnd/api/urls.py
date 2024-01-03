@@ -18,6 +18,7 @@ from api.GenericsViews.GenericsListAPIView import (
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
     CreateSchoolAPIView,
+    CreateUserAPIView
 )
 from api.GenericsViews.GenericsDeleteAPIView import (
     DeleteBankAccountAPIView,
@@ -33,6 +34,7 @@ app_name = 'api'
 
 urlpatterns = [
     # datos de usuario
+    path('user/add/', CreateUserAPIView.as_view(), name='api-add-user'),
     path('user/<int:pk>/', UserDataAPIView.as_view(), name='api-user-data'),
     path('users-by-role/<str:role_name>/',
          ListUserByRoleAPIView.as_view(), name='api-users-by-role-list'),

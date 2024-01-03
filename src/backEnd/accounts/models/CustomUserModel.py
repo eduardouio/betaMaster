@@ -54,11 +54,15 @@ class CustomUserModel(AbstractUser):
     )
     state = models.CharField(
         'Provincia',
-        max_length=100
+        max_length=100,
+        blank=True,
+        null=True,
     )
     city = models.CharField(
         'Ciudad',
-        max_length=100
+        max_length=100,
+        blank=True,
+        null=True,
     )
     canton = models.CharField(
         'Cantón',

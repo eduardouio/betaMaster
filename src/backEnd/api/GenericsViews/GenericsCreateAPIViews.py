@@ -2,10 +2,11 @@ from rest_framework.generics import CreateAPIView
 
 from api.serializers import (
     BankAccountSerializer,
-    SchoolSerializer
+    SchoolSerializer,
+    UserSerializer,
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
-from accounts.models import BankAccount
+from accounts.models import BankAccount, CustomUserModel
 from schools.models import School
 
 
@@ -21,6 +22,13 @@ class BaseCreateAPIView(CreateAPIView):
                 permissions.append(perm())
 
         return permissions
+
+
+# /api/user/add/ -> api-add-user
+class CreateUserAPIView(BaseCreateAPIView):
+    queryset = CustomUserModel.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsNotUserAS]
 
 
 # /api/bank-account/add/ -> api-add-bank-account

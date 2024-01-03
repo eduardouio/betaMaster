@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from tests.api.BaseTest import BaseTest
+from accounts.models import CustomUserModel
 
 
 @pytest.mark.django_db
@@ -63,3 +64,32 @@ class TestListStudyPlans(BaseTest):
         assert response['results']
         assert response['count']
         assert response['next']
+
+
+@pytest.mark.django_db
+class TestCreateUserModel(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-add-user')
+        return url
+
+    def test_create_user(self, url, client_logged):
+        data = {
+            "email": "test-user@gmail.com",
+            "password": "test",
+            "role": "student",
+        }
+        response = client_logged.post(url, data=data)
+        assert response.status_code == 201
+
+        # verificamos que se creo el usuario
+        user = CustomUserModel.objects.get(email=data['email'])
+        assert user
+
+    def test_create_user_error(self, url, client_logged):
+        data = {
+            "email": "test-user@gmail.com",
+        }
+        response = client_logged.post(url, data=data)
+        assert response.status_code == 400
