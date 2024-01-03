@@ -15,9 +15,12 @@ from api.GenericsViews.GenericsListAPIView import (
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
-     CreateSchoolAPIView,
+    CreateSchoolAPIView,
 )
-from api.GenericsViews.GenericsDeleteAPIView import DeleteBankAccountAPIView
+from api.GenericsViews.GenericsDeleteAPIView import (
+    DeleteBankAccountAPIView,
+    DeleteSchoolAPIView
+)
 from api.GenericsViews.GenericsUdpadeAPIViews import UpdateBankAccountAPIView
 
 from django.urls import path
@@ -60,4 +63,6 @@ urlpatterns = [
          PaymentAPIView.as_view(), name='api-payments-subscription'),
     # colegios
     path('school/add/', CreateSchoolAPIView.as_view(), name='api-add-school'),
+    path('school/delete/<int:pk>/',
+         DeleteSchoolAPIView.as_view(), name='api-delete-school'),
 ]

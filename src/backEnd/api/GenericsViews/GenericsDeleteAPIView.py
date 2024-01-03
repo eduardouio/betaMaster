@@ -1,7 +1,8 @@
 from rest_framework.generics import DestroyAPIView
 from permissions.AppPermissionsProfile import IsNotUserAS
 from accounts.models import BankAccount
-from api.serializers import BankAccountSerializer
+from schools.models import School
+from api.serializers import BankAccountSerializer, SchoolSerializer
 
 
 class BasedDestroyAPIView(DestroyAPIView):
@@ -24,3 +25,9 @@ class DeleteBankAccountAPIView(BasedDestroyAPIView):
     serializer_class = BankAccountSerializer
     permission_classes = [IsNotUserAS]
 
+
+# /api/school/delete/<pk:int>/ -> api-delete-school
+class DeleteSchoolAPIView(BasedDestroyAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+    permission_classes = [IsNotUserAS]
