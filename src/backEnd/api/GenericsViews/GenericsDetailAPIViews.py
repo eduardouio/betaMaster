@@ -4,12 +4,15 @@ from api.serializers import (
     studyPlanDetailSerializer,
     ActiveCourseSerializer,
     SubscriptionSerializer,
-    PaymentSubscriptionSerializer
+    PaymentSubscriptionSerializer,
+    BankAccountSerializer,
+    PersonalReferencesSerializer
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import RetrieveAPIView
 
 from accounts.models import CustomUserModel as UserModel
+from accounts.models import PersonalReferences, BankAccount
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from activeCourses.models import ActiveCourse
 from subscriptions.models import Subscription
@@ -27,6 +30,13 @@ class BaseRetrieveAPIView(RetrieveAPIView):
                 permissions.append(perm())
 
         return permissions
+
+
+# /api/bank-account/<int:pk>/ -> api-detail-bank-account
+class DetailBankAccountAPIView(BaseRetrieveAPIView):
+    queryset = BankAccount.objects.all()
+    serializer_class = BankAccountSerializer
+    permission_classes = [IsNotUserAS]
 
 
 # /api/study-plans/<int:pk>/ -> api-study-plan
