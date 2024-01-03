@@ -1,18 +1,11 @@
-from api.serializers import (
-    StudyPlanSerializer,
-    UserSerializerPrivate,
-    studyPlanDetailSerializer,
-    ActiveCourseSerializer,
-    SubscriptionSerializer,
-    PaymentSubscriptionSerializer,
-    BankAccountSerializer
-)
-
-from permissions.AppPermissionsProfile import IsNotUserAS
 from rest_framework.generics import CreateAPIView
 
-from accounts.models import CustomUserModel, PersonalReferences, BankAccount
-from subscriptions.models import Subscription, Payment
+from api.serializers import (
+    BankAccountSerializer,
+    SchoolSerializer
+)
+from permissions.AppPermissionsProfile import IsNotUserAS
+from accounts.models import BankAccount
 from schools.models import School
 
 
@@ -34,4 +27,11 @@ class BaseCreateAPIView(CreateAPIView):
 class CarateBanckAccountAPIView(BaseCreateAPIView):
     queryset = BankAccount.objects.all()
     serializer_class = BankAccountSerializer
+    permission_classes = [IsNotUserAS]
+
+
+# /api/school/add/ -> api-add-school
+class CreateSchoolAPIView(BaseCreateAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
     permission_classes = [IsNotUserAS]

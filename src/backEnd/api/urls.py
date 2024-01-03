@@ -15,6 +15,7 @@ from api.GenericsViews.GenericsListAPIView import (
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
+     CreateSchoolAPIView,
 )
 from api.GenericsViews.GenericsDeleteAPIView import DeleteBankAccountAPIView
 from api.GenericsViews.GenericsUdpadeAPIViews import UpdateBankAccountAPIView
@@ -24,7 +25,6 @@ from django.urls import path
 app_name = 'api'
 
 urlpatterns = [
-
     # datos de usuario
     path('user/<int:pk>/', UserDataAPIView.as_view(), name='api-user-data'),
     path('users-by-role/<str:role_name>/',
@@ -43,7 +43,6 @@ urlpatterns = [
          ActiveCourseAPIView.as_view(), name='api-active-course'),
     path('active-courses/', ListActiveCourseAPIView.as_view(),
          name='api-active-courses-list'),
-
     # planes de estudio
     path('study-plans/', ListStudyPlanAPIView.as_view(),
          name='api-list-study-plans'),
@@ -51,14 +50,14 @@ urlpatterns = [
          DetailStudyPlanAPIView.as_view(), name='api-study-plan'),
     path('study-plan-detail/<int:pk>/',
          DetailStudyPlanDetailAPIView.as_view(), name='api-detail-study-plan'),
-
     # suscripciones
     path('subscription/<int:pk>/',
          SubscriptionAPIView.as_view(), name='api-subscription'),
     path('subscriptions/', ListSubscriptionAPIView.as_view(),
          name='api-subscriptions-list'),
-
     # pagos de suscripciones
     path('payments-subscription/<int:pk>/',
          PaymentAPIView.as_view(), name='api-payments-subscription'),
+    # colegios
+    path('school/add/', CreateSchoolAPIView.as_view(), name='api-add-school'),
 ]

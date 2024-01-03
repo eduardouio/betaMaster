@@ -1,4 +1,3 @@
-import json
 import pytest
 from django.urls import reverse
 from tests.api.BaseTest import BaseTest
