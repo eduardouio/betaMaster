@@ -71,3 +71,24 @@ class TestCreateBankAccountAPIView(BaseTest):
         }
         response = client_guest.post(url, data=data)
         assert response.status_code == 403
+
+
+@pytest.mark.django_db
+class TestDestroyAPIView(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-delete-bank-account', kwargs={'pk': 1})
+        return url
+
+    def test_delete_bank_account(self, client_logged, url):
+        response = client_logged.delete(url)
+        assert response.status_code == 204
+
+        # comprobamos el registro en la base de datos
+        account = BankAccount.objects.filter(id_bank=1).first()
+        assert account is None
+
+    def test_not_authorized(self, client_guest, url):
+        response = client_guest.delete(url)
+        assert response.status_code == 403

@@ -16,6 +16,7 @@ from api.GenericsViews.GenericsListAPIView import (
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
 )
+from api.GenericsViews.GenericsDeleteAPIView import DeleteBankAccountAPIView
 
 from django.urls import path
 
@@ -27,10 +28,13 @@ urlpatterns = [
     path('user/<int:pk>/', UserDataAPIView.as_view(), name='api-user-data'),
     path('users-by-role/<str:role_name>/',
          ListUserByRoleAPIView.as_view(), name='api-users-by-role-list'),
+    # bancos de usuario
     path('bank-account/<int:pk>/', DetailBankAccountAPIView.as_view(),
          name='api-detail-bank-account'),
     path('bank-account/add/', CarateBanckAccountAPIView.as_view(),
          name='api-add-bank-account'),
+    path('bank-account/delete/<int:pk>/',
+         DeleteBankAccountAPIView.as_view(), name='api-delete-bank-account'),
     # cursos activos
     path('active-course/<int:pk>/',
          ActiveCourseAPIView.as_view(), name='api-active-course'),
