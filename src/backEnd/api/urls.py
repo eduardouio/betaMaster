@@ -13,6 +13,9 @@ from api.GenericsViews.GenericsListAPIView import (
     ListActiveCourseAPIView,
     ListSubscriptionAPIView
 )
+from api.GenericsViews.GenericsCreateAPIViews import (
+    CarateBanckAccountAPIView,
+)
 
 from django.urls import path
 
@@ -26,6 +29,8 @@ urlpatterns = [
          ListUserByRoleAPIView.as_view(), name='api-users-by-role-list'),
     path('bank-account/<int:pk>/', DetailBankAccountAPIView.as_view(),
          name='api-detail-bank-account'),
+    path('bank-account/add/', CarateBanckAccountAPIView.as_view(),
+         name='api-add-bank-account'),
     # cursos activos
     path('active-course/<int:pk>/',
          ActiveCourseAPIView.as_view(), name='api-active-course'),
