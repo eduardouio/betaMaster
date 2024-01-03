@@ -11,7 +11,8 @@ from api.GenericsViews.GenericsListAPIView import (
     ListStudyPlanAPIView,
     ListUserByRoleAPIView,
     ListActiveCourseAPIView,
-    ListSubscriptionAPIView
+    ListSubscriptionAPIView,
+    ListSchoolsAPIView,
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
@@ -65,4 +66,5 @@ urlpatterns = [
     path('school/add/', CreateSchoolAPIView.as_view(), name='api-add-school'),
     path('school/delete/<int:pk>/',
          DeleteSchoolAPIView.as_view(), name='api-delete-school'),
+    path('schools/', ListSchoolsAPIView.as_view(), name='api-schools-list'),
 ]

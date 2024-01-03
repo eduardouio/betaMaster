@@ -33,9 +33,8 @@ class ListSchoolsAPIView(ListAPIView):
     serializer_class = SchoolSerializer
     pagination_class = BasePagination
 
+
 # /api/active-courses/ -> api-active-courses-list
-
-
 class ListActiveCourseAPIView(ListAPIView):
     queryset = ActiveCourse.objects.all()
     serializer_class = ActiveCourseSerializer

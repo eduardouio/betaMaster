@@ -92,3 +92,22 @@ class TestDeleteSchoolAPIView(BaseTest):
         url = url.replace('1', '1000')
         response = client_logged.delete(url)
         assert response.status_code == 404
+
+
+@pytest.mark.django_db
+class TestListSchoolsAPIView(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-schools-list')
+        return url
+
+    def test_not_authorized(self, client_guest, url):
+        pass
+
+    def test_list_schools(self, url, client_logged):
+        response = client_logged.get(url)
+        assert response.status_code == 200
+        response = response.json()
+        assert response['count'] > 1
+        assert response['results']
