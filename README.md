@@ -66,4 +66,62 @@ DROP TABLE public.subscriptions_subscription CASCADE;
 
 Anotaciones de desarrollo
     Los colegios son administrados desde el admin de Django
-    
+
+
+# Documentación de la API
+
+## Endpoints de Cursos Activos
+
+- `GET /api/active-course/<int:pk>/`: Obtiene los detalles de un curso activo específico.
+- `GET /api/active-courses/`: Obtiene una lista de todos los cursos activos.
+
+## Endpoints de Cuentas Bancarias
+
+- `GET /api/bank-account/<int:pk>/`: Obtiene los detalles de una cuenta bancaria específica.
+- `POST /api/bank-account/add/`: Crea una nueva cuenta bancaria.
+- `DELETE /api/bank-account/delete/<int:pk>/`: Elimina una cuenta bancaria específica.
+- `PUT /api/bank-account/update/<int:pk>/`: Actualiza una cuenta bancaria específica.
+
+## Endpoints de Pagos de Suscripción
+
+- `POST /api/payment-subscription/add/`: Crea un nuevo pago de suscripción.
+- `PUT /api/payment-subscription/update/<int:pk>/`: Actualiza un pago de suscripción específico.
+- `GET /api/payments-subscription/<int:pk>/`: Obtiene los detalles de un pago de suscripción específico.
+
+## Endpoints de Referencias Personales
+
+- `POST /api/personal-references/add/`: Crea una nueva referencia personal.
+- `DELETE /api/personal-references/delete/<int:pk>/`: Elimina una referencia personal específica.
+- `PUT /api/personal-references/update/<int:pk>/`: Actualiza una referencia personal específica.
+
+## Endpoints de Escuelas
+
+- `GET /api/school/<int:pk>/`: Obtiene los detalles de una escuela específica.
+- `POST /api/school/add/`: Crea una nueva escuela.
+- `DELETE /api/school/delete/<int:pk>/`: Elimina una escuela específica.
+- `PUT /api/school/update/<int:pk>/`: Actualiza una escuela específica.
+- `GET /api/schools/`: Obtiene una lista de todas las escuelas.
+
+## Endpoints de Planes de Estudio
+
+- `GET /api/study-plan-detail/<int:pk>/`: Obtiene los detalles de un plan de estudio específico.
+- `GET /api/study-plan/<int:pk>/`: Obtiene los detalles de un plan de estudio específico.
+- `GET /api/study-plans/`: Obtiene una lista de todos los planes de estudio.
+
+## Endpoints de Suscripciones
+
+- `GET /api/subscription/<int:pk>/`: Obtiene los detalles de una suscripción específica.
+- `POST /api/subscription/add/`: Crea una nueva suscripción.
+- `GET /api/subscriptions/`: Obtiene una lista de todas las suscripciones.
+
+## Endpoints de Usuarios
+
+- `GET /api/user/<int:pk>/`: Obtiene los detalles de un usuario específico.
+- `POST /api/user/add/`: Crea un nuevo usuario.
+- `PUT /api/user/update-password/<int:pk>/`: Actualiza la contraseña de un usuario específico.
+- `PUT /api/user/update/<int:pk>/`: Actualiza un usuario específico.
+- `GET /api/users-by-role/<str:role_name>/`: Obtiene una lista de usuarios por rol.
+
+## Endpoints de Media
+
+- `GET /media/<path>`: Sirve archivos estáticos de media.
