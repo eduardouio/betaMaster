@@ -31,5 +31,7 @@ src/tests/images/imgs/
 bun.*
 .~lock.*
 test_db_.tar
+.pdf
+*.pdf
 .project
 venv/

@@ -55,3 +55,24 @@ class TestPersonalCreateReferences(BaseTest):
         data = {}
         response = client_guest.post(url, data)
         assert response.status_code == 403
+
+
+@pytest.mark.django_db
+class TestDeletePersonalReferences(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-delete-personal-reference', kwargs={'pk': 1})
+        return url
+
+    def test_delete_personal_references(self, url, client_logged):
+        response = client_logged.delete(url)
+        assert response.status_code == 204
+        # verificamos que se elimino
+        assert PersonalReferences.objects.filter(
+            id_reference=1
+        ).count() == 0
+
+    def test_delete_personal_references_not_authorized(self, url, client_guest):
+        response = client_guest.delete(url)
+        assert response.status_code == 403

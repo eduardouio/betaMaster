@@ -1,8 +1,12 @@
 from rest_framework.generics import DestroyAPIView
 from permissions.AppPermissionsProfile import IsNotUserAS
-from accounts.models import BankAccount
+from accounts.models import BankAccount, PersonalReferences
 from schools.models import School
-from api.serializers import BankAccountSerializer, SchoolSerializer
+from api.serializers import (
+    BankAccountSerializer,
+    SchoolSerializer,
+    PersonalReferencesSerializer
+)
 
 
 class BasedDestroyAPIView(DestroyAPIView):
@@ -30,4 +34,11 @@ class DeleteBankAccountAPIView(BasedDestroyAPIView):
 class DeleteSchoolAPIView(BasedDestroyAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
+    permission_classes = [IsNotUserAS]
+
+
+# /api/personal-references/delete/<pk:int>/ -> api-delete-personal-reference
+class DeletePersonalRefAPIView(BasedDestroyAPIView):
+    queryset = PersonalReferences.objects.all()
+    serializer_class = PersonalReferencesSerializer
     permission_classes = [IsNotUserAS]
