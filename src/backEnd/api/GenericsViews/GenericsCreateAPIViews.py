@@ -4,11 +4,13 @@ from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
     UserSerializer,
-    PersonalReferencesSerializer
+    PersonalReferencesSerializer,
+    SubscriptionSerializer
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
 from accounts.models import BankAccount, CustomUserModel, PersonalReferences
 from schools.models import School
+from subscriptions.models import Subscription
 
 
 class BaseCreateAPIView(CreateAPIView):
@@ -50,4 +52,11 @@ class CreateSchoolAPIView(BaseCreateAPIView):
 class CreatePersonalRefAPIView(BaseCreateAPIView):
     queryset = PersonalReferences.objects.all()
     serializer_class = PersonalReferencesSerializer
+    permission_classes = [IsNotUserAS]
+
+
+# /api/subscription/add/ -> api-add-subscription
+class CreateSubscriptionAPIView(BaseCreateAPIView):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
     permission_classes = [IsNotUserAS]

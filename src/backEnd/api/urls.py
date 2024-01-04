@@ -20,6 +20,7 @@ from api.GenericsViews.GenericsCreateAPIViews import (
     CreateSchoolAPIView,
     CreateUserAPIView,
     CreatePersonalRefAPIView,
+    CreateSubscriptionAPIView
 )
 from api.GenericsViews.GenericsDeleteAPIView import (
     DeleteBankAccountAPIView,
@@ -120,6 +121,11 @@ urlpatterns = [
         "subscriptions/",
         ListSubscriptionAPIView.as_view(),
         name="api-subscriptions-list",
+    ),
+    path(
+        "subscription/add/",
+        CreateSubscriptionAPIView.as_view(),
+        name="api-add-subscription",
     ),
     # pagos de suscripciones
     path(

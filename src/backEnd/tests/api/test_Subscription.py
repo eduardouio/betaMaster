@@ -1,6 +1,10 @@
 import pytest
 from tests.api.BaseTest import BaseTest
 from django.urls import reverse
+from subscriptions.models import Subscription
+from activeCourses.models import ActiveCourse
+from studyPlans.models import StudyPlan
+from schools.models import School
 
 
 @pytest.mark.django_db
@@ -42,3 +46,48 @@ class TestListSubscription(BaseTest):
         assert response['results']
         assert response['count']
         assert response['next']
+
+
+@pytest.mark.django_db
+class TestCreateSubscription(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        return reverse('api:api-add-subscription')
+
+    def test_create_subscription(self, url, client_logged):
+
+        school = School.objects.create(
+            name='test',
+            address='test',
+            phone='test',
+            id_owner=self.user,
+            email='test@ghjk.com',
+            ami_code='test',
+            state='test',
+            city='test',
+        )
+
+        active_course = ActiveCourse.objects.create(
+            id_school=school,
+            id_study_plan=StudyPlan.objects.get(pk=1),
+            id_teacher=self.user,
+        )
+
+        data = {
+            "id_user": 3,
+            "id_active_course_id": active_course.pk,
+            "id_school_id": school.pk,
+            "id_study_plan_id": 1,
+        }
+        response = client_logged.post(url, data)
+        assert response.status_code == 201
+        # verificamos que se creo el objeto
+        assert Subscription.objects.filter(
+            id_user=3
+        ).count() == 1
+
+    def test_create_subscription_not_authorized(self, url, client_guest):
+        data = {}
+        response = client_guest.post(url, data)
+        assert response.status_code == 403
