@@ -2,11 +2,14 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from permissions.AppPermissionsProfile import IsNotUserAS
-from accounts.models import BankAccount, CustomUserModel
+from accounts.models import BankAccount, CustomUserModel, PersonalReferences
+from rest_framework.parsers import MultiPartParser
+
 from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
-    UserSerializerPrivate
+    UserSerializerPrivate,
+    PersonalReferencesSerializer
 )
 from schools.models import School
 
@@ -64,3 +67,11 @@ class UpdateUserPassword(APIView):
         user.set_password(request.data['password'])
         user.save()
         return Response(data={'message': 'password actualizado'}, status=200)
+
+
+# /api/personal-references/<pk:int>/ -> api-update-personal-reference
+class UpdatePersonalRefAPIView(BasedUpdateAPIView):
+    queryset = PersonalReferences.objects.all()
+    serializer_class = PersonalReferencesSerializer
+    permission_classes = [IsNotUserAS]
+    parser_classes = [MultiPartParser]

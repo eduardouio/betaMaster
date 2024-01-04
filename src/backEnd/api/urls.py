@@ -31,6 +31,7 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdateSchoolAPIView,
     UpdateUserAPIView,
     UpdateUserPassword,
+    UpdatePersonalRefAPIView
 )
 from django.urls import path
 
@@ -43,9 +44,20 @@ urlpatterns = [
         UpdateUserPassword.as_view(),
         name="api-update-user-password",
     ),
-    path("user/update/<int:pk>/", UpdateUserAPIView.as_view(), name="api-update-user"),
-    path("user/add/", CreateUserAPIView.as_view(), name="api-add-user"),
-    path("user/<int:pk>/", UserDataAPIView.as_view(), name="api-user-data"),
+    path("user/update/<int:pk>/",
+         UpdateUserAPIView.as_view(),
+         name="api-update-user"
+         ),
+    path(
+        "user/add/",
+        CreateUserAPIView.as_view(),
+        name="api-add-user"
+    ),
+    path(
+        "user/<int:pk>/",
+        UserDataAPIView.as_view(),
+        name="api-user-data"
+    ),
     path(
         "users-by-role/<str:role_name>/",
         ListUserByRoleAPIView.as_view(),
@@ -84,9 +96,14 @@ urlpatterns = [
         name="api-active-courses-list",
     ),
     # planes de estudio
-    path("study-plans/", ListStudyPlanAPIView.as_view(), name="api-list-study-plans"),
     path(
-        "study-plan/<int:pk>/", DetailStudyPlanAPIView.as_view(), name="api-study-plan"
+        "study-plans/",
+        ListStudyPlanAPIView.as_view(),
+        name="api-list-study-plans"),
+    path(
+        "study-plan/<int:pk>/",
+        DetailStudyPlanAPIView.as_view(),
+        name="api-study-plan"
     ),
     path(
         "study-plan-detail/<int:pk>/",
@@ -95,7 +112,9 @@ urlpatterns = [
     ),
     # suscripciones
     path(
-        "subscription/<int:pk>/", SubscriptionAPIView.as_view(), name="api-subscription"
+        "subscription/<int:pk>/",
+        SubscriptionAPIView.as_view(),
+        name="api-subscription"
     ),
     path(
         "subscriptions/",
@@ -109,14 +128,26 @@ urlpatterns = [
         name="api-payments-subscription",
     ),
     # colegios
-    path("school/<int:pk>/", SchoolAPIView.as_view(), name="api-school-detail"),
-    path("school/add/", CreateSchoolAPIView.as_view(), name="api-add-school"),
+    path(
+        "school/<int:pk>/",
+        SchoolAPIView.as_view(),
+        name="api-school-detail"
+    ),
+    path(
+        "school/add/",
+        CreateSchoolAPIView.as_view(),
+        name="api-add-school"
+    ),
     path(
         "school/delete/<int:pk>/",
         DeleteSchoolAPIView.as_view(),
         name="api-delete-school",
     ),
-    path("schools/", ListSchoolsAPIView.as_view(), name="api-schools-list"),
+    path(
+        "schools/",
+        ListSchoolsAPIView.as_view(),
+        name="api-schools-list"
+    ),
     path(
         "school/update/<int:pk>/",
         UpdateSchoolAPIView.as_view(),
@@ -129,8 +160,13 @@ urlpatterns = [
         name="api-add-personal-reference",
     ),
     path(
-		"personal-references/delete/<int:pk>/",
-		DeletePersonalRefAPIView.as_view(),
-		name="api-delete-personal-reference",
-	),
+        "personal-references/delete/<int:pk>/",
+        DeletePersonalRefAPIView.as_view(),
+        name="api-delete-personal-reference",
+    ),
+    path(
+        "personal-references/update/<int:pk>/",
+        UpdatePersonalRefAPIView.as_view(),
+        name="api-update-personal-reference",
+    ),
 ]

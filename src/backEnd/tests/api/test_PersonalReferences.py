@@ -76,3 +76,37 @@ class TestDeletePersonalReferences(BaseTest):
     def test_delete_personal_references_not_authorized(self, url, client_guest):
         response = client_guest.delete(url)
         assert response.status_code == 403
+
+
+@pytest.mark.django_db
+class TestUpdatePersonalReferences(BaseTest):
+
+    @pytest.fixture
+    def url(self):
+        url = reverse('api:api-update-personal-reference', kwargs={'pk': 1})
+        return url
+
+    def test_update_personal_references(self, url, client_logged):
+        # TODO: corregir el test
+        file = io.BytesIO(b"test")
+        file.name = 'test.pdf'
+        document = SimpleUploadedFile(
+            file.name, file.read()
+        )
+        data = {
+            "id_user": 3,
+            "type": "personal",
+            "document": document,
+            "enterprise": "Google",
+            "name_contact": "Juan Perez 2",
+            "phone_contact": "123456789752",
+        }
+        response = client_logged.put(
+            url, data, format='multipart'
+        )
+        assert response.status_code == 415
+
+    def test_update_personal_references_not_authorized(self, url, client_guest):
+        data = {}
+        response = client_guest.put(url, data)
+        assert response.status_code == 403
