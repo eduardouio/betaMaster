@@ -33,7 +33,8 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdateSchoolAPIView,
     UpdateUserAPIView,
     UpdateUserPassword,
-    UpdatePersonalRefAPIView
+    UpdatePersonalRefAPIView,
+    UpdatePaymentAPIView
 )
 from django.urls import path
 
@@ -138,6 +139,11 @@ urlpatterns = [
         "payment-subscription/add/",
         CreatePaymentAPIView.as_view(),
         name="api-add-payment",
+    ),
+    path(
+        "payment-subscription/update/<int:pk>/",
+        UpdatePaymentAPIView.as_view(),
+        name="api-update-payment",
     ),
     # colegios
     path(

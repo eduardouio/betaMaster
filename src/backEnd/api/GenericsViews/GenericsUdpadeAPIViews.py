@@ -9,9 +9,11 @@ from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
     UserSerializerPrivate,
-    PersonalReferencesSerializer
+    PersonalReferencesSerializer,
+    PaymentSerializer
 )
 from schools.models import School
+from subscriptions.models import Payment
 
 
 class BasedUpdateAPIView(RetrieveUpdateAPIView):
@@ -75,3 +77,10 @@ class UpdatePersonalRefAPIView(BasedUpdateAPIView):
     serializer_class = PersonalReferencesSerializer
     permission_classes = [IsNotUserAS]
     parser_classes = [MultiPartParser]
+
+
+# /api/payment/<pk:int>/ -> api-update-payment
+class UpdatePaymentAPIView(BasedUpdateAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+    permission_classes = [IsNotUserAS]
