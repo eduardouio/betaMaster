@@ -43,7 +43,9 @@ class PersonalReferences(BaseModel):
     )
     phone_contact = models.CharField(
         'Teléfono de Contacto',
-        max_length=40
+        max_length=40,
+        blank=True,
+        null=True,
     )
     email_contact = models.CharField(
         'Correo de Contacto',
@@ -60,9 +62,13 @@ class PersonalReferences(BaseModel):
     )
     verification_date = models.DateTimeField(
         'Fecha de Verificación',
+        blank=True,
+        null=True,
         default=None,
     )
     verification_by = models.PositiveIntegerField(
         'Verificado por',
+        blank=True,
+        null=True,
         default=None,
     )

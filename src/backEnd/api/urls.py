@@ -18,7 +18,8 @@ from api.GenericsViews.GenericsListAPIView import (
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
     CreateSchoolAPIView,
-    CreateUserAPIView
+    CreateUserAPIView,
+    CreatePersonalRefAPIView
 )
 from api.GenericsViews.GenericsDeleteAPIView import (
     DeleteBankAccountAPIView,
@@ -81,4 +82,7 @@ urlpatterns = [
     path('schools/', ListSchoolsAPIView.as_view(), name='api-schools-list'),
     path('school/update/<int:pk>/',
          UpdateSchoolAPIView.as_view(), name='api-update-school'),
+    # referencias personales
+    path('personal-references/add/',
+         CreatePersonalRefAPIView.as_view(), name='api-add-personal-reference'),
 ]

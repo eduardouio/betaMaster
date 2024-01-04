@@ -4,9 +4,10 @@ from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
     UserSerializer,
+    PersonalReferencesSerializer
 )
 from permissions.AppPermissionsProfile import IsNotUserAS
-from accounts.models import BankAccount, CustomUserModel
+from accounts.models import BankAccount, CustomUserModel, PersonalReferences
 from schools.models import School
 
 
@@ -42,4 +43,11 @@ class CarateBanckAccountAPIView(BaseCreateAPIView):
 class CreateSchoolAPIView(BaseCreateAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
+    permission_classes = [IsNotUserAS]
+
+
+# /api/personal-references/add/ -> api-add-personal-reference
+class CreatePersonalRefAPIView(BaseCreateAPIView):
+    queryset = PersonalReferences.objects.all()
+    serializer_class = PersonalReferencesSerializer
     permission_classes = [IsNotUserAS]
