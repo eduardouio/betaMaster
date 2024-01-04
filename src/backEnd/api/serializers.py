@@ -146,17 +146,5 @@ class SubscriptionSerializerComplete(serializers.ModelSerializer):
 
 class PaymentSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subscription
+        model = Payment
         fields = '__all__'
-
-    def to_representation(self, obj):
-        # sobreescribimos el usuario
-        data = super().to_representation(obj)
-        student = UserSerializerPublic(obj.id_user).data
-        data['id_user'] = student
-
-        # incluimos pagos
-        payments = Payment.objects.filter(id_subscription=obj)
-        data['payments'] = PaymentSerializer(payments, many=True).data
-
-        return data

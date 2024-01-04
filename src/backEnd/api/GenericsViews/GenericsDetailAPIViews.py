@@ -15,7 +15,7 @@ from accounts.models import CustomUserModel as UserModel
 from accounts.models import BankAccount
 from studyPlans.models import StudyPlan, StudyPlanDetail
 from activeCourses.models import ActiveCourse
-from subscriptions.models import Subscription
+from subscriptions.models import Subscription, Payment
 from schools.models import School
 
 
@@ -77,7 +77,7 @@ class SubscriptionAPIView(BaseRetrieveAPIView):
 
 # /api/payments-subscription/<int:pk>/ -> api-payments-subscription
 class PaymentAPIView(BaseRetrieveAPIView):
-    queryset = Subscription.objects.all()
+    queryset = Payment.objects.all()
     serializer_class = PaymentSubscriptionSerializer
     permission_classes = [IsNotUserAS]
 
