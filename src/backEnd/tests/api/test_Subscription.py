@@ -67,18 +67,18 @@ class TestCreateSubscription(BaseTest):
             state='test',
             city='test',
         )
-
         active_course = ActiveCourse.objects.create(
+            student=self.user,
             id_school=school,
             id_study_plan=StudyPlan.objects.get(pk=1),
-            id_teacher=self.user,
         )
-
         data = {
-            "id_user": 3,
-            "id_active_course_id": active_course.pk,
-            "id_school_id": school.pk,
-            "id_study_plan_id": 1,
+            "id_user": 1,
+            "id_active_course": active_course.pk,
+            "date_start": "2022-01-01T00:00:00Z",
+            "date_end": "2022-12-31T23:59:59Z",
+            "type_subscription": "OTHER",
+            "cost": 100.0
         }
         response = client_logged.post(url, data)
         assert response.status_code == 201

@@ -1,8 +1,8 @@
 from api.serializers import (
     StudyPlanSerializer,
     UserSerializerPrivate,
-    ActiveCourseSerializer,
-    SubscriptionSerializer,
+    ActiveCourseSerializerComplete,
+    SubscriptionSerializerComplete,
     SchoolSerializer,
 )
 
@@ -23,7 +23,7 @@ class BasePagination(PageNumberPagination):
 # /api/subscriptions/<int:pk>/ -> api-subscriptions-list
 class ListSubscriptionAPIView(ListAPIView):
     queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
+    serializer_class = SubscriptionSerializerComplete
     pagination_class = BasePagination
 
 
@@ -37,7 +37,7 @@ class ListSchoolsAPIView(ListAPIView):
 # /api/active-courses/ -> api-active-courses-list
 class ListActiveCourseAPIView(ListAPIView):
     queryset = ActiveCourse.objects.all()
-    serializer_class = ActiveCourseSerializer
+    serializer_class = ActiveCourseSerializerComplete
     pagination_class = BasePagination
 
 

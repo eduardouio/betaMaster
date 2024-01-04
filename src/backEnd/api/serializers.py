@@ -64,6 +64,12 @@ class ActiveCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActiveCourse
         fields = '__all__'
+
+
+class ActiveCourseSerializerComplete(serializers.ModelSerializer):
+    class Meta:
+        model = ActiveCourse
+        fields = '__all__'
         depth = 1
 
     def to_representation(self, obj):
@@ -114,6 +120,12 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = '__all__'
+
+
+class SubscriptionSerializerComplete(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'

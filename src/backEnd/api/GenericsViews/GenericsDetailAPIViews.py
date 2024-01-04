@@ -2,8 +2,8 @@ from api.serializers import (
     StudyPlanSerializer,
     UserSerializerPrivate,
     studyPlanDetailSerializer,
-    ActiveCourseSerializer,
-    SubscriptionSerializer,
+    ActiveCourseSerializerComplete,
+    SubscriptionSerializerComplete,
     PaymentSubscriptionSerializer,
     BankAccountSerializer,
     SchoolSerializer
@@ -64,14 +64,14 @@ class UserDataAPIView(BaseRetrieveAPIView):
 # /api/active-courses/<int:pk>/ -> api-active-course
 class ActiveCourseAPIView(BaseRetrieveAPIView):
     queryset = ActiveCourse.objects.all()
-    serializer_class = ActiveCourseSerializer
+    serializer_class = ActiveCourseSerializerComplete
     permission_classes = [IsNotUserAS]
 
 
 # /api/subscription/<int:pk>/ -> api-subscription
 class SubscriptionAPIView(BaseRetrieveAPIView):
     queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
+    serializer_class = SubscriptionSerializerComplete
     permission_classes = [IsNotUserAS]
 
 
