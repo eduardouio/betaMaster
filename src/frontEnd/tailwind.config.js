@@ -29,6 +29,9 @@ module.exports = {
         'secondary': '#00f0f0',
         'tertiary': '#ffed4a',
       },
+      backgroundImage:{
+        'bg-login': "url('https://www.mujer.com.pa/sites/default/files/field/image/escuela-en-casa-home-school-ventajas-desventajas.jpg')",
+      },
       textColor: {
         'primary': '#3490dc',
         'secondary': '#ffed4a',

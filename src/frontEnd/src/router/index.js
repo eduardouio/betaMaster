@@ -7,6 +7,7 @@ import SchoolsList from '../components/dashboard/sections/SchoolsList.vue';
 import StudentsList from '../components/dashboard/sections/StudentsList.vue';
 import TeacherProfile from '../components/dashboard/sections/TeacherProfile.vue';
 import TeacherProfileForm from '../components/dashboard/sections/TeacherProfileForm.vue';
+import LoginView from '../views/LoginView.vue';
 
 
 const router = createRouter({
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
     },
     {
       path: '/register',

@@ -1,27 +1,27 @@
 <template>
     <div>
     <!-- component -->
-    <div class="    ">
+    <div class="">
         <!-- Container -->
-        <div class="container mx-auto mt-8">
-            <h3 class="pt-4 text-3xl text-center text-slate-800">Registro de Usuario</h3>
+        <div class="container mx-auto mt-4">
+            <h5 class="p-1 text-center text-cyan-900 bg-gradient-to-r from-gray-100  to-slate-100 border">REGISTRO DE USUARIO</h5>
             <div class="flex justify-center px-6 my-6">
                 <!-- Row -->
-                <div class="w-full xl:w-4/4 lg:w-12/12 flex">
+                <div class="w-full flex flex-col md:flex-row rounded-l-lg xl:w-4/4 lg:w-12/12">
                     <!-- Col -->
-                    <div class="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-                        style="background-image: url('https://www.telemundo.com/sites/nbcutelemundo/files/images/promo/article/2017/05/18/estudiantes-latinos-graduados.jpg')">
+                    <div class="w-full h-auto bg-gray-400 lg:block lg:w-5/12 rounded-l-lg sm:rounded-r-lg">
+                        <img src="../assets/form-registro.jpg" class="object-cover w-full h-full rounded-l-lg sm:rounded-r-lg" alt="">
                     </div>
                     <!-- Col -->
-                    <div class="w-full lg:w-7/12 bg-white p-4 rounded-lg lg:rounded-l-none">
-                        <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
+                    <div class="w-full lg:w-7/12 bg-white rounded-lg lg:rounded-l-none">
+                        <form class="px-8 pt-6 pb-8 mb-4 rounded">
                             <div class="mb-4 flex flex-col lg:flex-row xl:flex-row">
                                 <div class="mb-4 flex-1 md:mr-2 md:mb-0">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="firstName">
                                         Nombres:
                                     </label>
                                     <input
-                                        class="input w-full max-w-xs x-input"
+                                        class="my-input w-full max-w-xs x-input"
                                         id="firstName" type="text" placeholder="Nombres" />
                                 </div>
                                 <div class="mb-4 flex-1 md:ml-2 md:mb-0">
@@ -29,7 +29,7 @@
                                         Apellidos
                                     </label>
                                     <input
-                                        class="input w-full max-w-xs x-input"
+                                        class="my-input w-full max-w-xs x-input"
                                         id="firstName" type="text" placeholder="Nombres" />
                                 </div>
                             </div>
@@ -39,17 +39,18 @@
                                     Email
                                 </label>
                                 <input
-                                    class="input w-full max-w-xs x-input"
+                                    class="my-input w-full max-w-xs x-input"
                                     id="email" type="email" placeholder="Email" />
                                 </div>
                                 <div class="mb-4 flex-1 md:mr-2 md:mb-0">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="email">
                                     Soy
                                 </label>
-                                <select class="select w-full max-w-xs selected px-3  mb-3 x-input">
+                                <select class="select w-full max-w-xs selected px-3  mb-3 x-input" name="rol">
                                 <option disabled selected>Quiero registrarme como...</option>
-                                    <option>Profesor</option>
-                                    <option>Estudiante</option>
+                                    <option value="teacher">Profesor</option>
+                                    <option value="student">Estudiante</option>
+                                    <option value="school">Colegio</option>
                                 </select>
                             </div>                                
                             </div>                                

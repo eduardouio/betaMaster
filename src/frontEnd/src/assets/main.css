@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .menu-item {
-  @apply rounded-md hover:rounded-xl duration-500 hover:scale-105 hover:shadow-lg hover:ring-1 hover:ring-blue-500 hover:bg-gradient-to-tr hover:from-blue-500 hover:to-blue-400 hover:text-white
+  @apply rounded-md hover:rounded-xl
 }
 
 .menu-item-active {
-  @apply rounded-xl shadow-lg ring-1 ring-blue-500 bg-gradient-to-tr from-blue-500 to-blue-400 text-white
+  @apply text-blue-500
 }
 
 
@@ -22,4 +22,8 @@
   .header-right {
       width: calc(100% - 16rem);
   }        
+}
+
+.my-input{
+  @apply border rounded-lg px-3 py-2 mt-1 mb-5 text-sm
 }

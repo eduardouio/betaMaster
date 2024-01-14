@@ -1,13 +1,20 @@
 <script setup>
     import { ref } from 'vue';
-    import { UserGroupIcon, AcademicCapIcon, BuildingLibraryIcon, 
-            HomeModernIcon, UserPlusIcon  } from '@heroicons/vue/24/outline';
+    import {
+        UserGroupIcon,
+        AcademicCapIcon,
+        BuildingLibraryIcon,
+        HomeModernIcon,
+        UserPlusIcon,
+        UserIcon
+    } from '@heroicons/vue/24/outline';
     import { RouterLink } from 'vue-router';
     
     // props
     const props = defineProps(['itemSelected']);
     </script>
 <template>
+    <header>    
     <nav class="navbar bg-sky-100 text-xl drop-shadow-md bg-gradient-to-r from-gray-50 to-zinc-100">
         <!-- Menu movil -->
         <div class="navbar-start">
@@ -52,12 +59,12 @@
                 </li>
             </ul>
         </div>
-        <a class="text-md menu-item p-2">HomeScholing Ecuador</a>
+        <a class="text-md menu-item p-2 text-pink-800">Home Academy</a>
     </div>
         <!-- /Menu movil -->
         <!-- Menu escritorio -->
-        <div class="navbar-center hidden lg:flex gap-2">
-                <ul class="menu menu-horizontal px-1 text-md hidden lg:flex gap-4">
+        <div class="navbar-center hidden lg:flex gap-1">
+                <ul class="menu menu-horizontal px-10 text-md hidden lg:flex">
                     <li class="menu-item" :class="{ 'menu-item-active': itemSelected === 'home' }">
                         <RouterLink to="/">
                             <HomeModernIcon class="w-6 h-6" />
@@ -96,13 +103,19 @@
                             </ul>
                         </details>
                     </li>
+                    <li>
+                        <RouterLink to="/login" class="menu-item text-blue-800">
+                            <UserIcon class="w-4 h-4" /> Login
+                        </RouterLink>
+                    </li>
                     <li :class="{ 'menu-item-active': itemSelected === 'oferta-tecnica' }">
-                        <RouterLink to="/register" class="menu-item text-amber-800 text-xl">
-                            <UserPlusIcon class="w-6 h-6 text-yellow-400" /> Regístrate
+                        <RouterLink to="/register" class="menu-item text-red-800">
+                            <UserPlusIcon class="w-6 h-6" /> Regístrate
                         </RouterLink>
                     </li>
                 </ul>
         </div>
         <!-- /Menu escritorio -->
     </nav>
+</header>
 </template>

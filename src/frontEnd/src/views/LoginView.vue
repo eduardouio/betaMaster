@@ -1,34 +1,39 @@
+<script setup>
+import { RouterLink } from "vue-router";
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline";
 
-<div class="w-full h-screen font-sans bg-cover bg-landscape">
-    <div class="container flex items-center justify-center flex-1 h-full mx-auto">
-        <div class="w-full max-w-lg">
-            <div class="leading-loose">
-                <form class="max-w-sm p-10 m-auto rounded shadow-xl bg-white/25">
-                    <p class="mb-8 text-2xl font-light text-center text-white">
-                        Login
-                    </p>
-                    <div class="mb-2">
-                        <div class=" relative ">
-                            <input type="text" id="login-with-bg-email" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="email"/>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <div class=" relative ">
-                                <input type="text" id="login-with-bg-password" class=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="password"/>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between mt-4">
-                                <button type="submit" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                                    Validate
-                                </button>
-                            </div>
-                            <div class="text-center">
-                                <a class="right-0 inline-block text-sm font-light align-baseline text-500 hover:text-gray-800">
-                                    Create an account
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+</script>
+<template>
+<div class="min-h-screen flex flex-col justify-center sm:py-12">
+  <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md card glass">
+    <figure><img src="../assets/logo.jpeg" alt="car!"/></figure>
+    <div class="border-blue-50">
+      <div class="px-5 py-7">
+        <label class="font-semibold text-sm text-gray-600 pb-1 block">Su Correo</label>
+        <input type="text" class="my-input w-full" placeholder="direccion@dominio.com"/>
+        <label class="font-semibold text-sm text-gray-600 pb-1 block">Su Contraseña</label>
+        <input type="password" class="my-input w-full" placeholder="*****"/>
+        <button type="button" class="btn btn-primary btn-block">
+            <span class="text-white">Iniciar Sesión</span>
+        </button>
+      </div>
+      <div class="py-5">
+        <div class="grid grid-cols-2 gap-1">
+          <div class="text-center sm:text-left whitespace-nowrap">
+            <button class="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset border border-cyan-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block align-text-top">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                </svg>
+                <span class="inline-block ml-1">Recuperar Contraseña</span>
+            </button>
+            <RouterLink to="/" class="text-cyan-700">
+                <ArrowLeftIcon class="w-4 h-4 inline-block align-text-top" />
+                        Regresar
+            </RouterLink>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
