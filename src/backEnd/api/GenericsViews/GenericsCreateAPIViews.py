@@ -1,5 +1,5 @@
 from rest_framework.generics import CreateAPIView
-
+from rest_framework.permissions import AllowAny
 from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
@@ -32,6 +32,7 @@ class BaseCreateAPIView(CreateAPIView):
 class CreateUserAPIView(CreateAPIView):
     queryset = CustomUserModel.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
 
 # /api/bank-account/add/ -> api-add-bank-account
