@@ -29,10 +29,9 @@ class BaseCreateAPIView(CreateAPIView):
 
 
 # /api/user/add/ -> api-add-user
-class CreateUserAPIView(BaseCreateAPIView):
+class CreateUserAPIView(CreateAPIView):
     queryset = CustomUserModel.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsNotUserAS]
 
 
 # /api/bank-account/add/ -> api-add-bank-account
