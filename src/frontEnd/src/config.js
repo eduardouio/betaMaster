@@ -1,22 +1,24 @@
-// Archivo de incialización de variables globales
-//const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+// archivos  de configuracion del frontEnd
+
 const csrfToken = 'kjhgfdertyukmnbv';
 const baseUrl = 'http://localhost:8000';
+//usuario profesor
+const idUser = 297;
 
 const serverConfigData = {
-    'base_url': baseUrl,
-    'api_url': '/api',
-    'login_url': '/login/',
-    'logout_url': '/logout/',
-    'register_url': '/register/',
-    'user_url': '/user/',
     'csrfToken': csrfToken,
+    'IdUser': idUser,
     'headers':{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'X-CSRFToken': csrfToken
     },
     'urls': {
+        // base
+        baseUrl : baseUrl,
+        // auth
+        login : baseUrl + '/login/', // POST
+        logout : baseUrl + '/logout/', // GET
         // usuarios
         registerUser : baseUrl + '/api/user/add/', // POST
         loginUser : baseUrl + '/login/', // POST
@@ -56,7 +58,7 @@ const serverConfigData = {
         getSubscription : baseUrl + '/api/subscription/{idSubscription}/', // GET
         getSubscriptions : baseUrl + '/api/subscriptions/', // GET
 
-    },
+    }
 }
 
 export default serverConfigData;
