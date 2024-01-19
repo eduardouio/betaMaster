@@ -7,7 +7,7 @@ const idUser = 297;
 
 const serverConfigData = {
     'csrfToken': csrfToken,
-    'IdUser': idUser,
+    'idUser': idUser,
     'headers':{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
