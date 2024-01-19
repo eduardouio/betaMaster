@@ -1,7 +1,6 @@
 <script setup>
-import { onMounted } from 'vue';
 import NavBar from '../components/NavBar.vue';
-import { ref, shallowReactive, TransitionGroup } from 'vue';
+import { ref } from 'vue';
 import { UserPlusIcon } from '@heroicons/vue/24/outline';
 import serverConfigData from '../config.js';
 import WarningMessage from '../components/generics/WarningMessage.vue';
