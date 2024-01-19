@@ -58,14 +58,17 @@ class CustomUserModelAdmin(UserAdmin):
         'is_active',
         'is_aproved',
         'is_confirmed_mail',
+        'date_joined',
     )
 
     list_filter = (
         'role',
         'is_active',
+        'is_aproved',
+        'is_confirmed_mail', 
     )
 
-    ordering = ('email',)
+    ordering = ('-date_joined',)
 
 
 @admin.register(PersonalReferences)
