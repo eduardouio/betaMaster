@@ -154,6 +154,34 @@ class CustomUserModel(AbstractUser):
         auto_now_add=True,
         help_text='Fecha de aprobación del usuario.'
     )
+    url_instagram = models.URLField(
+        'url instagram',
+        blank=True,
+        null=True,
+        default=None,
+        help_text='Url de facebook del usuario.'
+    )
+    url_facebook = models.URLField(
+        'url facebook',
+        blank=True,
+        null=True,
+        default=None,
+        help_text='Url de facebook del usuario.'
+    )
+    url_twiter = models.URLField(
+        'url twiter',
+        blank=True,
+        null=True,
+        default=None,
+        help_text='Url de facebook del usuario.'
+    )
+    url_linkedin = models.URLField(
+        'url linkedin',
+        blank=True,
+        null=True,
+        default=None,
+        help_text='Url de facebook del usuario.'
+    )
     notes = models.TextField(
         'notas',
         blank=True

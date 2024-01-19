@@ -17,7 +17,7 @@ class CustomUserModelAdmin(UserAdmin):
         ('Basico', {
             'fields': (
                 'email', 'role', 'password', 'is_active', 'is_aproved',
-                'is_confirmed_mail'
+                'is_confirmed_mail', 'picture'
             )
         }
         ),
@@ -35,7 +35,12 @@ class CustomUserModelAdmin(UserAdmin):
             )
         }
         ),
-        ('Otros', {'fields': ('last_login', 'date_joined')}),
+        ('Otros', {
+            'fields': (
+                'url_facebook', 'url_twiter', 'url_linkedin',
+                'last_login', 'date_joined'
+                )
+        }),
     )
 
     add_fieldsets = (
