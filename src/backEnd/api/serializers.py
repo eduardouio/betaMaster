@@ -7,6 +7,32 @@ from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription, Payment
 
 
+class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUserModel
+        exclude = ['password']
+
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        references = PersonalReferences.objects.filter(id_user=obj)
+        data['references'] = PersonalReferencesSerializer(
+            references, many=True).data
+        accounts = BankAccount.objects.filter(id_user=obj)
+        data['accounts'] = BankAccountSerializer(accounts, many=True).data
+        active_courses = ActiveCourse.objects.filter(teacher=obj)
+        data['active_courses'] = ActiveCourseSerializer(
+            active_courses, many=True).data
+        return data
+
+
+class CompleteDataForStudentSerializer(serializers.ModelSerializer):
+    pass
+
+
+class CompleteDataForSchool(serializers.ModelSerializer):
+    pass
+
+
 class UserSerializerPublic(serializers.ModelSerializer):
     class Meta:
         model = CustomUserModel

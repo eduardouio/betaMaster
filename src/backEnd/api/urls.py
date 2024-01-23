@@ -36,6 +36,11 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdatePersonalRefAPIView,
     UpdatePaymentAPIView
 )
+
+from api.GenericsViews import CompleteDataTeacher
+
+from api.generics import ActiveCoursesByUser
+
 from django.urls import path
 
 app_name = "api"
@@ -65,6 +70,11 @@ urlpatterns = [
         "users-by-role/<str:role_name>/",
         ListUserByRoleAPIView.as_view(),
         name="api-users-by-role-list",
+    ),
+    path(
+        "complete-data-teacher/<int:pk>/",
+        CompleteDataTeacher.as_view(),
+        name="api-complete-data-teacher",
     ),
     # bancos de usuario
     path(

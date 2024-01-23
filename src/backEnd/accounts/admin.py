@@ -38,11 +38,10 @@ class CustomUserModelAdmin(UserAdmin):
         ('Otros', {
             'fields': (
                 'url_facebook', 'url_twiter', 'url_linkedin',
-                'last_login', 'date_joined'
+                'url_instagram','last_login', 'date_joined'
                 )
         }),
     )
-
     add_fieldsets = (
         ('Básico', {
             'classes': ('wide',),

@@ -1,5 +1,7 @@
 <script setup>
-import { AcademicCapIcon, BuildingLibraryIcon, HomeIcon, UserIcon } from '@heroicons/vue/24/outline';
+import 
+    { AcademicCapIcon, BuildingLibraryIcon, HomeIcon, UserIcon } 
+from '@heroicons/vue/24/outline';
 import { RouterLink } from 'vue-router';
 </script>
 <template>

@@ -16,6 +16,8 @@ const serverConfigData = {
     'urls': {
         // base
         baseUrl : baseUrl,
+        // media
+        url_media : baseUrl + '/media/',
         // auth
         login : baseUrl + '/login/', // POST
         logout : baseUrl + '/logout/', // GET

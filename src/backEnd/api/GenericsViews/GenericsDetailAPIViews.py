@@ -34,56 +34,64 @@ class BaseRetrieveAPIView(RetrieveAPIView):
 
 
 # /api/bank-account/<int:pk>/ -> api-detail-bank-account
+# class DetailBankAccountAPIView(BaseRetrieveAPIView):
 class DetailBankAccountAPIView(BaseRetrieveAPIView):
     queryset = BankAccount.objects.all()
     serializer_class = BankAccountSerializer
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/study-plans/<int:pk>/ -> api-study-plan
-class DetailStudyPlanAPIView(BaseRetrieveAPIView):
+# class DetailStudyPlanAPIView(BaseRetrieveAPIView):
+class DetailStudyPlanAPIView(RetrieveAPIView):
     queryset = StudyPlan.objects.all()
     serializer_class = StudyPlanSerializer
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/study-plan-detail/<int:p>/ -> api-detail-study-plan
-class DetailStudyPlanDetailAPIView(BaseRetrieveAPIView):
+# class DetailStudyPlanDetailAPIView(BaseRetrieveAPIView):
+class DetailStudyPlanDetailAPIView(RetrieveAPIView):
     queryset = StudyPlanDetail.objects.all()
     serializer_class = studyPlanDetailSerializer
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/user/<int:pk>/ -> api-user-data
-class UserDataAPIView(BaseRetrieveAPIView):
+# class UserDataAPIView(BaseRetrieveAPIView):
+class UserDataAPIView(RetrieveAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPrivate
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/active-courses/<int:pk>/ -> api-active-course
-class ActiveCourseAPIView(BaseRetrieveAPIView):
+# class ActiveCourseAPIView(BaseRetrieveAPIView):
+class ActiveCourseAPIView(RetrieveAPIView):
     queryset = ActiveCourse.objects.all()
     serializer_class = ActiveCourseSerializerComplete
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/subscription/<int:pk>/ -> api-subscription
-class SubscriptionAPIView(BaseRetrieveAPIView):
+# class SubscriptionAPIView(BaseRetrieveAPIView):
+class SubscriptionAPIView(RetrieveAPIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializerComplete
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/payments-subscription/<int:pk>/ -> api-payments-subscription
-class PaymentAPIView(BaseRetrieveAPIView):
+# class PaymentAPIView(BaseRetrieveAPIView):
+class PaymentAPIView(RetrieveAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSubscriptionSerializer
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
 
 
 # /api/school/<int:pk>/ -> api-school-detail
-class SchoolAPIView(BaseRetrieveAPIView):
+# class SchoolAPIView(BaseRetrieveAPIView):
+class SchoolAPIView(RetrieveAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
-    permission_classes = [IsNotUserAS]
+    #permission_classes = [IsNotUserAS]
