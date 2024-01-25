@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import {useStore} from 'vuex';
-import { CheckBadgeIcon, CogIcon, NewspaperIcon} from '@heroicons/vue/24/outline';
+import { useStore } from 'vuex';
+import { CheckBadgeIcon, CogIcon, NewspaperIcon } from '@heroicons/vue/24/outline';
 import serverConfigData from '../../../config.js';
 
 import SocialIcon from '../../generics/SocialIcon.vue';
@@ -14,18 +14,18 @@ let roleUser = {
     school: 'Institución Educativa',
 };
 
-const formatDate = ((my_date) => {    
-    if (!my_date){
+const formatDate = ((my_date) => {
+    if (!my_date) {
         return '';
     }
     let date = new Date(my_date);
     return date.toLocaleDateString(
-        'es-EC', {year: 'numeric', month: 'long', day: 'numeric'}
-        );
+        'es-EC', { year: 'numeric', month: 'long', day: 'numeric' }
+    );
 });
 
-const timeLapsed = ((my_date, years=true) => {
-    if (!my_date){
+const timeLapsed = ((my_date, years = true) => {
+    if (!my_date) {
         return '';
     }
     let date = new Date(my_date);
@@ -35,7 +35,7 @@ const timeLapsed = ((my_date, years=true) => {
     if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
         age--;
     }
-    if (years){
+    if (years) {
         return `${age} Años`
     }
     let lapsed = Math.abs(age * 12 + m);
@@ -73,11 +73,14 @@ const timeLapsed = ((my_date, years=true) => {
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-2/5">F Nacimiento:</span>
-                            <span class="text-gray-700">{{ formatDate(userData.date_of_birth) }}  <small class="text-slate-600">({{timeLapsed(userData.date_of_birth)}})</small></span>
+                            <span class="text-gray-700">{{ formatDate(userData.date_of_birth) }} <small
+                                    class="text-slate-600">({{ timeLapsed(userData.date_of_birth) }})</small></span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-2/5">Joined:</span>
-                            <span class="text-gray-700">{{ formatDate(userData.date_joined) }}<small class="text-slate-600">({{timeLapsed(userData.date_joined, years=false)}})</small></span>
+                            <span class="text-gray-700">{{ formatDate(userData.date_joined) }}<small
+                                    class="text-slate-600">({{ timeLapsed(userData.date_joined,
+                                        years = false) }})</small></span>
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-2/5">Celular:</span>
@@ -89,24 +92,27 @@ const timeLapsed = ((my_date, years=true) => {
                         </li>
                         <li class="flex border-b py-2">
                             <span class="font-bold w-2/5">Ubicación:</span>
-                            <span class="text-gray-700">{{ userData.state }}, {{ userData.city }} <br> {{ userData.address }}</span>
+                            <span class="text-gray-700">{{ userData.state }}, {{ userData.city }} <br> {{ userData.address
+                            }}</span>
                         </li>
                         <li class="flex items-center border-b py-2 space-x-2">
                             <span class="font-bold w-2/5">Mis Redes:</span>
-                            <SocialIcon :url="userData.url_facebook" :icon="'facebook'"/>
-                            <SocialIcon :url="userData.url_linkedin" :icon="'linkedin'"/>
-                            <SocialIcon :url="userData.url_instagram" :icon="'instagram'"/>
-                            <SocialIcon :url="userData.url_twiter" :icon="'twitter'"/>
+                            <SocialIcon :url="userData.url_facebook" :icon="'facebook'" />
+                            <SocialIcon :url="userData.url_linkedin" :icon="'linkedin'" />
+                            <SocialIcon :url="userData.url_instagram" :icon="'instagram'" />
+                            <SocialIcon :url="userData.url_twiter" :icon="'twitter'" />
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="flex flex-col w-full 2xl:w-2/3">
+ 
+
                 <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
                     <h4 class="text-xl text-gray-900 font-bold">Mi Presentación</h4>
                     <div class="mt-2 text-gray-900" v-html="userData.presentation">
                     </div>
-                    <button class="btn btn-sm btn-primary text-white mb-1 mt-1"> 
+                    <button class="btn btn-sm btn-primary text-white mb-1 mt-1">
                         <NewspaperIcon class="w-5 h-5 inline-block" />
                         Hoja de Vida
                     </button>
@@ -242,10 +248,11 @@ const timeLapsed = ((my_date, years=true) => {
                     title="View Profile">
                     <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection16.jpg"
                         class="w-16 rounded-full">
-                <p class="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
-                <p class="text-xs text-gray-500 text-center">General Basica</p>
-                <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
-            </a>
+                    <p class="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
+                    <p class="text-xs text-gray-500 text-center">General Basica</p>
+                    <p class="text-xs text-gray-500 text-center">Coelgio 24 de Mayo</p>
+                </a>
+            </div>
         </div>
     </div>
-</div></template>
+</template>
