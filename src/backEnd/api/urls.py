@@ -39,7 +39,7 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
 
 from api.GenericsViews import CompleteDataTeacher
 
-from api.generics import ActiveCoursesByUser
+
 
 from django.urls import path
 
