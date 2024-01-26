@@ -6,6 +6,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.enums import ChoicesMeta
 from accounts.managers import CustomUserManager
 
 '''
@@ -26,10 +27,36 @@ ROLES = (
     ('school', 'Escuela'),
 )
 
+SEX = (
+    ('male', 'Masculino'),
+    ('female', 'Femenino'),
+    ('undefined', 'Indefinido'),
+)
+
+CIVIL_STATUS = (
+    ('single', 'Soltero'),
+    ('married', 'Casado'),
+    ('free_union', 'Unión libre'),
+    ('divorced', 'Divorciado'),
+    ('widower', 'Viudo'),
+    ('separated', 'Separado'),
+    ('other', 'Otro'),
+)
+
 STATUS_APPROVED = (
     ('approved', 'Aprobado'),
     ('not_approved', 'No Aprobado'),
     ('pending', 'Pendiente'),
+)
+
+LEVEL_EDUCATION = (
+    ('primaria', 'Primaria'),
+    ('secundaria', 'Secundaria'),
+    ('superior', 'Superior'),
+    ('postgrado', 'Postgrado'),
+    ('master', 'Master'),
+    ('doctorado', 'Doctorado'),
+    ('otro', 'Otro'),
 )
 
 
@@ -84,6 +111,20 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None,
     )
+    level_education = models.CharField(
+        'Nivel de Educación',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None,
+        choices=LEVEL_EDUCATION
+    )
+    profesion = models.CharField(
+        'Profesión',
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     phone = models.CharField(
         'Teléfono',
         max_length=50,
@@ -104,6 +145,14 @@ class CustomUserModel(AbstractUser):
         blank=True,
         null=True,
         default=None
+    )
+    sexo = models.CharField(
+        'Sexo',
+        max_length=40,
+        blank=True,
+        null=True,
+        default=None,
+        choices=SEX
     )
     dni_number = models.CharField(
         'número de identificación',
@@ -160,6 +209,36 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None,
         help_text='Url de facebook del usuario.'
+    )
+    nationality = models.CharField(
+        'nacionalidad',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    have_disability = models.BooleanField(
+        'tiene discapacidad',
+        default=False,
+    )
+    disability_persent = models.FloatField(
+        'porcentaje discapacidad',
+        default=0.0,
+    )
+    card_conadis = models.CharField(
+        'carnet conadis',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None,
+    )
+    civil_status = models.CharField(
+        'estado civil',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None,
+        choices=CIVIL_STATUS
     )
     url_facebook = models.URLField(
         'url facebook',
