@@ -50,13 +50,21 @@ STATUS_APPROVED = (
 )
 
 LEVEL_EDUCATION = (
-    ('primaria', 'Primaria'),
-    ('secundaria', 'Secundaria'),
+    ('primary', 'Primaria'),
+    ('secundary', 'Secundaria'),
     ('superior', 'Superior'),
-    ('postgrado', 'Postgrado'),
+    ('Postgrado', 'Postgrado'),
     ('master', 'Master'),
-    ('doctorado', 'Doctorado'),
-    ('otro', 'Otro'),
+    ('doctor', 'Doctorado'),
+    ('other', 'Otro'),
+)
+
+TYPE_DISABILITY = (
+    ('visual', 'Visual'),
+    ('auditiva', 'Auditiva'),
+    ('motriz', 'Motriz'),
+    ('intelectual', 'Intelectual'),
+    ('otra', 'Otro'),
 )
 
 
@@ -146,7 +154,7 @@ class CustomUserModel(AbstractUser):
         null=True,
         default=None
     )
-    sexo = models.CharField(
+    sex = models.CharField(
         'Sexo',
         max_length=40,
         blank=True,
@@ -220,6 +228,14 @@ class CustomUserModel(AbstractUser):
     have_disability = models.BooleanField(
         'tiene discapacidad',
         default=False,
+    )
+    type_disability = models.CharField(
+        'tipo de discapacidad',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None,
+        choices=TYPE_DISABILITY
     )
     disability_persent = models.FloatField(
         'porcentaje discapacidad',
