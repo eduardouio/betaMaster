@@ -10,6 +10,15 @@ from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription, Payment
 from activeCourses.models import ActiveCourse
 
+PRESNTATION = {
+    'teacher': '¡Hola! Soy un profesor con una carrera de 10 años en la educación. Mi pasión por enseñar y mi dedicación a fomentar el aprendizaje han sido los pilares de mi trayectoria profesional. A lo largo de los años, he tenido el privilegio de guiar a mis estudiantes hacia el éxito académico y personal. Mi enfoque pedagógico se centra en inspirar la curiosidad, fomentar el pensamiento crítico y proporcionar un ambiente de aprendizaje colaborativo. Estoy comprometido a crear un espacio educativo que motive a los estudiantes a alcanzar su máximo potencial.',
+    'student': '¡Hola! Soy un estudiante apasionado y comprometido con mi educación en la escuela. Mi deseo de aprender y crecer me impulsa a aprovechar al máximo cada oportunidad académica. Me esfuerzo por destacar en mis estudios y participar activamente en el proceso educativo. Además, estoy abierto a nuevas experiencias y desafíos que me ayuden a desarrollar habilidades tanto dentro como fuera del aula. Estoy emocionado por el aprendizaje continuo y por contribuir positivamente al ambiente escolar.',
+    'school': '¡Bienvenidos a nuestra escuela! Somos una institución comprometida con la excelencia académica y el desarrollo integral de nuestros estudiantes. Nuestro equipo de educadores altamente calificados se esfuerza por proporcionar un ambiente de aprendizaje estimulante y enriquecedor. Valoramos la diversidad, la colaboración y el respeto mutuo. En nuestra escuela, nos esforzamos por inspirar el amor por el conocimiento, fomentar el crecimiento personal y preparar a nuestros estudiantes para enfrentar los desafíos del mundo con confianza y habilidades sólidas. ¡Estamos emocionados de tenerlos a bordo para este viaje educativo!',
+    'coordinator': 'Hola!, soy un coordinador, el rol de este usurio aun no esta claro, pero se que es importante.',
+    'guest': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
+}
+
+
 STATES_EC = {
     "Azuay": [
         "Cuenca", "Gualaceo", "Paute", "Santa Isabel", "Sigsig",
@@ -178,6 +187,9 @@ class Command(BaseCommand):
         print('Referencias Personales')
         self.create_personal_references(fake)
         print('<==\t Datos de prueba generados')
+        print('==>\t Definiendo roles con datos especifico')
+        self.define_roles(fake)
+        print('<==\t Roles definidos')
 
     def create_users_by_profile(self, fake, role, quantity):
         for i in range(quantity):
@@ -187,11 +199,25 @@ class Command(BaseCommand):
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 date_of_birth=fake.date_of_birth(),
+                presentation=PRESNTATION[role],
                 dni_number=fake.ssn(),
                 address=fake.address(),
-                is_aproved=True,
+                url_instagram=random.choice([fake.url(), None]),
+                url_facebook=random.choice([fake.url(), '']),
+                url_twiter=random.choice([fake.url(), '']),
+                url_linkedin=random.choice([fake.url(), '']),
+                sex=random.choice(['male', 'female']),
+                nationality=random.choice(
+                    ['ECUATORIANO', 'COLOMBIANO', 'ECUATORIANO', 'PERUANO']
+                ),
+                is_aproved=random.choice([True, False, True]),
+                have_disability=random.choice([False, False, True, False]),
+                is_confirmed_mail=random.choice([True, False]),
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),
+                civil_status=random.choice(
+                    ['single', 'married', 'free_union', 'divorced', 'single']
+                ),
                 geolocation=fake.local_latlng(country_code='EC'),
                 password='1234.abc_',
                 role=role,
@@ -403,3 +429,21 @@ class Command(BaseCommand):
                 verification_date=fake.past_datetime(),
                 verification_by=random.randint(1, 10),
             )
+
+    def define_roles(self, fake):
+        teachers = CustomUserModel.objects.filter(role='teacher')
+        for teacher in teachers:
+            teacher.level_education = random.choice(
+                ['doctorado', 'superior', 'master', 'postgrado', 'superior']
+            )
+            teacher.save()
+
+        students = CustomUserModel.objects.filter(have_disability=True)
+
+        for student in students:
+            student.disability_type = random.choice(
+                ['visual', 'auditiva', 'motriz', 'intelectual', 'otra']
+            )
+            student.disability_persent = fake.random_int(min=1, max=100)
+            student.card_conadis = fake.ssn()
+            student.save()
