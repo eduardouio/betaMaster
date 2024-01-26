@@ -37,6 +37,18 @@ class PersonalReferences(BaseModel):
         'Empresa',
         max_length=100
     )
+    start_date = models.DateField(
+        'Fecha de Inicio',
+        blank=True,
+        null=True,
+        default=None,
+    )
+    end_date = models.DateField(
+        'Fecha de Fin',
+        blank=True,
+        null=True,
+        default=None,
+    )
     name_contact = models.CharField(
         'Nombre de Contacto',
         max_length=100
