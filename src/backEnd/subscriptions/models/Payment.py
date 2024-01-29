@@ -4,11 +4,11 @@ from accounts.models import BankAccount
 from common import BaseModel
 
 PAYMENT_STATUS = (
-    ('PENIDENTE', 'PENDIENTE'),
-    ('PAGADO', 'PAGADO'),
-    ('ERROR', 'ERROR'),
-    ('DEVUELTO', 'DEVUELTO'),
-    ('CANCELADO', 'CANCELADO'),
+    ('penidente', 'pendiente'),
+    ('pagado', 'pagado'),
+    ('error', 'error'),
+    ('devuelto', 'devuelto'),
+    ('cancelado', 'cancelado'),
 )
 
 

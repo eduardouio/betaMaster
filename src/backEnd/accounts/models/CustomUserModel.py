@@ -39,7 +39,7 @@ CIVIL_STATUS = (
     ('divorciado', 'Divorciado/a'),
     ('viudo', 'Viudo/a'),
     ('separado', 'Separado/a'),
-    ('other', 'Otro'),
+    ('otro', 'Otro'),
 )
 
 STATUS_APPROVED = (
