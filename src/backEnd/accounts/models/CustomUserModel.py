@@ -19,44 +19,43 @@ from accounts.managers import CustomUserManager
 '''
 
 ROLES = (
-    ('admin', 'Administrador'),
-    ('guest', 'Invitado'),
-    ('student', 'Estudiante'),
-    ('teacher', 'Profesor'),
-    ('coordinator', 'Coordinador'),
-    ('school', 'Escuela'),
+    ('administrador', 'Administrador'),
+    ('invitado', 'Invitado'),
+    ('estuduante', 'Estudiante'),
+    ('profesor', 'Profesor'),
+    ('coordinador', 'Coordinador'),
+    ('colegio', 'Escuela'),
 )
 
 SEX = (
-    ('male', 'Masculino'),
-    ('female', 'Femenino'),
-    ('undefined', 'Indefinido'),
+    ('masculino', 'Masculino'),
+    ('femenino', 'Femenino'),
+    ('otro', 'Otro'),
 )
 
 CIVIL_STATUS = (
-    ('single', 'Soltero'),
-    ('married', 'Casado'),
-    ('free_union', 'Unión libre'),
-    ('divorced', 'Divorciado'),
-    ('widower', 'Viudo'),
-    ('separated', 'Separado'),
+    ('soltero', 'Soltero/a'),
+    ('casado', 'Casado/a'),
+    ('divorciado', 'Divorciado/a'),
+    ('viudo', 'Viudo/a'),
+    ('separado', 'Separado/a'),
     ('other', 'Otro'),
 )
 
 STATUS_APPROVED = (
-    ('approved', 'Aprobado'),
-    ('not_approved', 'No Aprobado'),
-    ('pending', 'Pendiente'),
+    ('aprovado', 'Aprobado'),
+    ('no_aprobado', 'No Aprobado'),
+    ('pendiente', 'Pendiente'),
 )
 
 LEVEL_EDUCATION = (
-    ('primary', 'Primaria'),
-    ('secundary', 'Secundaria'),
+    ('primaria', 'Primaria'),
+    ('secundaria', 'Secundaria'),
     ('superior', 'Superior'),
-    ('Postgrado', 'Postgrado'),
+    ('postgrado', 'Postgrado'),
     ('master', 'Master'),
     ('doctor', 'Doctorado'),
-    ('other', 'Otro'),
+    ('otro', 'Otro'),
 )
 
 TYPE_DISABILITY = (

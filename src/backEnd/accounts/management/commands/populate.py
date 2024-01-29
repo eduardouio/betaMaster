@@ -1,3 +1,4 @@
+from dateutil.relativedelta import relativedelta
 # importamos el comando par agenerar datos de prueba
 from django.core.management.base import BaseCommand
 # faker para los datos de prueba
@@ -166,16 +167,16 @@ class Command(BaseCommand):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
         print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'student', 250)
-        self.create_users_by_profile(fake, 'teacher', 74)
-        self.create_users_by_profile(fake, 'coordinator', 12)
-        self.create_users_by_profile(fake, 'school', 27)
-        self.create_users_by_profile(fake, 'guest', 18)
+        self.create_users_by_profile(fake, 'estudiante', 250)
+        self.create_users_by_profile(fake, 'profesor', 74)
+        self.create_users_by_profile(fake, 'coordinador', 12)
+        self.create_users_by_profile(fake, 'colegio', 27)
+        self.create_users_by_profile(fake, 'invitado', 3)
         print('Registrando escuelas')
         self.create_schools(fake, 27)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
-        for i in range(10):
+        for i in range(14):
             print('Registrando Cursos Activos')
             self.create_active_courses(fake)
         print('Registrando Subscripciones')
@@ -185,7 +186,9 @@ class Command(BaseCommand):
         print('creando Pagos')
         self.create_payments(fake)
         print('Referencias Personales')
-        self.create_personal_references(fake)
+        for i in range(14):
+            if random.choice([False, False, True, False, True]):
+                self.create_personal_references(fake)
         print('<==\t Datos de prueba generados')
         print('==>\t Definiendo roles con datos especifico')
         self.define_roles(fake)
@@ -206,7 +209,7 @@ class Command(BaseCommand):
                 url_facebook=random.choice([fake.url(), '']),
                 url_twiter=random.choice([fake.url(), '']),
                 url_linkedin=random.choice([fake.url(), '']),
-                sex=random.choice(['male', 'female']),
+                sex=random.choice(['hombre', 'mujer']),
                 nationality=random.choice(
                     ['ECUATORIANO', 'COLOMBIANO', 'ECUATORIANO', 'PERUANO']
                 ),
@@ -216,7 +219,7 @@ class Command(BaseCommand):
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),
                 civil_status=random.choice(
-                    ['single', 'married', 'free_union', 'divorced', 'single']
+                    ['soltero', 'casado', 'soltero', 'divociado', 'casado']
                 ),
                 geolocation=fake.local_latlng(country_code='EC'),
                 password='1234.abc_',
@@ -415,23 +418,27 @@ class Command(BaseCommand):
         all_users = CustomUserModel.objects.filter(
             role='teacher'
         )
+        start_date = fake.past_datetime()
+        end_date = start_date + relativedelta(months=+random.randint(7, 38))
         for user in all_users:
             PersonalReferences.objects.create(
                 id_user=user,
-                type=random.choice(['personal', 'professional']),
+                type=random.choice(['personal', 'profesional']),
                 enterprise=fake.company(),
                 name_contact=fake.name(),
                 phone_contact=fake.phone_number(),
                 email_contact=fake.email(),
                 relationship=random.choice(
-                    ['family', 'boss', 'buddy', 'other']),
+                    ['familiar', 'jefe', 'amigo', 'otro']),
                 is_verified=random.choice([True, False]),
                 verification_date=fake.past_datetime(),
+                start_date=start_date,
+                end_date=end_date,
                 verification_by=random.randint(1, 10),
             )
 
     def define_roles(self, fake):
-        teachers = CustomUserModel.objects.filter(role='teacher')
+        teachers = CustomUserModel.objects.filter(role='profesor')
         for teacher in teachers:
             teacher.level_education = random.choice(
                 ['doctorado', 'superior', 'master', 'postgrado', 'superior']

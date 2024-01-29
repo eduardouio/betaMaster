@@ -4,14 +4,14 @@ from .CustomUserModel import CustomUserModel
 
 TYPE_REFERENCES = (
     ('personal', 'PERSONAL'),
-    ('professional', 'PROFESIONAL'),
+    ('profesional', 'PROFESIONAL'),
 )
 
 TYPE_RELATIONSHIP = (
-    ('family', 'FAMILIAR'),
-    ('boss', 'JEFE INMEDIATO'),
-    ('buddy', 'COMPAÑERO DE TRABAJO'),
-    ('other', 'OTRO'),
+    ('familiar', 'FAMILIAR'),
+    ('jefe', 'JEFE INMEDIATO'),
+    ('amigo', 'COMPAÑERO DE TRABAJO'),
+    ('otro', 'OTRO'),
 )
 
 
