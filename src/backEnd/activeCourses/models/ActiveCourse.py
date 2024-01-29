@@ -6,9 +6,9 @@ from common import BaseModel
 
 
 STATES = (
-    ('POR INICIAR', 'POR INICIAR'),
-    ('EN PROCESO', 'EN PROCESO'),
-    ('FINALIZADO', 'FINALIZADO'),
+    ('por iniciar', 'POR INICIAR'),
+    ('en proceso', 'EN PROCESO'),
+    ('finalizado', 'FINALIZADO'),
 )
 
 

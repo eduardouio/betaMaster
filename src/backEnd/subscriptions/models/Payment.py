@@ -4,12 +4,11 @@ from accounts.models import BankAccount
 from common import BaseModel
 
 PAYMENT_STATUS = (
-    ('PENDING', 'PENDING'),
-    ('PAID', 'PAID'),
-    ('FAILED', 'FAILED'),
-    ('REFUNDED', 'REFUNDED'),
-    ('CANCELLED', 'CANCELLED'),
-    ('EXPIRED', 'EXPIRED'),
+    ('PENIDENTE', 'PENDIENTE'),
+    ('PAGADO', 'PAGADO'),
+    ('ERROR', 'ERROR'),
+    ('DEVUELTO', 'DEVUELTO'),
+    ('CANCELADO', 'CANCELADO'),
 )
 
 
@@ -35,7 +34,7 @@ class Payment(BaseModel):
         'Estado de Pago',
         max_length=30,
         choices=PAYMENT_STATUS,
-        default='PENDING'
+        default='PENDIENTE'
     )
     transaction_id = models.CharField(
         'Identificador de Transacción',
