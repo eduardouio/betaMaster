@@ -12,11 +12,11 @@ from subscriptions.models import Subscription, Payment
 from activeCourses.models import ActiveCourse
 
 PRESNTATION = {
-    'teacher': '¡Hola! Soy un profesor con una carrera de 10 años en la educación. Mi pasión por enseñar y mi dedicación a fomentar el aprendizaje han sido los pilares de mi trayectoria profesional. A lo largo de los años, he tenido el privilegio de guiar a mis estudiantes hacia el éxito académico y personal. Mi enfoque pedagógico se centra en inspirar la curiosidad, fomentar el pensamiento crítico y proporcionar un ambiente de aprendizaje colaborativo. Estoy comprometido a crear un espacio educativo que motive a los estudiantes a alcanzar su máximo potencial.',
-    'student': '¡Hola! Soy un estudiante apasionado y comprometido con mi educación en la escuela. Mi deseo de aprender y crecer me impulsa a aprovechar al máximo cada oportunidad académica. Me esfuerzo por destacar en mis estudios y participar activamente en el proceso educativo. Además, estoy abierto a nuevas experiencias y desafíos que me ayuden a desarrollar habilidades tanto dentro como fuera del aula. Estoy emocionado por el aprendizaje continuo y por contribuir positivamente al ambiente escolar.',
-    'school': '¡Bienvenidos a nuestra escuela! Somos una institución comprometida con la excelencia académica y el desarrollo integral de nuestros estudiantes. Nuestro equipo de educadores altamente calificados se esfuerza por proporcionar un ambiente de aprendizaje estimulante y enriquecedor. Valoramos la diversidad, la colaboración y el respeto mutuo. En nuestra escuela, nos esforzamos por inspirar el amor por el conocimiento, fomentar el crecimiento personal y preparar a nuestros estudiantes para enfrentar los desafíos del mundo con confianza y habilidades sólidas. ¡Estamos emocionados de tenerlos a bordo para este viaje educativo!',
-    'coordinator': 'Hola!, soy un coordinador, el rol de este usurio aun no esta claro, pero se que es importante.',
-    'guest': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
+    'profesor': '¡Hola! Soy un profesor con una carrera de 10 años en la educación. Mi pasión por enseñar y mi dedicación a fomentar el aprendizaje han sido los pilares de mi trayectoria profesional. A lo largo de los años, he tenido el privilegio de guiar a mis estudiantes hacia el éxito académico y personal. Mi enfoque pedagógico se centra en inspirar la curiosidad, fomentar el pensamiento crítico y proporcionar un ambiente de aprendizaje colaborativo. Estoy comprometido a crear un espacio educativo que motive a los estudiantes a alcanzar su máximo potencial.',
+    'estudiante': '¡Hola! Soy un estudiante apasionado y comprometido con mi educación en la escuela. Mi deseo de aprender y crecer me impulsa a aprovechar al máximo cada oportunidad académica. Me esfuerzo por destacar en mis estudios y participar activamente en el proceso educativo. Además, estoy abierto a nuevas experiencias y desafíos que me ayuden a desarrollar habilidades tanto dentro como fuera del aula. Estoy emocionado por el aprendizaje continuo y por contribuir positivamente al ambiente escolar.',
+    'colegio': '¡Bienvenidos a nuestra escuela! Somos una institución comprometida con la excelencia académica y el desarrollo integral de nuestros estudiantes. Nuestro equipo de educadores altamente calificados se esfuerza por proporcionar un ambiente de aprendizaje estimulante y enriquecedor. Valoramos la diversidad, la colaboración y el respeto mutuo. En nuestra escuela, nos esforzamos por inspirar el amor por el conocimiento, fomentar el crecimiento personal y preparar a nuestros estudiantes para enfrentar los desafíos del mundo con confianza y habilidades sólidas. ¡Estamos emocionados de tenerlos a bordo para este viaje educativo!',
+    'coordinador': 'Hola!, soy un coordinador, el rol de este usurio aun no esta claro, pero se que es importante.',
+    'invitado': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
 }
 
 
@@ -167,13 +167,13 @@ class Command(BaseCommand):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
         print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'estudiante', 250)
+        self.create_users_by_profile(fake, 'estudiante', 350)
         self.create_users_by_profile(fake, 'profesor', 74)
         self.create_users_by_profile(fake, 'coordinador', 12)
         self.create_users_by_profile(fake, 'colegio', 27)
         self.create_users_by_profile(fake, 'invitado', 3)
         print('Registrando escuelas')
-        self.create_schools(fake, 27)
+        self.create_schools(fake, 17)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
         for i in range(14):
@@ -193,6 +193,9 @@ class Command(BaseCommand):
         print('==>\t Definiendo roles con datos especifico')
         self.define_roles(fake)
         print('<==\t Roles definidos')
+        print('==>\t cargado ultima sesion de los usuarios')
+        self.load_last_sesion(fake)
+        print('<==\t Ultima sesion cargada')
 
     def create_users_by_profile(self, fake, role, quantity):
         for i in range(quantity):
@@ -219,7 +222,7 @@ class Command(BaseCommand):
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),
                 civil_status=random.choice(
-                    ['soltero', 'casado', 'soltero', 'divociado', 'casado']
+                    ['soltero', 'casado', 'soltero', 'divorciado', 'casado']
                 ),
                 geolocation=fake.local_latlng(country_code='EC'),
                 password='1234.abc_',
@@ -260,7 +263,7 @@ class Command(BaseCommand):
         ]
         for i in name_plans:
             user = CustomUserModel.objects.filter(
-                role='coordinator'
+                role='coordinador'
             ).order_by('?').first()
 
             StudyPlan.objects.create(
@@ -337,7 +340,7 @@ class Command(BaseCommand):
 
     def create_subscriptions(self, fake):
         all_users = CustomUserModel.objects.exclude(
-            role='guest'
+            role='invitado'
         ).exclude(email='eduardouio7@gmail.com')
         active_courses = list(ActiveCourse.objects.all())
         for user in all_users:
@@ -378,11 +381,11 @@ class Command(BaseCommand):
         all_subscriptions = Subscription.objects.all()
 
         payment_status = [
-            'PENDIENTE',
-            'PAGADO',
-            'ERROR',
-            'DEVUELTO',
-            'CANCELADO',
+            'pendiente',
+            'pagado',
+            'error',
+            'devuelto',
+            'cancelado',
         ]
         for subscription in all_subscriptions:
             if random.choice([True, False, True, True]):
@@ -453,3 +456,12 @@ class Command(BaseCommand):
             student.disability_persent = fake.random_int(min=1, max=100)
             student.card_conadis = fake.ssn()
             student.save()
+
+    def load_last_sesion(self, fake):
+        all_users = CustomUserModel.objects.exclude(
+            role='invitado'
+        ).exclude(email='eduardouio7@gmail.com')
+
+        for user in all_users:
+            user.last_login = fake.past_datetime()
+            user.save()
