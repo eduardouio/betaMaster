@@ -31,3 +31,7 @@
 .tb-active{
   @apply [--tab-bg:#64748b] [--tab-border-color:#e0e0e0] text-white
 }
+
+td{
+  @apply border border-gray-200
+}
