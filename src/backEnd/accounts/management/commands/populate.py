@@ -241,7 +241,7 @@ class Command(BaseCommand):
                 website=fake.url(),
                 description=fake.text(),
                 id_owner=CustomUserModel.objects.filter(
-                    role='school'
+                    role='colegio'
                 ).order_by('?').first(),
                 is_active=True,
                 id_user_created=1,
@@ -302,12 +302,12 @@ class Command(BaseCommand):
 
     def create_active_courses(self, fake):
         all_schools = list(School.objects.all())
-        all_teachers = list(CustomUserModel.objects.filter(role='teacher'))
-        all_students = list(CustomUserModel.objects.filter(role='student'))
+        all_teachers = list(CustomUserModel.objects.filter(role='profesor'))
+        all_students = list(CustomUserModel.objects.filter(role='estudiante'))
         states = [
-            'POR INICIAR',
-            'EN PROCESO',
-            'FINALIZADO',
+            'por iniciar',
+            'en proceso',
+            'finalizado',
         ]
         all_study_plans = StudyPlan.objects.all()
         for i in range(7):
@@ -343,7 +343,7 @@ class Command(BaseCommand):
         for user in all_users:
             if random.choice([True, False, True, True]):
                 my_cost = random.randint(21, 55)
-                my_role = user.role.upper() if user.role.upper() != 'cordinator' else 'OTHER'
+                my_role = user.role.upper() if user.role.upper() != 'coordinador' else 'otro'
                 Subscription.objects.create(
                     id_user=user,
                     id_active_course=random.choice(active_courses),
@@ -378,12 +378,11 @@ class Command(BaseCommand):
         all_subscriptions = Subscription.objects.all()
 
         payment_status = [
-            'PENDING',
-            'PAID',
-            'FAILED',
-            'REFUNDED',
-            'CANCELLED',
-            'EXPIRED',
+            'PENDIENTE',
+            'PAGADO',
+            'ERROR',
+            'DEVUELTO',
+            'CANCELADO',
         ]
         for subscription in all_subscriptions:
             if random.choice([True, False, True, True]):
@@ -416,7 +415,7 @@ class Command(BaseCommand):
 
     def create_personal_references(self, fake):
         all_users = CustomUserModel.objects.filter(
-            role='teacher'
+            role='profesor'
         )
         start_date = fake.past_datetime()
         end_date = start_date + relativedelta(months=+random.randint(7, 38))
