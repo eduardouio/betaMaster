@@ -5,8 +5,8 @@ from api.serializers import CompleteDataForTeacherSerializer
 from django.shortcuts import get_object_or_404
 
 
-# /api/complete-data-teacher/<int:pk>/ -> api-complete-data-teacher
-class CompleteDataTeacher(APIView):
+# /api/user/teacher-data/{idUser}/ -> api-teacher-data
+class TeacherDataApiView(APIView):
     """return all active courses by user"""
     def get(self, request, pk):
         user = get_object_or_404(CustomUserModel, pk=pk)

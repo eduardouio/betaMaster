@@ -37,7 +37,7 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdatePaymentAPIView
 )
 
-from api.GenericsViews import CompleteDataTeacher
+from api.GenericsViews import TeacherDataApiView
 
 
 
@@ -73,8 +73,8 @@ urlpatterns = [
     ),
     path(
         "complete-data-teacher/<int:pk>/",
-        CompleteDataTeacher.as_view(),
-        name="api-complete-data-teacher",
+        TeacherDataApiView.as_view(),
+        name="api-teacher-data",
     ),
     # bancos de usuario
     path(

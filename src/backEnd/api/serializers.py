@@ -13,15 +13,44 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
         exclude = ['password']
 
     def to_representation(self, obj):
-        data = super().to_representation(obj)
-        references = PersonalReferences.objects.filter(id_user=obj)
-        data['references'] = PersonalReferencesSerializer(
-            references, many=True).data
-        accounts = BankAccount.objects.filter(id_user=obj)
-        data['accounts'] = BankAccountSerializer(accounts, many=True).data
+        data = {}
         active_courses = ActiveCourse.objects.filter(teacher=obj)
         data['active_courses'] = ActiveCourseSerializer(
             active_courses, many=True).data
+        data['school']=[]
+        data['students']=[]
+        for active_course in active_courses:
+            url = '';
+
+            if active_course.student.picture:
+                url = active_course.student.picture.url
+
+            data['students'].append(
+                {
+                    'id': active_course.student.pk,
+                    'picture': url,
+                    'first_name': active_course.student.first_name,
+                    'last_name': active_course.student.last_name,
+                    'email': active_course.student.email,
+                    'state': active_course.student.state,
+                    'city': active_course.student.city,
+                    'geolocation': active_course.student.geolocation,
+                    'id_shool': active_course.id_school.pk,
+                }                
+            )
+
+            data['school'].append({
+                'id': active_course.id_school.pk,
+                'name': active_course.id_school.name,
+                'email': active_course.id_school.email,
+                'ami_code': active_course.id_school.ami_code,
+                'state': active_course.id_school.state,
+                'city': active_course.id_school.city,
+                'address': active_course.id_school.address,
+                'geolocation': active_course.id_school.geolocation,
+
+            })
+            
         return data
 
 
