@@ -2,16 +2,15 @@
 import { RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '../../generics/Loader.vue';
+import { computed, reactive, onMounted, ref } from 'vue';
 import { 
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
     XMarkIcon, CheckIcon, PencilSquareIcon
 } from '@heroicons/vue/24/outline';
 import serverConfigData from '../../../config.js';
-
 import SocialIcon from '../../generics/SocialIcon.vue';
-import { computed, reactive, onMounted } from 'vue';
 
-const showLoader = false;
+let showLoader=ref(true);
 const store = useStore();
 let userData = {};
 
@@ -31,10 +30,12 @@ async function getUserData(){
     });
     
     if (response.status !=200){
-        alert('Error al obtener los datos del usuario');
+        console.log('Error al cargar los datos del dashboard');
+        console.log(response);
     }else{
         store.commit('setUserData', await response.json());
         userData = await store.state.userData;
+        showLoader.value = false;
     }
 }
 
@@ -53,12 +54,13 @@ function changeTab(tabName) {
 
 // Computed properties
 const geolocation = computed(() => {
+    let url = '';
     if (!userData.geolocation) {
-        return '';
+        return url;
     }
-    let coordinates = userData.geolocation.replace('(','').replaceAll(')','').replaceAll('\'', '').split(',');
-    let url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
-    return url;
+    let coordinates = userData.geolocation.split(',');
+    url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
+        return url;
 });
 
 const formatDate = ((my_date) => {
@@ -101,8 +103,9 @@ const timeLapsed = ((my_date, years = true) => {
 </script>
 <template>
     <div>
-        <Loader v-if="showLoader"/>
-        <div v-if="!showLoader" class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
+    <Loader class="mx-auto" v-if="showLoader.value"/>
+    <div v-else>        
+        <div class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
             <div class="w-full h-[30px] bg-gradient-to-l from-blue-100 to-cyan-100 border"></div>
             <div class="flex flex-col items-center -mt-20 border">
                 <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
@@ -306,4 +309,5 @@ const timeLapsed = ((my_date, years = true) => {
         </div>
         <!--/tab bank data-->
     </div>
+</div>
 </template>
