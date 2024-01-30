@@ -72,7 +72,7 @@ urlpatterns = [
         name="api-users-by-role-list",
     ),
     path(
-        "complete-data-teacher/<int:pk>/",
+        "user/complete-data-teacher/<int:pk>/",
         TeacherDataApiView.as_view(),
         name="api-teacher-data",
     ),
