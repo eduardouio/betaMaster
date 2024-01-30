@@ -1,7 +1,7 @@
 <script setup>
 import CardIndicator from '@/components/dashboard/CardIndicator.vue';
-import TableSchools from '../TableSchools.vue';
-import TableCandidates from '../TableCandidates.vue';
+import TableSchools from '@/components/dashboard/TableSchools.vue';
+import TableCandidates from '@//components/dashboard/TableCandidates.vue';
 </script>
 <template>
     <div>
