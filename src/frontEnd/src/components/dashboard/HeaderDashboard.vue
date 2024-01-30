@@ -1,20 +1,22 @@
-<template>
+<script setup>
+import { UserCircleIcon } from '@heroicons/vue/24/outline';
+import { useStore } from 'vuex';
+</script>
+<template>    
                 <!-- Header -->
-                <div class="fixed w-full flex items-center justify-between h-14 text-white z-10">
-                <div
-                    class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-14 bg-gradient-to-t from-red-900 to-red-800 dark:bg-gray-800 border-none">
-                    <img class="w-7 h-7 md:w-10 md:h-10 mr-2 rounded-md overflow-hidden"
-                        src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
-                    <span class="hidden md:block">Docente</span>
+                <div class="fixed w-full flex items-center justify-between h-10 z-10">
+                <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-10 bg-gray-100 ">
+                    <UserCircleIcon class="w-5 h-5 md:mr-10"/> 
+                    <span class="hidden md:block capitalize">NOMBRE PENDIENTE</span>
                 </div>
-                <div class="flex justify-between items-center h-14 bg-gradient-to-t  from-red-900 to-red-800 dark:bg-gray-800 header-right">
+                <div class="flex justify-between items-center h-10 bg-gray-100  header-right border-b border-slate-300">
                     <div
                         class="rounded flex items-center w-full max-w-xl mr-4 p-2 uppercase">
-                        Eduardo Villota
+                        
                     </div>
                     <ul class="flex items-center">
                         <li>
-                            <a href="#" class="flex items-center mr-4 hover:text-blue-100">
+                            <a href="#" class="flex items-center mr-4 hover:text-blue-800">
                                 <span class="inline-flex mr-1">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
