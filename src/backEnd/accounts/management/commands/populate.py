@@ -199,6 +199,7 @@ class Command(BaseCommand):
 
     def create_users_by_profile(self, fake, role, quantity):
         for i in range(quantity):
+            ubication = fake.local_latlng(country_code='EC')
             my_state = random.choice(list(STATES_EC.keys()))
             CustomUserModel.objects.create_user(
                 email=str(random.randint(0, 10)) + '_' + fake.email(),
@@ -224,7 +225,7 @@ class Command(BaseCommand):
                 civil_status=random.choice(
                     ['soltero', 'casado', 'soltero', 'divorciado', 'casado']
                 ),
-                geolocation=fake.local_latlng(country_code='EC'),
+                geolocation=ubication[0] + ',' + ubication[1],
                 password='1234.abc_',
                 role=role,
             )
@@ -232,10 +233,11 @@ class Command(BaseCommand):
     def create_schools(self, fake, quantity):
         for i in range(quantity):
             my_state = random.choice(list(STATES_EC.keys()))
+            ubication = fake.local_latlng(country_code='EC')
             School.objects.create(
                 name='Colegio  ' + fake.company(),
                 address=fake.address(),
-                geolocation=fake.local_latlng(country_code='EC'),
+                geolocation=ubication[0] + ',' + ubication[1],
                 ami_code=fake.ssn(),
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),

@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
+import Loader from '../../generics/Loader.vue';
 import { 
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
     XMarkIcon, CheckIcon, PencilSquareIcon
@@ -8,10 +9,35 @@ import {
 import serverConfigData from '../../../config.js';
 
 import SocialIcon from '../../generics/SocialIcon.vue';
-import { computed, reactive } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
 
+const showLoader = false;
 const store = useStore();
-let userData = store.getters.getUserData;
+let userData = {};
+
+onMounted(() => {
+    console.log('montado dashboard');
+    getUserData();
+});
+
+// recuperamos los datos del usuario y lo colocamos en el store
+async function getUserData(){
+    let url = serverConfigData.urls.getUser.replace(
+        '{idUser}', serverConfigData.idUser
+    );
+    let response = await fetch(url, {
+        method: 'GET',
+        headers: serverConfigData.headers
+    });
+    
+    if (response.status !=200){
+        alert('Error al obtener los datos del usuario');
+    }else{
+        store.commit('setUserData', await response.json());
+        userData = await store.state.userData;
+    }
+}
+
 
 const tabList = reactive({
     personal_data: true,
@@ -27,6 +53,9 @@ function changeTab(tabName) {
 
 // Computed properties
 const geolocation = computed(() => {
+    if (!userData.geolocation) {
+        return '';
+    }
     let coordinates = userData.geolocation.replace('(','').replaceAll(')','').replaceAll('\'', '').split(',');
     let url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
     return url;
@@ -72,7 +101,8 @@ const timeLapsed = ((my_date, years = true) => {
 </script>
 <template>
     <div>
-        <div class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
+        <Loader v-if="showLoader"/>
+        <div v-if="!showLoader" class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
             <div class="w-full h-[30px] bg-gradient-to-l from-blue-100 to-cyan-100 border"></div>
             <div class="flex flex-col items-center -mt-20 border">
                 <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
