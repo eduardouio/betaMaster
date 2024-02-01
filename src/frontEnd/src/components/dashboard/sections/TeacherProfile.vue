@@ -246,6 +246,7 @@ const timeLapsed = ((my_date, years = true) => {
             <!--/tab profile-->
             <!--tab references-->
             <div v-if="tabList.references" class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+                <div class="block w-full overflow-x-auto">
                 <table class="table border">
                     <!-- head -->
                     <thead>
@@ -284,10 +285,12 @@ const timeLapsed = ((my_date, years = true) => {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
             <!--/tab references-->
             <!--tab bank data-->
             <div v-if="tabList.bank_data" class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+                <div class="block w-full overflow-x-auto">
                 <table class="table border">
                     <!-- head -->
                     <thead>
@@ -325,6 +328,7 @@ const timeLapsed = ((my_date, years = true) => {
                     </tr>
                 </tbody>
             </table>
+                </div>
         </div>
         <!--/tab bank data-->
     </div>
