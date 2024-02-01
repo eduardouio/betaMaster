@@ -4,10 +4,10 @@ from accounts.models import CustomUserModel
 from activeCourses.models import ActiveCourse
 
 TYPE_SUBSCRIPTION = (
-    ('colegio', 'COLEGIO'),
-    ('profesor', 'PROFESOR'),
-    ('estudiante', 'ESTUDIANTE'),
-    ('otro', 'OTRO'),
+    ('COLEGIO', 'COLEGIO'),
+    ('PROFESOR', 'PROFESOR'),
+    ('ESTUDIANTE', 'ESTUDIANTE'),
+    ('OTRO', 'OTRO'),
 )
 
 

@@ -19,51 +19,51 @@ from accounts.managers import CustomUserManager
 '''
 
 ROLES = (
-    ('administrador', 'Administrador'),
-    ('invitado', 'Invitado'),
-    ('estuduante', 'Estudiante'),
-    ('profesor', 'Profesor'),
-    ('coordinador', 'Coordinador'),
-    ('colegio', 'Escuela'),
+    ('ADMINISTRADOR', 'ADMINISTRADOR'),
+    ('INVITADO', 'INVITADO'),
+    ('ESTUDUANTE', 'ESTUDIANTE'),
+    ('PROFESOR', 'PROFESOR'),
+    ('COORDINADOR', 'COORDINADOR'),
+    ('COLEGIO', 'ESCUELA'),
 )
 
 SEX = (
-    ('masculino', 'Masculino'),
-    ('femenino', 'Femenino'),
-    ('otro', 'Otro'),
+    ('MASCULINO', 'MASCULINO'),
+    ('FEMENINO', 'FEMENINO'),
+    ('OTRO', 'OTRO'),
 )
 
 CIVIL_STATUS = (
-    ('soltero', 'Soltero/a'),
-    ('casado', 'Casado/a'),
-    ('divorciado', 'Divorciado/a'),
-    ('viudo', 'Viudo/a'),
-    ('separado', 'Separado/a'),
-    ('otro', 'Otro'),
+    ('SOLTERO', 'SOLTERO/A'),
+    ('CASADO', 'CASADO/A'),
+    ('DIVORCIADO', 'DIVORCIADO/A'),
+    ('VIUDO', 'VIUDO/A'),
+    ('SEPARADO', 'SEPARADO/A'),
+    ('OTRO', 'OTRO'),
 )
 
 STATUS_APPROVED = (
-    ('aprovado', 'Aprobado'),
-    ('no_aprobado', 'No Aprobado'),
-    ('pendiente', 'Pendiente'),
+    ('APROVADO', 'APROBADO'),
+    ('NO_APROBADO', 'NO APROBADO'),
+    ('PENDIENTE', 'PENDIENTE'),
 )
 
 LEVEL_EDUCATION = (
-    ('primaria', 'Primaria'),
-    ('secundaria', 'Secundaria'),
-    ('superior', 'Superior'),
-    ('postgrado', 'Postgrado'),
-    ('master', 'Master'),
-    ('doctor', 'Doctorado'),
-    ('otro', 'Otro'),
+    ('PRIMARIA', 'PRIMARIA'),
+    ('SECUNDARIA', 'SECUNDARIA'),
+    ('SUPERIOR', 'SUPERIOR'),
+    ('POSTGRADO', 'POSTGRADO'),
+    ('MASTER', 'MASTER'),
+    ('DOCTOR', 'DOCTORADO'),
+    ('OTRO', 'OTRO'),
 )
 
 TYPE_DISABILITY = (
-    ('visual', 'Visual'),
-    ('auditiva', 'Auditiva'),
-    ('motriz', 'Motriz'),
-    ('intelectual', 'Intelectual'),
-    ('otra', 'Otro'),
+    ('VISUAL', 'VISUAL'),
+    ('AUDITIVA', 'AUDITIVA'),
+    ('MOTRIZ', 'MOTRIZ'),
+    ('INTELECTUAL', 'INTELECTUAL'),
+    ('OTRA', 'OTRO'),
 )
 
 

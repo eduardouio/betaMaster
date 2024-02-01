@@ -3,15 +3,15 @@ from common import BaseModel
 from .CustomUserModel import CustomUserModel
 
 TYPE_REFERENCES = (
-    ('personal', 'PERSONAL'),
-    ('profesional', 'PROFESIONAL'),
+    ('PERSONAL', 'PERSONAL'),
+    ('PROFESIONAL', 'PROFESIONAL'),
 )
 
 TYPE_RELATIONSHIP = (
-    ('familiar', 'FAMILIAR'),
-    ('jefe', 'JEFE INMEDIATO'),
-    ('amigo', 'COMPAÑERO DE TRABAJO'),
-    ('otro', 'OTRO'),
+    ('FAMILIAR', 'FAMILIAR'),
+    ('JEFE', 'JEFE INMEDIATO'),
+    ('AMIGO', 'COMPAÑERO DE TRABAJO'),
+    ('OTRO', 'OTRO'),
 )
 
 

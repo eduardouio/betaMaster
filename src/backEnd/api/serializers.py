@@ -17,11 +17,11 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
         active_courses = ActiveCourse.objects.filter(teacher=obj)
         data['active_courses'] = ActiveCourseSerializer(
             active_courses, many=True).data
-        data['school']=[]
-        data['students']=[]
-        for active_course in active_courses:
-            url = '';
+        data['school'] = []
+        data['students'] = []
 
+        for active_course in active_courses:
+            url = ''
             if active_course.student.picture:
                 url = active_course.student.picture.url
 
@@ -36,7 +36,7 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
                     'city': active_course.student.city,
                     'geolocation': active_course.student.geolocation,
                     'id_shool': active_course.id_school.pk,
-                }                
+                }
             )
 
             data['school'].append({
@@ -50,7 +50,7 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
                 'geolocation': active_course.id_school.geolocation,
 
             })
-            
+
         return data
 
 

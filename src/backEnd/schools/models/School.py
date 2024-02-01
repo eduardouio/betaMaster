@@ -3,11 +3,11 @@ from accounts.models import CustomUserModel
 from common import BaseModel
 
 OFFERED_SERVICES = (
-    ('inicial', 'Eduación Inicial'),
-    ('basica', 'Eduación Básica'),
-    ('bgu', 'Bachillerato General Unificado'),
-    ('tecnico', 'Bachillerato Técnico'),
-    ('otro', 'Otro')
+    ('INICIAL', 'EDUACIÓN INICIAL'),
+    ('BASICA', 'EDUACIÓN BÁSICA'),
+    ('BGU', 'BACHILLERATO GENERAL UNIFICADO'),
+    ('TECNICO', 'BACHILLERATO TÉCNICO'),
+    ('OTRO', 'OTRO')
 )
 
 
