@@ -11,127 +11,127 @@ from studyPlans.models import StudyPlan, StudyPlanDetail
 from subscriptions.models import Subscription, Payment
 from activeCourses.models import ActiveCourse
 
-PRESNTATION = {
-    'profesor': '¡Hola! Soy un profesor con una carrera de 10 años en la educación. Mi pasión por enseñar y mi dedicación a fomentar el aprendizaje han sido los pilares de mi trayectoria profesional. A lo largo de los años, he tenido el privilegio de guiar a mis estudiantes hacia el éxito académico y personal. Mi enfoque pedagógico se centra en inspirar la curiosidad, fomentar el pensamiento crítico y proporcionar un ambiente de aprendizaje colaborativo. Estoy comprometido a crear un espacio educativo que motive a los estudiantes a alcanzar su máximo potencial.',
-    'estudiante': '¡Hola! Soy un estudiante apasionado y comprometido con mi educación en la escuela. Mi deseo de aprender y crecer me impulsa a aprovechar al máximo cada oportunidad académica. Me esfuerzo por destacar en mis estudios y participar activamente en el proceso educativo. Además, estoy abierto a nuevas experiencias y desafíos que me ayuden a desarrollar habilidades tanto dentro como fuera del aula. Estoy emocionado por el aprendizaje continuo y por contribuir positivamente al ambiente escolar.',
-    'colegio': '¡Bienvenidos a nuestra escuela! Somos una institución comprometida con la excelencia académica y el desarrollo integral de nuestros estudiantes. Nuestro equipo de educadores altamente calificados se esfuerza por proporcionar un ambiente de aprendizaje estimulante y enriquecedor. Valoramos la diversidad, la colaboración y el respeto mutuo. En nuestra escuela, nos esforzamos por inspirar el amor por el conocimiento, fomentar el crecimiento personal y preparar a nuestros estudiantes para enfrentar los desafíos del mundo con confianza y habilidades sólidas. ¡Estamos emocionados de tenerlos a bordo para este viaje educativo!',
-    'coordinador': 'Hola!, soy un coordinador, el rol de este usurio aun no esta claro, pero se que es importante.',
-    'invitado': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
+PRESENTATION = {
+    'PROFESOR': '¡Hola! Soy un profesor con una carrera de 10 años en la educación. Mi pasión por enseñar y mi dedicación a fomentar el aprendizaje han sido los pilares de mi trayectoria profesional. A lo largo de los años, he tenido el privilegio de guiar a mis estudiantes hacia el éxito académico y personal. Mi enfoque pedagógico se centra en inspirar la curiosidad, fomentar el pensamiento crítico y proporcionar un ambiente de aprendizaje colaborativo. Estoy comprometido a crear un espacio educativo que motive a los estudiantes a alcanzar su máximo potencial.',
+    'ESTUDIANTE': '¡Hola! Soy un estudiante apasionado y comprometido con mi educación en la escuela. Mi deseo de aprender y crecer me impulsa a aprovechar al máximo cada oportunidad académica. Me esfuerzo por destacar en mis estudios y participar activamente en el proceso educativo. Además, estoy abierto a nuevas experiencias y desafíos que me ayuden a desarrollar habilidades tanto dentro como fuera del aula. Estoy emocionado por el aprendizaje continuo y por contribuir positivamente al ambiente escolar.',
+    'COLEGIO': '¡Bienvenidos a nuestra escuela! Somos una institución comprometida con la excelencia académica y el desarrollo integral de nuestros estudiantes. Nuestro equipo de educadores altamente calificados se esfuerza por proporcionar un ambiente de aprendizaje estimulante y enriquecedor. Valoramos la diversidad, la colaboración y el respeto mutuo. En nuestra escuela, nos esforzamos por inspirar el amor por el conocimiento, fomentar el crecimiento personal y preparar a nuestros estudiantes para enfrentar los desafíos del mundo con confianza y habilidades sólidas. ¡Estamos emocionados de tenerlos a bordo para este viaje educativo!',
+    'COORDINADOR': 'Hola!, soy un coordinador, el rol de este usurio aun no esta claro, pero se que es importante.',
+    'INVITADO': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
 }
 
 
 STATES_EC = {
-    "Azuay": [
-        "Cuenca", "Gualaceo", "Paute", "Santa Isabel", "Sigsig",
-        "Chordeleg", "Girón", "Nabón", "Oña", "Pucará", "San Fernando",
-        "Sevilla de Oro", "Sígsig", "El Pan", "Tarqui",
+    "AZUAY": [
+        "CUENCA", "GUALACEO", "PAUTE", "SANTA ISABEL", "SIGSIG",
+        "CHORDELEG", "GIRÓN", "NABÓN", "OÑA", "PUCARÁ", "SAN FERNANDO",
+        "SEVILLA DE ORO", "SÍGSIG", "EL PAN", "TARQUI",
     ],
-    "Bolívar": [
-        "Guaranda", "Caluma", "Chillanes", "San Miguel", "Las Naves",
-        "Echeandía", "San José de Chimbo", "Las Mercedes",
-        "Salinas", "Balsapamba",
+    "BOLÍVAR": [
+        "GUARANDA", "CALUMA", "CHILLANES", "SAN MIGUEL", "LAS NAVES",
+        "ECHEANDÍA", "SAN JOSÉ DE CHIMBO", "LAS MERCEDES",
+        "SALINAS", "BALSAPAMBA",
     ],
-    "Cañar": [
-        "Azogues", "Biblián", "La Troncal", "Déleg", "Tambo", "Suscal",
-        "El Tambo", "Zhud", "El Corazón", "Canaribamba"
+    "CAÑAR": [
+        "AZOGUES", "BIBLIÁN", "LA TRONCAL", "DÉLEG", "TAMBO", "SUSCAL",
+        "EL TAMBO", "ZHUD", "EL CORAZÓN", "CANARIBAMBA"
     ],
-    "Carchi": [
-        "Tulcán", "Montúfar", "Mira", "Bolívar", "San Gabriel",
-        "Huaca", "El Ángel", "Julio Andrade", "Tufiño", "Chical",
+    "CARCHI": [
+        "TULCÁN", "MONTÚFAR", "MIRA", "BOLÍVAR", "SAN GABRIEL",
+        "HUACA", "EL ÁNGEL", "JULIO ANDRADE", "TUFIÑO", "CHICAL",
     ],
-    "Chimborazo": [
-        "Riobamba", "Alausí", "Colta", "Guamote", "Pallatanga",
-        "Chunchi", "Cumandá", "Guano", "Penipe", "Chambo",
+    "CHIMBORAZO": [
+        "RIOBAMBA", "ALAUSÍ", "COLTA", "GUAMOTE", "PALLATANGA",
+        "CHUNCHI", "CUMANDÁ", "GUANO", "PENIPE", "CHAMBO",
     ],
-    "Cotopaxi": [
-        "Latacunga", "Saquisilí", "Salcedo", "Pujilí", "La Maná",
-        "Sigchos", "San Miguel de Salcedo", "Tanicuchí", "Toacaso",
-        "Mulaló"
+    "COTOPAXI": [
+        "LATACUNGA", "SAQUISILÍ", "SALCEDO", "PUJILÍ", "LA MANÁ",
+        "SIGCHOS", "SAN MIGUEL DE SALCEDO", "TANICUCHÍ", "TOACASO",
+        "MULALÓ"
     ],
-    "El Oro": [
-        "Machala", "Pasaje", "Santa Rosa", "Huaquillas", "El Guabo",
-        "Piñas", "Zaruma", "Atahualpa", "Balsas", "Marcabelí",
+    "EL ORO": [
+        "MACHALA", "PASAJE", "SANTA ROSA", "HUAQUILLAS", "EL GUABO",
+        "PIÑAS", "ZARUMA", "ATAHUALPA", "BALSAS", "MARCABELÍ",
     ],
-    "Esmeraldas": [
-        "Esmeraldas", "Atacames", "Muisne", "Tonsupa", "Quinindé",
-        "La Concordia", "San Lorenzo", "Río Verde", "Limones",
-        "Chamanga",
+    "ESMERALDAS": [
+        "ESMERALDAS", "ATACAMES", "MUISNE", "TONSUPA", "QUININDÉ",
+        "LA CONCORDIA", "SAN LORENZO", "RÍO VERDE", "LIMONES",
+        "CHAMANGA",
     ],
-    "Galápagos": [
-        "Isabela (o Isla Isabela)", "Santa Cruz (o Isla Santa Cruz)",
-        "San Cristóbal (o Isla San Cristóbal)",
-        "Floreana (o Isla Floreana)", "Baltra (o Isla Baltra)",
-        "Santiago (o Isla Santiago)", "Fernandina (o Isla Fernandina)",
-        "Española (o Isla Española)", "Genovesa (o Isla Genovesa)",
-        "Santa Fe (o Isla Santa Fe)",
+    "GALÁPAGOS": [
+        "ISABELA (O ISLA ISABELA)", "SANTA CRUZ (O ISLA SANTA CRUZ)",
+        "SAN CRISTÓBAL (O ISLA SAN CRISTÓBAL)",
+        "FLOREANA (O ISLA FLOREANA)", "BALTRA (O ISLA BALTRA)",
+        "SANTIAGO (O ISLA SANTIAGO)", "FERNANDINA (O ISLA FERNANDINA)",
+        "ESPAÑOLA (O ISLA ESPAÑOLA)", "GENOVESA (O ISLA GENOVESA)",
+        "SANTA FE (O ISLA SANTA FE)",
     ],
-    "Guayas": [
-        "Guayaquil", "Daule", "Durán", "Samborondón", "Milagro",
-        "Naranjal", "Playas", "Salitre", "Yaguachi", "El Triunfo",
+    "GUAYAS": [
+        "GUAYAQUIL", "DAULE", "DURÁN", "SAMBORONDÓN", "MILAGRO",
+        "NARANJAL", "PLAYAS", "SALITRE", "YAGUACHI", "EL TRIUNFO",
     ],
-    "Imbabura": [
-        "Ibarra", "Otavalo", "Cotacachi", "Atuntaqui", "Pimampiro",
-        "Urcuquí", "San Antonio de Ibarra", "San Miguel de Urcuquí",
-        "Salinas", "La Esperanza"
+    "IMBABURA": [
+        "IBARRA", "OTAVALO", "COTACACHI", "ATUNTAQUI", "PIMAMPIRO",
+        "URCUQUÍ", "SAN ANTONIO DE IBARRA", "SAN MIGUEL DE URCUQUÍ",
+        "SALINAS", "LA ESPERANZA"
     ],
-    "Loja": [
-        "Loja", "Catacocha", "Macará", "Zapotillo", "Cariamanga",
-                "Quilanga", "Chaguarpamba", "Pindal", "Espíndola", "Sozoranga"
+    "LOJA": [
+        "LOJA", "CATACOCHA", "MACARÁ", "ZAPOTILLO", "CARIAMANGA",
+                "QUILANGA", "CHAGUARPAMBA", "PINDAL", "ESPÍNDOLA", "SOZORANGA"
     ],
-    "Los Ríos": [
-        "Babahoyo", "Quevedo", "Ventanas", "Vinces", "Puebloviejo",
-        "Valencia", "Urdaneta", "Buena Fé", "Mocache", "Quevedo"
+    "LOS RÍOS": [
+        "BABAHOYO", "QUEVEDO", "VENTANAS", "VINCES", "PUEBLOVIEJO",
+        "VALENCIA", "URDANETA", "BUENA FÉ", "MOCACHE", "QUEVEDO"
     ],
-    "Manabí": [
-        "Portoviejo", "Manta", "Montecristi", "Jipijapa", "Chone",
-        "El Carmen", "Rocafuerte", "24 de Mayo", "Santa Ana", "Calceta"
+    "MANABÍ": [
+        "PORTOVIEJO", "MANTA", "MONTECRISTI", "JIPIJAPA", "CHONE",
+        "EL CARMEN", "ROCAFUERTE", "24 DE MAYO", "SANTA ANA", "CALCETA"
     ],
-    "Morona Santiago": [
-        "Macas", "Gualaquiza", "Sucúa", "Limon", "Morona", "Logroño",
-        "Pablo Sexto", "Taisha", "Palora", "San Juan Bosco"
+    "MORONA SANTIAGO": [
+        "MACAS", "GUALAQUIZA", "SUCÚA", "LIMON", "MORONA", "LOGROÑO",
+        "PABLO SEXTO", "TAISHA", "PALORA", "SAN JUAN BOSCO"
     ],
-    "Napo": [
-        "Tena", "El Chaco", "Quijos", "Archidona",
-                "Carlos Julio Arosemena Tola", "El Chaco", "Quijos", "Talag",
-                "El Juncal", "Baeza"
+    "NAPO": [
+        "TENA", "EL CHACO", "QUIJOS", "ARCHIDONA",
+                "CARLOS JULIO AROSEMENA TOLA", "EL CHACO", "QUIJOS", "TALAG",
+                "EL JUNCAL", "BAEZA"
     ],
-    "Orellana": [
-        "Orellana", "La Joya de los Sachas", "Lago Agrio",
-        "Shushufindi", "Aguarico", "Santa Rosa", "Coca",
-        "Joyas de los Sachas", "San Carlos"
+    "ORELLANA": [
+        "ORELLANA", "LA JOYA DE LOS SACHAS", "LAGO AGRIO",
+        "SHUSHUFINDI", "AGUARICO", "SANTA ROSA", "COCA",
+        "JOYAS DE LOS SACHAS", "SAN CARLOS"
     ],
-    "Pastaza": [
-        "Puyo", "Santa Clara", "Arajuno", "Mera", "Shell", "Naranjal",
-                "Pomona", "Río Corrientes", "Río Tigre", "Canelos"
+    "PASTAZA": [
+        "PUYO", "SANTA CLARA", "ARAJUNO", "MERA", "SHELL", "NARANJAL",
+                "POMONA", "RÍO CORRIENTES", "RÍO TIGRE", "CANELOS"
     ],
-    "Pichincha": [
-        "Quito", "Sangolquí", "Cayambe", "Machachi", "Mejía",
-        "Pedro Moncayo", "Puerto Quito", "Rumiñahui",
-        "San Miguel de Los Bancos", "Pedro Vicente Maldonado"
+    "PICHINCHA": [
+        "QUITO", "SANGOLQUÍ", "CAYAMBE", "MACHACHI", "MEJÍA",
+        "PEDRO MONCAYO", "PUERTO QUITO", "RUMIÑAHUI",
+        "SAN MIGUEL DE LOS BANCOS", "PEDRO VICENTE MALDONADO"
     ],
-    "Santa Elena": [
-        "Santa Elena", "Salinas", "La Libertad", "La Libertad",
-        "Salinas", "Santa Elena", "Ballenita", "Atahualpa", "Anconcito",
-        "Anconcito"
+    "SANTA ELENA": [
+        "SANTA ELENA", "SALINAS", "LA LIBERTAD", "LA LIBERTAD",
+        "SALINAS", "SANTA ELENA", "BALLENITA", "ATAHUALPA", "ANCONCITO",
+        "ANCONCITO"
     ],
-    "Santo Domingo de los Tsáchilas": [
-        "Santo Domingo", "La Concordia", "La Concordia",
-        "La Independencia", "Valle Hermoso", "Valle Hermoso",
-        "San Jacinto del Búa", "El Carmen", "El Carmen", "Alluriquín"
+    "SANTO DOMINGO DE LOS TSÁCHILAS": [
+        "SANTO DOMINGO", "LA CONCORDIA", "LA CONCORDIA",
+        "LA INDEPENDENCIA", "VALLE HERMOSO", "VALLE HERMOSO",
+        "SAN JACINTO DEL BÚA", "EL CARMEN", "EL CARMEN", "ALLURIQUÍN"
     ],
-    "Sucumbíos": [
-        "Nueva Loja", "Shushufindi", "Lumbaquí", "Gonzalo Pizarro",
-        "Putumayo", "Cuyabeno", "Cascales", "Agua Blanca",
-        "Sucumbíos", "Tarapoa"
+    "SUCUMBÍOS": [
+        "NUEVA LOJA", "SHUSHUFINDI", "LUMBAQUÍ", "GONZALO PIZARRO",
+        "PUTUMAYO", "CUYABENO", "CASCALES", "AGUA BLANCA",
+        "SUCUMBÍOS", "TARAPOA"
     ],
-    "Tungurahua": [
-        "Ambato", "Banos", "Pelileo", "Patate", "Mocha", "Cevallos",
-        "Quero", "Pillaro", "Tisaleo", "Baños de Agua Santa"
+    "TUNGURAHUA": [
+        "AMBATO", "BANOS", "PELILEO", "PATATE", "MOCHA", "CEVALLOS",
+        "QUERO", "PILLARO", "TISALEO", "BAÑOS DE AGUA SANTA"
     ],
-    "Zamora Chinchipe": [
-        "Zamora", "Yantzaza", "Zamora", "Yantzaza", "Zumbi",
-        "Centinela del Cóndor", "Palanda", "Nangaritza", "Yacuambi",
-        "El Pangui"
+    "ZAMORA CHINCHIPE": [
+        "ZAMORA", "YANTZAZA", "ZAMORA", "YANTZAZA", "ZUMBI",
+        "CENTINELA DEL CÓNDOR", "PALANDA", "NANGARITZA", "YACUAMBI",
+        "EL PANGUI"
     ]
 }
 
@@ -167,16 +167,16 @@ class Command(BaseCommand):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
         print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'estudiante', 350)
-        self.create_users_by_profile(fake, 'profesor', 74)
-        self.create_users_by_profile(fake, 'coordinador', 12)
-        self.create_users_by_profile(fake, 'colegio', 27)
-        self.create_users_by_profile(fake, 'invitado', 3)
+        self.create_users_by_profile(fake, 'ESTUDIANTE', 350)
+        self.create_users_by_profile(fake, 'PROFESOR', 54)
+        self.create_users_by_profile(fake, 'COORDINADOR', 12)
+        self.create_users_by_profile(fake, 'COLEGIO', 27)
+        self.create_users_by_profile(fake, 'INVITADO', 3)
         print('Registrando escuelas')
         self.create_schools(fake, 17)
         print('Registrando planes de estudio')
         self.create_stydu_plans(fake)
-        for i in range(14):
+        for i in range(24):
             print('Registrando Cursos Activos')
             self.create_active_courses(fake)
         print('Registrando Subscripciones')
@@ -186,7 +186,7 @@ class Command(BaseCommand):
         print('creando Pagos')
         self.create_payments(fake)
         print('Referencias Personales')
-        for i in range(14):
+        for i in range(15):
             if random.choice([False, False, True, False, True]):
                 self.create_personal_references(fake)
         print('<==\t Datos de prueba generados')
@@ -206,7 +206,7 @@ class Command(BaseCommand):
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
                 date_of_birth=fake.date_of_birth(),
-                presentation=PRESNTATION[role],
+                presentation=PRESENTATION[role],
                 dni_number=fake.ssn(),
                 address=fake.address(),
                 url_instagram=random.choice([fake.url(), None]),
@@ -223,7 +223,7 @@ class Command(BaseCommand):
                 state=my_state,
                 city=random.choice(STATES_EC[my_state]),
                 civil_status=random.choice(
-                    ['soltero', 'casado', 'soltero', 'divorciado', 'casado']
+                    ['SOLTERO', 'CASADO', 'SOLTERO', 'DIVORCIADO', 'CASADO']
                 ),
                 geolocation=ubication[0] + ',' + ubication[1],
                 password='1234.abc_',
@@ -235,7 +235,7 @@ class Command(BaseCommand):
             my_state = random.choice(list(STATES_EC.keys()))
             ubication = fake.local_latlng(country_code='EC')
             School.objects.create(
-                name='Colegio  ' + fake.company(),
+                name='Colegio ' + fake.company(),
                 address=fake.address(),
                 geolocation=ubication[0] + ',' + ubication[1],
                 ami_code=fake.ssn(),
@@ -246,7 +246,7 @@ class Command(BaseCommand):
                 website=fake.url(),
                 description=fake.text(),
                 id_owner=CustomUserModel.objects.filter(
-                    role='colegio'
+                    role='COLEGIO'
                 ).order_by('?').first(),
                 is_active=True,
                 id_user_created=1,
@@ -255,17 +255,17 @@ class Command(BaseCommand):
 
     def create_stydu_plans(self, fake):
         name_plans = [
-            'Séptimo de Educación General Básica',
-            'Octavo de Educación General Básica',
-            'Noveno de Educación General Básica',
-            'Décimo de Educación General Básica',
-            'Primero de Bachillerato General Unificado',
-            'Segundo de Bachillerato General Unificado',
-            'Tercero de Bachillerato General Unificado',
+            'SÉPTIMO DE EDUCACIÓN GENERAL BÁSICA',
+            'OCTAVO DE EDUCACIÓN GENERAL BÁSICA',
+            'NOVENO DE EDUCACIÓN GENERAL BÁSICA',
+            'DÉCIMO DE EDUCACIÓN GENERAL BÁSICA',
+            'PRIMERO DE BACHILLERATO GENERAL UNIFICADO',
+            'SEGUNDO DE BACHILLERATO GENERAL UNIFICADO',
+            'TERCERO DE BACHILLERATO GENERAL UNIFICADO',
         ]
         for i in name_plans:
             user = CustomUserModel.objects.filter(
-                role='coordinador'
+                role='COORDINADOR'
             ).order_by('?').first()
 
             StudyPlan.objects.create(
@@ -277,17 +277,17 @@ class Command(BaseCommand):
                 id_user_updated=1,
             )
         asignatures = [
-            'Ciencias Naturales',
-            'Ciencias Sociales',
-            'Educación Artística',
-            'Educación Ética y Valores',
-            'Educación Física',
-            'Física',
-            'Inglés',
-            'Lengua y Literatura',
-            'Matemáticas',
-            'Quimica'
-            'Tecnología',
+            'CIENCIAS NATURALES',
+            'CIENCIAS SOCIALES',
+            'EDUCACIÓN ARTÍSTICA',
+            'EDUCACIÓN ÉTICA Y VALORES',
+            'EDUCACIÓN FÍSICA',
+            'FÍSICA',
+            'INGLÉS',
+            'LENGUA Y LITERATURA',
+            'MATEMÁTICAS',
+            'QUIMICA'
+            'TECNOLOGÍA',
         ]
 
         study_plans = StudyPlan.objects.all()
@@ -307,12 +307,12 @@ class Command(BaseCommand):
 
     def create_active_courses(self, fake):
         all_schools = list(School.objects.all())
-        all_teachers = list(CustomUserModel.objects.filter(role='profesor'))
-        all_students = list(CustomUserModel.objects.filter(role='estudiante'))
+        all_teachers = list(CustomUserModel.objects.filter(role='PROFESOR'))
+        all_students = list(CustomUserModel.objects.filter(role='ESTUDIANTE'))
         states = [
-            'por iniciar',
-            'en proceso',
-            'finalizado',
+            'POR INICIAR',
+            'EN PROCESO',
+            'FINALIZADO',
         ]
         all_study_plans = StudyPlan.objects.all()
         for i in range(7):
@@ -342,13 +342,13 @@ class Command(BaseCommand):
 
     def create_subscriptions(self, fake):
         all_users = CustomUserModel.objects.exclude(
-            role='invitado'
+            role='INVITADO'
         ).exclude(email='eduardouio7@gmail.com')
         active_courses = list(ActiveCourse.objects.all())
         for user in all_users:
             if random.choice([True, False, True, True]):
                 my_cost = random.randint(21, 55)
-                my_role = user.role.upper() if user.role.upper() != 'coordinador' else 'otro'
+                my_role = user.role.upper() if user.role.upper() != 'COORDINADOR' else 'OTRO'
                 Subscription.objects.create(
                     id_user=user,
                     id_active_course=random.choice(active_courses),
@@ -361,7 +361,7 @@ class Command(BaseCommand):
                 )
 
     def create_user_banks(self, fake):
-        users = CustomUserModel.objects.exclude(role='guest').exclude(
+        users = CustomUserModel.objects.exclude(role='GUEST').exclude(
             email='eduardouio7@gmail.com'
         )
 
@@ -383,11 +383,11 @@ class Command(BaseCommand):
         all_subscriptions = Subscription.objects.all()
 
         payment_status = [
-            'pendiente',
-            'pagado',
-            'error',
-            'devuelto',
-            'cancelado',
+            'PENDIENTE',
+            'PAGADO',
+            'ERROR',
+            'DEVUELTO',
+            'CANCELADO',
         ]
         for subscription in all_subscriptions:
             if random.choice([True, False, True, True]):
@@ -427,13 +427,13 @@ class Command(BaseCommand):
         for user in all_users:
             PersonalReferences.objects.create(
                 id_user=user,
-                type=random.choice(['personal', 'profesional']),
+                type=random.choice(['PERSONAL', 'PROFESIONAL']),
                 enterprise=fake.company(),
                 name_contact=fake.name(),
                 phone_contact=fake.phone_number(),
                 email_contact=fake.email(),
                 relationship=random.choice(
-                    ['familiar', 'jefe', 'amigo', 'otro']),
+                    ['FAMILIAR', 'JEFE', 'AMIGO', 'OTRO']),
                 is_verified=random.choice([True, False]),
                 verification_date=fake.past_datetime(),
                 start_date=start_date,
@@ -442,10 +442,10 @@ class Command(BaseCommand):
             )
 
     def define_roles(self, fake):
-        teachers = CustomUserModel.objects.filter(role='profesor')
+        teachers = CustomUserModel.objects.filter(role='PROFESOR')
         for teacher in teachers:
             teacher.level_education = random.choice(
-                ['doctorado', 'superior', 'master', 'postgrado', 'superior']
+                ['DOCTORADO', 'SUPERIOR', 'MASTER', 'POSTGRADO', 'SUPERIOR']
             )
             teacher.save()
 
@@ -453,7 +453,7 @@ class Command(BaseCommand):
 
         for student in students:
             student.disability_type = random.choice(
-                ['visual', 'auditiva', 'motriz', 'intelectual', 'otra']
+                ['VISUAL', 'AUDITIVA', 'MOTRIZ', 'INTELECTUAL', 'OTRA']
             )
             student.disability_persent = fake.random_int(min=1, max=100)
             student.card_conadis = fake.ssn()
@@ -461,7 +461,7 @@ class Command(BaseCommand):
 
     def load_last_sesion(self, fake):
         all_users = CustomUserModel.objects.exclude(
-            role='invitado'
+            role='INVITADO'
         ).exclude(email='eduardouio7@gmail.com')
 
         for user in all_users:
