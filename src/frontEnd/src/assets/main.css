@@ -25,13 +25,13 @@
 }
 
 .my-input{
-  @apply border rounded-lg px-3 py-2 mt-1 mb-5 text-sm
+  @apply border rounded-lg px-3 py-2 mt-1 mb-5 text-sm;
 }
 
 .tb-active{
-  @apply [--tab-bg:#64748b] [--tab-border-color:#e0e0e0] text-white
+  @apply [--tab-bg:#64748b] [--tab-border-color:#e0e0e0] text-white;
 }
 
 td{
-  @apply border border-gray-200
+  @apply border border-gray-200;
 }

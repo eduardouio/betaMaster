@@ -2,10 +2,35 @@
 import { useStore } from 'vuex';
 import { onMounted, ref } from 'vue';
 import serverConfigData from '@/config';
+import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, ChevronRightIcon, ChevronLeftIcon } from '@heroicons/vue/24/outline';
 
-let showLoader = ref(true);
 const store = useStore();
 let dashboardData = store.state.dashboardData;
+let paginatedData = ref([]);
+
+let currentPage = ref(1);
+let perPage = ref(10);
+let offset = ref((currentPage.value - 1) * perPage.value);
+let paginatedItems = ref(dashboardData.slice(offset.value).slice(0, perPage.value));
+
+
+onMounted(() => {
+    paginatedData.value = paginateContent(dashboardData);
+});
+
+function paginateContent(data) {
+    let paginatedData = [];
+    let page = 1;
+    let perPage = 10;
+    let offset = (page - 1) * perPage;
+    let paginatedItems = data.slice(offset).slice(0, perPage);
+    for (let i = 0; i < paginatedItems.length; i++) {
+        paginatedData.push(paginatedItems[i]);
+    }
+    return paginatedData;
+}
+
+
 </script>
 <template>
     <div
@@ -23,24 +48,32 @@ let dashboardData = store.state.dashboardData;
             <div class="block w-full overflow-x-auto">
                 <table class="table table-border">
                     <thead>
-                        <tr class="bg-gray-100 text-center">
+                        <tr class="bg-gray-200 text-center text-gray-950">
                             <th>#</th>
                             <th>Estudiante</th>
-                            <th>Curso</th>
                             <th>Colegio</th>
-                            <th>Ciudad</th>
+                            <th>Periodo</th>
+                            <th>Estado</th>
+                            <th>Ubicación</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row,idx in dashboardData" class="text-gray-700 hover:bg-yellow-50" :key="row">
-                            <td>{{idx+1}}</td>
-                            <td>{{row.student.first_name}} {{row.student.last_name}}</td>
-                            <td>{{row.school.name}}</td>
-                            <td>{{row.active_course.period}}</td>
-                            <td>{{row.active_course.state}}</td>
+                        <tr v-for="row,idx in paginateContent" class=" hover:bg-yellow-50" :key="row">
+                            <td class="pb-0 pl-1">{{idx+1}}</td>
+                            <td class="pb-0 pl-1">{{row.student.first_name}} {{row.student.last_name}}</td>
+                            <td class="pb-0 pl-1">{{row.school.name}}</td>
+                            <td class="pb-0 pl-1">{{row.active_course.period}}</td>
+                            <td class="pb-0 pl-1">{{row.active_course.state}}</td>
+                            <td class="pb-0 pl-1">{{row.student.city}}</td>
                         </tr>
                     </tbody>
-                </table>
+                </table> 
+                <section class="flex gap-2 p-2">
+                    <button class="btn btn-xs btn-outline"><ChevronDoubleLeftIcon class="w-4 h-4"/></button>
+                    <button class="btn btn-xs btn-outline"><ChevronLeftIcon class="h-4 w-4"/></button>
+                    <button class="btn btn-xs btn-outline"><ChevronRightIcon class="h-4 w-4"/></button>
+                    <button class="btn btn-xs btn-outline"><ChevronDoubleRightIcon class="h-4 w-4"/></button>
+                </section>
             </div>
         </div>
     </div>
