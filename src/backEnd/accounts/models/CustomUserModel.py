@@ -314,5 +314,5 @@ class CustomUserModel(AbstractUser):
                 'date_joined': user.date_joined.isoformat(),
             }
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.email
