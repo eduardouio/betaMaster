@@ -23,7 +23,6 @@ async function loadData(){
     let url = serverConfigData.urls.teacherData.replace(
         '{idUser}', serverConfigData.idUser
     );
-    console.dir(url);
     let response = await fetch(
         url,{
         method: 'GET',

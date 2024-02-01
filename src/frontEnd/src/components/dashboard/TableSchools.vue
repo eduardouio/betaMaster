@@ -6,7 +6,6 @@ import serverConfigData from '@/config';
 let showLoader = ref(true);
 const store = useStore();
 let dashboardData = store.state.dashboardData;
-console.dir(dashboardData.school);
 </script>
 <template>
     <div
@@ -14,80 +13,31 @@ console.dir(dashboardData.school);
         <div class="rounded-t mb-0 px-0 border-0">
             <div class="flex flex-wrap items-center px-4 py-2">
                 <div class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Mis Colegios Asignados
-                        <span class="bg-red-600 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded-full">4</span>
+                    <h3 class="font-semibold text-base text-gray-900 dark:text-gray-50">Mis Estudiantes
                     </h3>
                 </div>
                 <div class="relative w-full max-w-full flex-grow flex-1 text-right">
-                    <button
-                        class="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button">Ver Todo</button>
+                    <button class="text-sm text-primary btn btn-sm btn-outline">Ver Todo</button>
                 </div>
             </div>
             <div class="block w-full overflow-x-auto">
-                <table class="items-center w-full bg-transparent border-collapse">
+                <table class="table table-border">
                     <thead>
-                        <tr>
-                            <th
-                                class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                Colegio</th>
-                            <th
-                                class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                Estudiantes</th>
-                            <th
-                                class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px">
-                                Ciudad
-                            </th>
+                        <tr class="bg-gray-100 text-center">
+                            <th>#</th>
+                            <th>Estudiante</th>
+                            <th>Curso</th>
+                            <th>Colegio</th>
+                            <th>Ciudad</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-gray-700 dark:text-gray-100">
-                            <th
-                                class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                Colegio General Juan Flores</th>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3</td>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <div class="flex items-center">
-                                    <span class="mr-2">QUITO</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-gray-700 dark:text-gray-100">
-                            <th
-                                class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                Colegio Nacional Montufar</th>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3</td>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <div class="flex items-center">
-                                    <span class="mr-2">QUITO</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-gray-700 dark:text-gray-100">
-                            <th
-                                class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                Colego Gran Bretaña</th>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3</td>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <div class="flex items-center">
-                                    <span class="mr-2">QUITO</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-gray-700 dark:text-gray-100">
-                            <th
-                                class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                                Colegio General Juan Flores</th>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                3</td>
-                            <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                <div class="flex items-center">
-                                    <span class="mr-2">QUITO</span>
-                                </div>
-                            </td>
+                        <tr v-for="row,idx in dashboardData" class="text-gray-700 hover:bg-yellow-50" :key="row">
+                            <td>{{idx+1}}</td>
+                            <td>{{row.student.first_name}} {{row.student.last_name}}</td>
+                            <td>{{row.school.name}}</td>
+                            <td>{{row.active_course.period}}</td>
+                            <td>{{row.active_course.state}}</td>
                         </tr>
                     </tbody>
                 </table>
