@@ -18,6 +18,7 @@ let currentPage = ref(1);
 let perPage = ref(10);
 let filter = ref('');
 let pages = ref(Math.ceil(dashboardData.length / perPage.value));
+let showing = ref(0);
 
 onMounted(() => {paginateContent(dashboardData);});
 
@@ -58,6 +59,7 @@ function paginateContent(data, filter='') {
     }
     let start = (currentPage.value - 1) * perPage.value;
     let paginatedItems = data.slice(start, start + perPage.value);
+    showing.value = paginatedItems.length;
     paginatedData.value = paginatedItems;
 }
 
@@ -102,7 +104,7 @@ function filterData(data, filter) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row">
+                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row" onclick="modalStudent.showModal()">
                             <td class="pb-0 pl-1">{{ (perPage*(currentPage-1)) + idx+1}}</td>
                             <td class="pb-0 pl-1">{{row.student.first_name}} {{row.student.last_name}}</td>
                             <td class="pb-0 pl-1">{{row.school.name}}</td>
@@ -138,7 +140,7 @@ function filterData(data, filter) {
                     </button> 
                 </div>
                 <div class="relative text-xs">
-                    Página 1 de {{ pages }} - Mostrando {{ perPage }} de {{ paginatedData.length }} Registros Encontrados
+                    Página 1 de {{ pages }} - Mostrando {{ showing }} de {{ dashboardData.length }} Registros
                 </div>
                 <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <span class="text-xs">Elementos por Página </span>
