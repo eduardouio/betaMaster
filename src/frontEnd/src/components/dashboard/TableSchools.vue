@@ -104,7 +104,7 @@ function filterData(data, filter) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row" onclick="modalStudent.showModal()">
+                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row">
                             <td class="pb-0 pl-1">{{ (perPage*(currentPage-1)) + idx+1}}</td>
                             <td class="pb-0 pl-1">{{row.student.first_name}} {{row.student.last_name}}</td>
                             <td class="pb-0 pl-1">{{row.school.name}}</td>

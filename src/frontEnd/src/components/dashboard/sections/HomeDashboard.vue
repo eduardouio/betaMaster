@@ -1,7 +1,7 @@
 <script setup>
 import CardIndicator from '@/components/dashboard/CardIndicator.vue';
 import TableSchools from '@/components/dashboard/TableSchools.vue';
-import TableCandidates from '@//components/dashboard/TableCandidates.vue';
+import ModalStudent from '@/components/dashboard/ModalStudent.vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -27,5 +27,6 @@ const dashboardData = store.state.dashboardData;
         <div class="grid grid-cols-1 p-4 gap-4">
             <TableSchools/>
         </div>
+        <ModalStudent />
     </div>
 </template>
