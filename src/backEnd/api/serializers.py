@@ -55,7 +55,52 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
 
 
 class CompleteDataForStudentSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = CustomUserModel
+        exclude = ['password']
+
+    def to_representation(self, obj):
+        data = {}
+        active_courses = ActiveCourse.objects.filter(student=obj)
+        data['active_courses'] = ActiveCourseSerializer(
+            active_courses, many=True).data
+        data['school'] = []
+        data['teachers'] = []
+
+        for active_course in active_courses:
+
+            for teacher in active_course.teacher.all():
+                url = ''
+                if teacher.picture:
+                    url = teacher.picture.url
+
+                if not any(teacher.pk == t['id'] for t in data['teachers']):
+                    data['teachers'].append(
+                        {
+                            'id': teacher.pk,
+                            'picture': url,
+                            'first_name': teacher.first_name,
+                            'last_name': teacher.last_name,
+                            'email': teacher.email,
+                            'state': teacher.state,
+                            'city': teacher.city,
+                            'geolocation': teacher.geolocation,
+                        }
+                    )
+
+            data['school'].append({
+                'id': active_course.id_school.pk,
+                'name': active_course.id_school.name,
+                'email': active_course.id_school.email,
+                'ami_code': active_course.id_school.ami_code,
+                'state': active_course.id_school.state,
+                'city': active_course.id_school.city,
+                'address': active_course.id_school.address,
+                'geolocation': active_course.id_school.geolocation,
+
+            })
+
+        return data
 
 
 class CompleteDataForSchool(serializers.ModelSerializer):

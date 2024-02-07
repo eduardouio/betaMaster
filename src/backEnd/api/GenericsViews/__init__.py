@@ -1,1 +1,1 @@
-from .CompleteDataProfile import TeacherDataApiView
+from .CompleteDataProfile import TeacherDataApiView, StudentDataAPIView

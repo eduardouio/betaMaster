@@ -37,8 +37,9 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
     UpdatePaymentAPIView
 )
 
-from api.GenericsViews import TeacherDataApiView
-
+from api.GenericsViews import (
+    TeacherDataApiView, StudentDataAPIView
+)
 
 
 from django.urls import path
@@ -75,6 +76,11 @@ urlpatterns = [
         "user/complete-data-teacher/<int:pk>/",
         TeacherDataApiView.as_view(),
         name="api-teacher-data",
+    ),
+    path(
+        "user/complete-data-student/<int:pk>/",
+        StudentDataAPIView.as_view(),
+        name="api-student-data",
     ),
     # bancos de usuario
     path(
