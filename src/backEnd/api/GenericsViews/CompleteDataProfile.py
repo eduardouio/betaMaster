@@ -92,7 +92,6 @@ class StudentDataForTeacherAPIView(APIView):
         return Response(report)
 
 
-
 # /api/user/complete-data-student/<int:pk>/ -> api-student-data
 class StudentDataAPIView(APIView):
     def get(self, request, pk):
