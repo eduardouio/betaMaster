@@ -124,3 +124,12 @@ Anotaciones de desarrollo
 ## Endpoints de Media
 
 - `GET /media/<path>`: Sirve archivos estáticos de media.
+
+
+## anotaciones
+
+Los estudiantes solamente pueden tener una suscripción activa a la vez.
+Los estudiantes pueden tener varios profesores asignados
+Los estudianres solo pueden tener una curso activo
+Los profesores pueden tener varios cursos activos
+
