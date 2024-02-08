@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, defineEmits } from 'vue';
 import 
     { 
         ChevronDoubleLeftIcon,
@@ -10,6 +10,13 @@ import
     } 
 from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config';
+
+// defimimos los emits para actualizar el modal
+const emits = defineEmits(['idStudent']);
+
+function emitIdStudent(id){
+    emits('idStudent', id);
+}
 
 const store = useStore();
 let dashboardData = store.state.dashboardData;
@@ -104,7 +111,7 @@ function filterData(data, filter) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row">
+                        <tr v-for="row,idx in paginatedData" class=" hover:bg-yellow-50" :key="row" @click="emitIdStudent(row.student.id)">
                             <td class="pb-0 pl-1">{{ (perPage*(currentPage-1)) + idx+1}}</td>
                             <td class="pb-0 pl-1">{{row.student.first_name}} {{row.student.last_name}}</td>
                             <td class="pb-0 pl-1">{{row.school.name}}</td>

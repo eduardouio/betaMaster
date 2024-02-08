@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { onMounted, ref, shallowReactive } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import serverConfigData from '@/config';
 import Footer from '@/components/Footer.vue';
