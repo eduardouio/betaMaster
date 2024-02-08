@@ -315,7 +315,7 @@ class Command(BaseCommand):
             'FINALIZADO',
         ]
         all_study_plans = StudyPlan.objects.all()
-        for i in range(7):
+        for i, x in enumerate(states):
             for study_plan in all_study_plans:
                 my_teacher = random.choice(all_teachers)
                 active_course = ActiveCourse(
@@ -323,7 +323,7 @@ class Command(BaseCommand):
                     id_study_plan=study_plan,
                     student=random.choice(all_students),
                     year=random.randint(2021, 2023),
-                    state=random.choice(states),
+                    state=x,
                     period=random.choice(
                         ['2021-2022', '2022-2023', '2022-2023']
                     ),
