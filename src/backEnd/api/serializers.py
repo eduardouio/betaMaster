@@ -62,6 +62,7 @@ class CompleteDataForStudentSerializer(serializers.ModelSerializer):
     def to_representation(self, obj):
         data = {}
         active_courses = ActiveCourse.objects.filter(student=obj)
+        data['student'] = UserSerializerPublic(obj).data
         data['active_courses'] = ActiveCourseSerializer(
             active_courses, many=True).data
         data['school'] = []

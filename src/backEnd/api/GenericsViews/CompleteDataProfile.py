@@ -81,5 +81,9 @@ class StudentDataAPIView(APIView):
                         row['teachers'].append(teacher)
 
             data.append(row)
+        report = {
+            'student': serializer.data['student'],
+            'active_courses': data
+        }
 
-        return Response(data)
+        return Response(report)
