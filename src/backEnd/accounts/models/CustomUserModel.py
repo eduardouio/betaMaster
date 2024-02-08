@@ -63,7 +63,7 @@ TYPE_DISABILITY = (
     ('AUDITIVA', 'AUDITIVA'),
     ('MOTRIZ', 'MOTRIZ'),
     ('INTELECTUAL', 'INTELECTUAL'),
-    ('OTRA', 'OTRO'),
+    ('OTRA', 'OTRA'),
 )
 
 

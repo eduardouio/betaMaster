@@ -4,7 +4,7 @@ export default createStore({
     state: {
         userData: null,
         dashboardData: null,
-        studentData:null,
+        studentDataByTeacher:null,
     },
     mutations: {
         setUserData(state, userData) {
@@ -13,8 +13,8 @@ export default createStore({
         setDashboardData(state, dashboardData) {
             state.dashboardData = dashboardData;
         },
-        setStudentData(state, studentData) {
-            state.studentData = studentData;
+        setStudentDataByTeacher(state, studentDataByTeacher) {
+            state.studentDataByTeacher = studentDataByTeacher;
         }
     },
     actions: {
@@ -24,8 +24,8 @@ export default createStore({
         setDashboardData({ commit }, dashboardData) {
             commit('setDashboardData', dashboardData);
         },
-        setStudentData({ commit }, studentData) {
-            commit('setStudentData', studentData);
+        setStudentDataByTeacher({ commit }, studentDataByTeacher) {
+            commit('setstudentDataByTeacher', studentDataByTeacher);
         }
     },
     getters: {
@@ -35,8 +35,8 @@ export default createStore({
         getDashboardData(state) {
             return state.dashboardData;
         },
-        getStudentData(state) {
-            return state.studentData;
+        getStudentDataByTeacher(state) {
+            return state.studentDataByTeacher;
         }
     }
 });
