@@ -223,7 +223,7 @@ async function loadData() {
                   {{ studentDataByTeacher.active_courses[0].school.state }},
                   {{ studentDataByTeacher.active_courses[0].school.city }}
                 </td>
-                <td class="text-center">
+                <td>
                   <div :class="classsStatus[value.active_course.state]">
                     {{ value.active_course.state }}
                   </div>

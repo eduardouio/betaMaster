@@ -122,7 +122,7 @@ function filterData(data, filter) {
                             <td class="pb-0 pl-1">{{row.student.first_name}} {{row.student.last_name}}</td>
                             <td class="pb-0 pl-1">{{row.school.name}}</td>
                             <td class="pb-0 pl-1">{{row.active_course.period}}</td>
-                            <td class="pb-0 pl-1 text-center">
+                            <td class="pb-0 pl-1">
                                 <div :class="classsStatus[row.active_course.state]">
                                     {{row.active_course.state}}
                                 </div>
