@@ -1,1 +1,5 @@
-from .CompleteDataProfile import TeacherDataApiView, StudentDataAPIView
+from .CompleteDataProfile import (
+    TeacherDataApiView,
+    StudentDataAPIView,
+    StudentDataForTeacherAPIView
+)

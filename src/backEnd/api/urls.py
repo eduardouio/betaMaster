@@ -38,7 +38,7 @@ from api.GenericsViews.GenericsUdpadeAPIViews import (
 )
 
 from api.GenericsViews import (
-    TeacherDataApiView, StudentDataAPIView
+    TeacherDataApiView, StudentDataAPIView, StudentDataForTeacherAPIView
 )
 
 
@@ -81,6 +81,11 @@ urlpatterns = [
         "user/complete-data-student/<int:pk>/",
         StudentDataAPIView.as_view(),
         name="api-student-data",
+    ),
+    path(
+        "user/data-student-by-teacher/student/<int:id_student>/teacher/<int:id_teacher>/",
+        StudentDataForTeacherAPIView.as_view(),
+        name="api-student-data-teacher",
     ),
     # bancos de usuario
     path(

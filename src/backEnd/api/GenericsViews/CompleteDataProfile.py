@@ -47,6 +47,52 @@ class TeacherDataApiView(APIView):
         return Response(data)
 
 
+# /api/user/data-student-by-teacher/student/{idUser}/teacher/{idTeacher}/ -> api-student-data-teacher
+class StudentDataForTeacherAPIView(APIView):
+
+    def get(self, request, id_student, id_teacher):
+        user = get_object_or_404(CustomUserModel, pk=id_student)
+        if user.role != 'ESTUDIANTE':
+            return Response({'error': 'user is not a student'})
+
+        serializer = CompleteDataForStudentSerializer(user)
+        data = []
+
+        for active_course in serializer.data['active_courses']:
+            if id_teacher in active_course['teacher']:
+                row = {
+                    'active_course': {
+                        'id_active_courses': active_course['id_active_courses'],
+                        'id_student': id_student,
+                        'id_school': active_course['id_school'],
+                        'id_teacher': active_course['teacher'],
+                        'period': active_course['period'],
+                        'state': active_course['state'],
+                    },
+                    'school': None,
+                    'teachers': []
+                }
+
+                for school in serializer.data['school']:
+                    if active_course['id_school'] == school['id']:
+                        row['school'] = school
+
+                for teacher in serializer.data['teachers']:
+                    for teacher_active_course in active_course['teacher']:
+                        if teacher_active_course == teacher['id']:
+                            row['teachers'].append(teacher)
+
+                data.append(row)
+
+        report = {
+            'student': serializer.data['student'],
+            'active_courses': data
+        }
+
+        return Response(report)
+
+
+
 # /api/user/complete-data-student/<int:pk>/ -> api-student-data
 class StudentDataAPIView(APIView):
     def get(self, request, pk):
