@@ -3,48 +3,55 @@ import CardIndicator from '@/components/dashboard/CardIndicator.vue';
 import TableSchools from '@/components/dashboard/TableSchools.vue';
 import ModalStudent from '@/components/dashboard/ModalStudent.vue';
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 
 const store = useStore();
 const dashboardData = store.state.dashboardData;
 let showModal = ref(false);
 let idStudent = ref('0');
+const counter = reactive({
+    schools: [],
+    students: [],
+    courses: []
+});
 
-function handleIdStudent(id){
+function handleIdStudent(id) {
     idStudent.value = id.toString();
     showModal.value = true;
 };
 
-function handelModal(){
+function handelModal() {
     showModal.value = false;
+}
+
+onMounted(async () => {
+    const dashboardData = await store.state.dashboardData;
+    counterItems(dashboardData);
+});
+
+function counterItems(data) {
+    data.forEach((item) => {
+        counter.schools.push(item.school.id);
+        counter.students.push(item.student.id);
+        counter.courses.push(item.active_course.id_active_courses);
+    });
+    counter.schools = counter.schools.filter((val, idx, array) => array.indexOf(val) === idx);
+    counter.students = counter.students.filter((val, idx, array) => array.indexOf(val) === idx);
+    counter.courses = counter.courses.filter((val, idx, array) => array.indexOf(val) === idx);
+    console.log(counter);
 }
 
 </script>
 <template>
     <div>
         <div class="grid items-center grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 ">
-            <CardIndicator 
-            :nameCard="'Cursos'" 
-            :totalCard="dashboardData.length" 
-            />
-            <CardIndicator 
-            :nameCard="'Estudiantes'" 
-            :totalCard="dashboardData.length" 
-            />
-            <CardIndicator 
-            :nameCard="'Colegios'" 
-            :totalCard="dashboardData.length" 
-            />
+            <CardIndicator :nameCard="'Cursos'" :totalCard="counter.courses.length" />
+            <CardIndicator :nameCard="'Estudiantes'" :totalCard="counter.students.length" />
+            <CardIndicator :nameCard="'Colegios'" :totalCard="counter.schools.length" />
         </div>
         <div class="grid grid-cols-1 p-4 gap-4">
-            <TableSchools
-            @idStudent="handleIdStudent"
-            />
+            <TableSchools @idStudent="handleIdStudent" />
         </div>
-        <ModalStudent 
-            v-if="showModal" 
-            :idStudent="idStudent"
-            @closeModal="handelModal"
-            />
+        <ModalStudent v-if="showModal" :idStudent="idStudent" @closeModal="handelModal" />
     </div>
 </template>
