@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch, defineEmits } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import 
     { 
         ChevronDoubleLeftIcon,
