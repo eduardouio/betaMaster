@@ -13,6 +13,13 @@ from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config';
 import LoaderVue from '@/components/generics/Loader.vue';
 
+// emitimos el id del colegio
+const emits = defineEmits(['idSchool']);
+function emitIdSchools(id){
+	emits('idSchool', id);
+
+}
+
 // listamos colegios unicos
 const seen = new Set();
 const collegesList = ref([]);
@@ -125,7 +132,7 @@ watch(currentPage, (newVal, oldVal) => {
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
                             click="emitIdStudent(row.student.id)">
                             <td class="pb-0 pl-1"> {{(perPage * (currentPage - 1)) + idx + 1 }}</td>
-                            <td class="pb-0 pl-1"> {{row.name}}</td>
+                            <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.id }})</small> {{row.name}}</td>
 							<td class="pb-0 pl-1"> {{row.ami_code}}</td>
                             <td class="pb-0 pl-1"> {{row.email }}</td>
                             <td class="pb-0 pl-1"> {{row.state }}, {{row.city }}</td>
