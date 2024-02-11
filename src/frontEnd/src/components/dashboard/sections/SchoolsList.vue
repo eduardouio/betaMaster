@@ -1,5 +1,6 @@
 <script setup>
-import TableSchools from '../TableSchools.vue';
+import TableSchools from '@/components/dashboard/TableSchools.vue';
+
 </script>
 
 <template>

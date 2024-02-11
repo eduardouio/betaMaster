@@ -1,12 +1,11 @@
 <script setup>
 import CardIndicator from '@/components/dashboard/CardIndicator.vue';
-import TableSchools from '@/components/dashboard/TableSchools.vue';
+import TableStudents from '@/components/dashboard/TableStudents.vue';
 import ModalStudent from '@/components/dashboard/ModalStudent.vue';
 import { useStore } from 'vuex';
 import { ref, reactive, onMounted } from 'vue';
 
 const store = useStore();
-const dashboardData = store.state.dashboardData;
 let showModal = ref(false);
 let idStudent = ref('0');
 const counter = reactive({
@@ -27,6 +26,7 @@ function handelModal() {
 onMounted(async () => {
     const dashboardData = await store.state.dashboardData;
     counterItems(dashboardData);
+    document.title = 'Inicio | Dashboard';
 });
 
 function counterItems(data) {
@@ -38,7 +38,6 @@ function counterItems(data) {
     counter.schools = counter.schools.filter((val, idx, array) => array.indexOf(val) === idx);
     counter.students = counter.students.filter((val, idx, array) => array.indexOf(val) === idx);
     counter.courses = counter.courses.filter((val, idx, array) => array.indexOf(val) === idx);
-    console.log(counter);
 }
 
 </script>
@@ -50,7 +49,7 @@ function counterItems(data) {
             <CardIndicator :nameCard="'Colegios'" :totalCard="counter.schools.length" />
         </div>
         <div class="grid grid-cols-1 p-4 gap-4">
-            <TableSchools @idStudent="handleIdStudent" />
+            <TableStudents @idStudent="handleIdStudent" />
         </div>
         <ModalStudent v-if="showModal" :idStudent="idStudent" @closeModal="handelModal" />
     </div>

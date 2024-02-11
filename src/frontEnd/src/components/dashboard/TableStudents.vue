@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, reactive } from 'vue';
 import 
     { 
         ChevronDoubleLeftIcon,
@@ -25,13 +25,19 @@ const classsStatus = {
 };
 
 const store = useStore();
+// datos del store
 let dashboardData = store.state.dashboardData;
-let paginatedData = ref([]);
+// datos paginados
+const paginatedData = ref([]);
+// pagina actual mostrada
 let currentPage = ref(1);
 let perPage = ref(10);
+// texto del filtro
 let filter = ref('');
+// paginas de la tabla
 let pages = ref(Math.ceil(dashboardData.length / perPage.value));
-let showing = ref(0);
+// itmes mostrados en la tabla
+let showingItems = ref(0);
 
 onMounted(() => {paginateContent(dashboardData);});
 
@@ -71,9 +77,8 @@ function paginateContent(data, filter='') {
         data = filterData(data, filter);
     }
     let start = (currentPage.value - 1) * perPage.value;
-    let paginatedItems = data.slice(start, start + perPage.value);
-    showing.value = paginatedItems.length;
-    paginatedData.value = paginatedItems;
+    paginatedData.value = data.slice(start, start + perPage.value);
+    showingItems.value = paginatedData.value.length;
 }
 
 // filtro de datos
@@ -157,7 +162,7 @@ function filterData(data, filter) {
                     </button> 
                 </div>
                 <div class="relative text-xs">
-                    Página 1 de {{ pages }} - Mostrando {{ showing }} de {{ dashboardData.length }} Registros
+                    Página 1 de {{ pages }} - Mostrando {{ showingItems }} de {{ dashboardData.length }} Registros
                 </div>
                 <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <span class="text-xs">Elementos por Página </span>
