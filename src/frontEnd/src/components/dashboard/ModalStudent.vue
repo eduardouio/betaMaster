@@ -29,18 +29,8 @@ const classsStatus = {
 
 const imageDefault = ref('');
 
-onMounted(() => {
-    loadData();
-});
-
-function emitCloseModal() {
-    showLoader.value = true;
-    emits('closeModal');
-}
-
-// Cargamos los datos del etudiante seleccionado
-async function loadData() { 
-    console.log('Estamos cargaando los datos del estudiante');
+onMounted(async() => {
+  console.log('Estamos cargaando los datos del estudiante');
     console.log('idStudent' +  props.idStudent);
     let url = serverConfigData.urls.studentDataByteacher.replace(
         '{idStudent}', props.idStudent
@@ -65,7 +55,13 @@ async function loadData() {
         imageDefault.value = studentDataByTeacher.student.sex === 'hombre'? imageMenDefault : imageWomanDefault;
         showLoader.value = false;
     }
+});
+
+function emitCloseModal() {
+    showLoader.value = true;
+    emits('closeModal');
 }
+
 </script>
 <style scoped>
 .my-modal {
@@ -171,7 +167,8 @@ async function loadData() {
                 <span class="font-bold w-2/5">Discapacidad:</span>
                 <span class="text-gray-700"> {{ studentDataByTeacher.student.have_disability ? 'SI' : 'NO' }}
                   <small class="badge bg-cyan-50" v-if="studentDataByTeacher.student.have_disability">
-                    {{ studentDataByTeacher.student.type_disability }} {{ studentDataByTeacher.student.disability_persent }} %
+                    {{ studentDataByTeacher.student.type_disability }} {{ studentDataByTeacher.student.disability_persent
+                    }} %
                     Carnet:
                     {{ studentDataByTeacher.student.card_conadis }}
                   </small>
@@ -235,11 +232,12 @@ async function loadData() {
         <div class="modal-action">
           <form method="dialog">
             <button class="btn btn-sm btn-error btn-outline hover:text-white" @click="emitCloseModal">
-            <XMarkIcon class="w-4 h-4" />
-            Cerrar
-          </button>
-        </form>
+              <XMarkIcon class="w-4 h-4" />
+              Cerrar
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  </dialog>
-</div></template>
+    </dialog>
+  </div>
+</template>
