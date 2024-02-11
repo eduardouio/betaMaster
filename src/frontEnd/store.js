@@ -15,7 +15,7 @@ export default createStore({
         },
         setStudentDataByTeacher(state, studentDataByTeacher) {
             state.studentDataByTeacher = studentDataByTeacher;
-        }
+        },
     },
     actions: {
         setUserData({ commit }, userData) {
@@ -26,7 +26,7 @@ export default createStore({
         },
         setStudentDataByTeacher({ commit }, studentDataByTeacher) {
             commit('setstudentDataByTeacher', studentDataByTeacher);
-        }
+        },
     },
     getters: {
         getUserData(state) {
