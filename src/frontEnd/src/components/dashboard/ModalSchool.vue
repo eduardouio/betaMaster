@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { XMarkIcon, MapPinIcon } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
-import imageMenDefault from '@/assets/profile-pic-men.png';
+import imageDefault from '@/assets/logo.jpeg';
 
 
 const emits = defineEmits(['closeModal']);
@@ -18,6 +18,12 @@ const props = defineProps({
         required: true
     }
 });
+
+const classsStatus = {
+    'POR INICIAR': 'text-sky-900 md:w-1/2',
+    'EN PROCESO': 'text-green-900 md:w-1/2',
+    'FINALIZADO': 'text-red-900 md:w-1/2'
+};
 </script>
 
 <style scoped>
@@ -36,7 +42,6 @@ const props = defineProps({
 </style>
 <template>
   <div class="my-modal">
-    {{ school }}
     <dialog v-if="showModal" class="modal" open>
       <div class="modal-box w-10/12 max-w-5xl">
         <span class="text-sm text-gray-400"> (#{{ school.school.id }}) | </span>
