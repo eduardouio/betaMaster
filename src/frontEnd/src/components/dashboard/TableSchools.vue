@@ -172,7 +172,7 @@ function consolidateData(data){
                         </button>
                     </div>
                     <div class="relative text-xs">
-                        Página 1 de  pages }} - Mostrando  showingItemsTable }} de  dashboardData.length }} Registros
+                        Página 1 de  {{ pages }} - Mostrando  {{ showingItemsTable }} de  {{ collegesList.length }} Registros
                     </div>
                     <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                         <span class="text-xs">Elementos por Página </span>
