@@ -14,9 +14,9 @@ import serverConfigData from '@/config';
 import LoaderVue from '@/components/generics/Loader.vue';
 
 // emitimos el id del colegio
-const emits = defineEmits(['idSchool']);
-function emitIdSchools(id){
-	emits('idSchool', id);
+const emits = defineEmits(['school']);
+function emitIdSchools(school){
+	emits('school', school);
 
 }
 
@@ -60,6 +60,7 @@ onMounted(async() => {
 	const dashboardData = await store.state.dashboardData;
 	document.title = 'Colegio | Dashboard';
 	collegesList.value = consolidateData(dashboardData);
+    console.log(collegesList.value);
 	pages.value = Math.ceil(collegesList.value.length / perPage.value);
 	paginateContent(collegesList.value);
     consolidateData(dashboardData);
@@ -108,9 +109,17 @@ function consolidateData(data){
             school: item,
             students: data.map((row) => row.student).filter((student)=>{
                 return student.id_shool == item.id;
+            }).map((student)=>{
+                return {
+                    student: student,
+                    courses: data.map((row) => row.active_course).filter((course)=>{
+                        return course.id_student == student.id;
+                    })
+                }
             })
         }
     });
+
 }
 
 </script>
@@ -143,7 +152,7 @@ function consolidateData(data){
                     </thead>
                     <tbody>
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
-                            click="emitIdStudent(row.student.id)">
+                            @click="emitIdSchools(row)">
                             <td class="pb-0 pl-1"> {{(perPage * (currentPage - 1)) + idx + 1 }}</td>
                             <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.school.id }})</small> {{row.school.name}}</td>
 							<td class="pb-0 pl-1"> {{row.school.ami_code}}</td>
