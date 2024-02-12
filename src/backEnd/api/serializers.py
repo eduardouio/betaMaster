@@ -38,14 +38,20 @@ class CompleteDataForTeacherSerializer(serializers.ModelSerializer):
                     'id_shool': active_course.id_school.pk,
                 }
             )
-
             data['school'].append({
                 'id': active_course.id_school.pk,
                 'name': active_course.id_school.name,
                 'email': active_course.id_school.email,
                 'ami_code': active_course.id_school.ami_code,
                 'state': active_course.id_school.state,
+                'website': active_course.id_school.website,
+                'logo': active_course.id_school.logo.url if active_course.id_school.logo else '',
+                'phone': active_course.id_school.phone,
+                'name_contact': active_course.id_school.name_contact,
                 'city': active_course.id_school.city,
+                'url_facebook': active_course.id_school.url_facebook,
+                'url_instagram': active_course.id_school.url_instagram,
+                'url_linkedin': active_course.id_school.url_linkedin,
                 'address': active_course.id_school.address,
                 'geolocation': active_course.id_school.geolocation,
 
