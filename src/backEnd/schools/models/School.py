@@ -99,6 +99,13 @@ class School(BaseModel):
         null=True,
         default=None
     )
+    name_contact = models.CharField(
+        'Nombre Contacto',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None
+    )
     offer_services = models.CharField(
         'Servicios Ofrecidos',
         max_length=250,

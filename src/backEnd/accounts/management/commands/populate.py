@@ -251,6 +251,10 @@ class Command(BaseCommand):
                 is_active=True,
                 id_user_created=1,
                 id_user_updated=1,
+                url_facebook=fake.url(),
+                url_linkedin=fake.url(),
+                url_instagram=fake.url(),
+                name_contact=fake.name(),
             )
 
     def create_stydu_plans(self, fake):
