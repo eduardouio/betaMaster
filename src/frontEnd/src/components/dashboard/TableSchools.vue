@@ -47,11 +47,11 @@ function paginateContent(data, filter='') {
 function filterData(data, filter) {
 	
     let filteredData = data.filter((item) => {
-        return item.name.toLowerCase().includes(filter.toLowerCase()) || 
-        item.state.toLowerCase().includes(filter.toLowerCase()) || 
-        item.city.toLowerCase().includes(filter.toLowerCase()) || 
-        item.ami_code.toLowerCase().includes(filter.toLowerCase()) || 
-        item.address.toLowerCase().includes(filter.toLowerCase());
+        return item.school.name.toLowerCase().includes(filter.toLowerCase()) || 
+        item.school.state.toLowerCase().includes(filter.toLowerCase()) || 
+        item.school.city.toLowerCase().includes(filter.toLowerCase()) || 
+        item.school.ami_code.toLowerCase().includes(filter.toLowerCase()) || 
+        item.school.address.toLowerCase().includes(filter.toLowerCase());
     });
     return filteredData;
 }
@@ -59,17 +59,10 @@ function filterData(data, filter) {
 onMounted(async() => {
 	const dashboardData = await store.state.dashboardData;
 	document.title = 'Colegio | Dashboard';
-	collegesList.value = dashboardData.map((item) => {
-		return item.school;
-	}).filter((val) => {
-		if (seen.has(val.id)) {
-			return false;
-		}
-		seen.add(val.id);
-		return true;
-	});
+	collegesList.value = consolidateData(dashboardData);
 	pages.value = Math.ceil(collegesList.value.length / perPage.value);
 	paginateContent(collegesList.value);
+    consolidateData(dashboardData);
 });
 
 // miramos si tenemos el filtro
@@ -101,6 +94,25 @@ watch(currentPage, (newVal, oldVal) => {
     paginateContent(collegesList.value);
 });
 
+// consolida la infromacion para mostrar los datos 
+function consolidateData(data){
+    let seen = new Set();
+    return data.map(item=>item.school).filter((item)=>{
+        if (!seen.has(item.id)) {
+            seen.add(item.id);
+            return true
+        }
+        return false;
+    }).map((item)=>{
+        return  {
+            school: item,
+            students: data.map((row) => row.student).filter((student)=>{
+                return student.id_shool == item.id;
+            })
+        }
+    });
+}
+
 </script>
 <template>
     <div
@@ -123,6 +135,7 @@ watch(currentPage, (newVal, oldVal) => {
                             <th>#</th>
                             <th>Colegio</th>
 							<th>Codigo AMI</th>
+                            <th>Estudiantes</th>
                             <th>Contacto</th>
                             <th>Provincia</th>
                             <th>Ubicación</th>
@@ -132,11 +145,12 @@ watch(currentPage, (newVal, oldVal) => {
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
                             click="emitIdStudent(row.student.id)">
                             <td class="pb-0 pl-1"> {{(perPage * (currentPage - 1)) + idx + 1 }}</td>
-                            <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.id }})</small> {{row.name}}</td>
-							<td class="pb-0 pl-1"> {{row.ami_code}}</td>
-                            <td class="pb-0 pl-1"> {{row.email }}</td>
-                            <td class="pb-0 pl-1"> {{row.state }}, {{row.city }}</td>
-                            <td class="pb-0 pl-1"> <MapPinIcon class="w-4 h-4 inline-block text-info"/> {{row.address }}</td>
+                            <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.school.id }})</small> {{row.school.name}}</td>
+							<td class="pb-0 pl-1"> {{row.school.ami_code}}</td>
+                            <td class="pb-0 pl-1"> {{row.students.length}}</td>
+                            <td class="pb-0 pl-1"> {{row.school.email }}</td>
+                            <td class="pb-0 pl-1"> {{row.school.state }}, {{row.school.city }}</td>
+                            <td class="pb-0 pl-1"> <MapPinIcon class="w-4 h-4 inline-block text-info"/> {{row.school.address }}</td>
                         </tr>
                     </tbody>
                 </table>
