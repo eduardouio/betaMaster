@@ -81,6 +81,24 @@ class School(BaseModel):
         null=True,
         default=None
     )
+    url_facebook = models.URLField(
+        'facebook',
+        blank=True,
+        null=True,
+        default=None
+    )
+    url_linkedin = models.URLField(
+        'linkedin',
+        blank=True,
+        null=True,
+        default=None
+    )
+    url_instagram = models.URLField(
+        'instagram',
+        blank=True,
+        null=True,
+        default=None
+    )
     offer_services = models.CharField(
         'Servicios Ofrecidos',
         max_length=250,
