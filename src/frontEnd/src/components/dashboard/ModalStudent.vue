@@ -22,9 +22,9 @@ const props = defineProps({
 });
 
 const classsStatus = {
-    'POR INICIAR': 'text-sky-900 md:w-1/2',
-    'EN PROCESO': 'text-green-900 md:w-1/2',
-    'FINALIZADO': 'text-red-900 md:w-1/2'
+    'POR INICIAR': 'text-sm text-sky-900 md:w-1/2 border inline p-1 rounded-md',
+    'EN PROCESO': 'text-sm text-green-900 md:w-1/2 border inline p-1 rounded-md',
+    'FINALIZADO': 'text-sm text-red-900 md:w-1/2 border inline p-1 rounded-md',
 };
 
 const imageDefault = ref('');

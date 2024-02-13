@@ -20,9 +20,9 @@ const props = defineProps({
 });
 
 const classsStatus = {
-    'POR INICIAR': 'text-sky-900 md:w-1/2',
-    'EN PROCESO': 'text-green-900 md:w-1/2',
-    'FINALIZADO': 'text-red-900 md:w-1/2'
+    'POR INICIAR': 'text-sm text-sky-900 md:w-1/2 border inline p-1 rounded-md',
+    'EN PROCESO': 'text-sm text-green-900 md:w-1/2 border inline p-1 rounded-md',
+    'FINALIZADO': 'text-sm text-red-900 md:w-1/2 border inline p-1 rounded-md',
 };
 </script>
 
@@ -140,7 +140,11 @@ const classsStatus = {
                 <td>
                     <span v-for="aCourse in value.courses">
                         <ul>
-                            <li><small class="text-gray-400">(#{{ aCourse.id_active_courses }})</small> {{ aCourse.period }} | {{ aCourse.state }}</li>
+                            <li class="flex items-center">
+                              <small class="text-gray-400 text-center" >(#{{ aCourse.id_active_courses }})</small> 
+                              <p>{{ aCourse.period }}</p>
+                              <span :class="classsStatus[aCourse.state]">{{ aCourse.state }}</span>
+                            </li>
                         </ul>
                     </span>
                 </td>
