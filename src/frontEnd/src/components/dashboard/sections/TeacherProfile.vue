@@ -1,14 +1,16 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
-import Loader from '../../generics/Loader.vue';
+import Loader from '@/components/generics/Loader.vue';
 import { computed, reactive, onMounted, ref } from 'vue';
 import {
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
     XMarkIcon, CheckIcon, PencilSquareIcon
 } from '@heroicons/vue/24/outline';
-import serverConfigData from '../../../config.js';
-import SocialIcon from '../../generics/SocialIcon.vue';
+import serverConfigData from '@/config.js';
+import SocialIcon from '@/components/generics/SocialIcon.vue';
+import ProfilePicMen from '@/assets/profile-pic-men.png';
+import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 
 let showLoader = ref(true);
 const store = useStore();
@@ -78,9 +80,9 @@ const profilePic = computed(() => {
         return userData.picture;
     }
     if (userData.sex === 'male') {
-        return '/src/assets/profile-pic-men.png';
+        return ProfilePicWomen;
     }
-    return '/src/assets/profile-pic-women.png';
+    return ProfilePicMen;
 });
 
 const timeLapsed = ((my_date, years = true) => {
