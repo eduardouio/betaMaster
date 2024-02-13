@@ -42,7 +42,7 @@ import { useStore } from 'vuex';
                         <span class="inline-flex justify-center items-center ml-4">
                             <AcademicCapIcon class="w-5 h-5 text-sky-600" />
                         </span>
-                        <span class="ml-2 text-sm tracking-wide truncate">Estudiantes</span>
+                        <span class="ml-2 text-sm tracking-wide truncate">Aspirantes</span>
                     </RouterLink>
                 </li>
                 <li class="px-5 hidden md:block">
