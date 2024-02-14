@@ -3,6 +3,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.management.base import BaseCommand
 # faker para los datos de prueba
 from faker import Faker
+import json
 import random
 # importamos los modelos
 from accounts.models import CustomUserModel, PersonalReferences, BankAccount
@@ -20,120 +21,8 @@ PRESENTATION = {
 }
 
 
-STATES_EC = {
-    "AZUAY": [
-        "CUENCA", "GUALACEO", "PAUTE", "SANTA ISABEL", "SIGSIG",
-        "CHORDELEG", "GIRÓN", "NABÓN", "OÑA", "PUCARÁ", "SAN FERNANDO",
-        "SEVILLA DE ORO", "SÍGSIG", "EL PAN", "TARQUI",
-    ],
-    "BOLÍVAR": [
-        "GUARANDA", "CALUMA", "CHILLANES", "SAN MIGUEL", "LAS NAVES",
-        "ECHEANDÍA", "SAN JOSÉ DE CHIMBO", "LAS MERCEDES",
-        "SALINAS", "BALSAPAMBA",
-    ],
-    "CAÑAR": [
-        "AZOGUES", "BIBLIÁN", "LA TRONCAL", "DÉLEG", "TAMBO", "SUSCAL",
-        "EL TAMBO", "ZHUD", "EL CORAZÓN", "CANARIBAMBA"
-    ],
-    "CARCHI": [
-        "TULCÁN", "MONTÚFAR", "MIRA", "BOLÍVAR", "SAN GABRIEL",
-        "HUACA", "EL ÁNGEL", "JULIO ANDRADE", "TUFIÑO", "CHICAL",
-    ],
-    "CHIMBORAZO": [
-        "RIOBAMBA", "ALAUSÍ", "COLTA", "GUAMOTE", "PALLATANGA",
-        "CHUNCHI", "CUMANDÁ", "GUANO", "PENIPE", "CHAMBO",
-    ],
-    "COTOPAXI": [
-        "LATACUNGA", "SAQUISILÍ", "SALCEDO", "PUJILÍ", "LA MANÁ",
-        "SIGCHOS", "SAN MIGUEL DE SALCEDO", "TANICUCHÍ", "TOACASO",
-        "MULALÓ"
-    ],
-    "EL ORO": [
-        "MACHALA", "PASAJE", "SANTA ROSA", "HUAQUILLAS", "EL GUABO",
-        "PIÑAS", "ZARUMA", "ATAHUALPA", "BALSAS", "MARCABELÍ",
-    ],
-    "ESMERALDAS": [
-        "ESMERALDAS", "ATACAMES", "MUISNE", "TONSUPA", "QUININDÉ",
-        "LA CONCORDIA", "SAN LORENZO", "RÍO VERDE", "LIMONES",
-        "CHAMANGA",
-    ],
-    "GALÁPAGOS": [
-        "ISABELA (O ISLA ISABELA)", "SANTA CRUZ (O ISLA SANTA CRUZ)",
-        "SAN CRISTÓBAL (O ISLA SAN CRISTÓBAL)",
-        "FLOREANA (O ISLA FLOREANA)", "BALTRA (O ISLA BALTRA)",
-        "SANTIAGO (O ISLA SANTIAGO)", "FERNANDINA (O ISLA FERNANDINA)",
-        "ESPAÑOLA (O ISLA ESPAÑOLA)", "GENOVESA (O ISLA GENOVESA)",
-        "SANTA FE (O ISLA SANTA FE)",
-    ],
-    "GUAYAS": [
-        "GUAYAQUIL", "DAULE", "DURÁN", "SAMBORONDÓN", "MILAGRO",
-        "NARANJAL", "PLAYAS", "SALITRE", "YAGUACHI", "EL TRIUNFO",
-    ],
-    "IMBABURA": [
-        "IBARRA", "OTAVALO", "COTACACHI", "ATUNTAQUI", "PIMAMPIRO",
-        "URCUQUÍ", "SAN ANTONIO DE IBARRA", "SAN MIGUEL DE URCUQUÍ",
-        "SALINAS", "LA ESPERANZA"
-    ],
-    "LOJA": [
-        "LOJA", "CATACOCHA", "MACARÁ", "ZAPOTILLO", "CARIAMANGA",
-                "QUILANGA", "CHAGUARPAMBA", "PINDAL", "ESPÍNDOLA", "SOZORANGA"
-    ],
-    "LOS RÍOS": [
-        "BABAHOYO", "QUEVEDO", "VENTANAS", "VINCES", "PUEBLOVIEJO",
-        "VALENCIA", "URDANETA", "BUENA FÉ", "MOCACHE", "QUEVEDO"
-    ],
-    "MANABÍ": [
-        "PORTOVIEJO", "MANTA", "MONTECRISTI", "JIPIJAPA", "CHONE",
-        "EL CARMEN", "ROCAFUERTE", "24 DE MAYO", "SANTA ANA", "CALCETA"
-    ],
-    "MORONA SANTIAGO": [
-        "MACAS", "GUALAQUIZA", "SUCÚA", "LIMON", "MORONA", "LOGROÑO",
-        "PABLO SEXTO", "TAISHA", "PALORA", "SAN JUAN BOSCO"
-    ],
-    "NAPO": [
-        "TENA", "EL CHACO", "QUIJOS", "ARCHIDONA",
-                "CARLOS JULIO AROSEMENA TOLA", "EL CHACO", "QUIJOS", "TALAG",
-                "EL JUNCAL", "BAEZA"
-    ],
-    "ORELLANA": [
-        "ORELLANA", "LA JOYA DE LOS SACHAS", "LAGO AGRIO",
-        "SHUSHUFINDI", "AGUARICO", "SANTA ROSA", "COCA",
-        "JOYAS DE LOS SACHAS", "SAN CARLOS"
-    ],
-    "PASTAZA": [
-        "PUYO", "SANTA CLARA", "ARAJUNO", "MERA", "SHELL", "NARANJAL",
-                "POMONA", "RÍO CORRIENTES", "RÍO TIGRE", "CANELOS"
-    ],
-    "PICHINCHA": [
-        "QUITO", "SANGOLQUÍ", "CAYAMBE", "MACHACHI", "MEJÍA",
-        "PEDRO MONCAYO", "PUERTO QUITO", "RUMIÑAHUI",
-        "SAN MIGUEL DE LOS BANCOS", "PEDRO VICENTE MALDONADO"
-    ],
-    "SANTA ELENA": [
-        "SANTA ELENA", "SALINAS", "LA LIBERTAD", "LA LIBERTAD",
-        "SALINAS", "SANTA ELENA", "BALLENITA", "ATAHUALPA", "ANCONCITO",
-        "ANCONCITO"
-    ],
-    "SANTO DOMINGO DE LOS TSÁCHILAS": [
-        "SANTO DOMINGO", "LA CONCORDIA", "LA CONCORDIA",
-        "LA INDEPENDENCIA", "VALLE HERMOSO", "VALLE HERMOSO",
-        "SAN JACINTO DEL BÚA", "EL CARMEN", "EL CARMEN", "ALLURIQUÍN"
-    ],
-    "SUCUMBÍOS": [
-        "NUEVA LOJA", "SHUSHUFINDI", "LUMBAQUÍ", "GONZALO PIZARRO",
-        "PUTUMAYO", "CUYABENO", "CASCALES", "AGUA BLANCA",
-        "SUCUMBÍOS", "TARAPOA"
-    ],
-    "TUNGURAHUA": [
-        "AMBATO", "BANOS", "PELILEO", "PATATE", "MOCHA", "CEVALLOS",
-        "QUERO", "PILLARO", "TISALEO", "BAÑOS DE AGUA SANTA"
-    ],
-    "ZAMORA CHINCHIPE": [
-        "ZAMORA", "YANTZAZA", "ZAMORA", "YANTZAZA", "ZUMBI",
-        "CENTINELA DEL CÓNDOR", "PALANDA", "NANGARITZA", "YACUAMBI",
-        "EL PANGUI"
-    ]
-}
+with open('accounts/management/commands/statesAndCitiesEC.json', 'r') as file:
+    STATES_EC = json.load(file)
 
 BANKS_NAME = [
     'Banco del Austro',
@@ -200,7 +89,7 @@ class Command(BaseCommand):
     def create_users_by_profile(self, fake, role, quantity):
         for i in range(quantity):
             ubication = fake.local_latlng(country_code='EC')
-            my_state = random.choice(list(STATES_EC.keys()))
+            my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
             CustomUserModel.objects.create_user(
                 email=str(random.randint(0, 10)) + '_' + fake.email(),
                 first_name=fake.first_name(),
@@ -221,7 +110,9 @@ class Command(BaseCommand):
                 have_disability=random.choice([False, False, True, False]),
                 is_confirmed_mail=random.choice([True, False]),
                 state=my_state,
-                city=random.choice(STATES_EC[my_state]),
+                city=my_citie,
+                parroquia=my_parroquia,
+                phone=fake.phone_number(),
                 civil_status=random.choice(
                     ['SOLTERO', 'CASADO', 'SOLTERO', 'DIVORCIADO', 'CASADO']
                 ),
@@ -232,7 +123,7 @@ class Command(BaseCommand):
 
     def create_schools(self, fake, quantity):
         for i in range(quantity):
-            my_state = random.choice(list(STATES_EC.keys()))
+            my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
             ubication = fake.local_latlng(country_code='EC')
             School.objects.create(
                 name='Colegio ' + fake.company(),
@@ -240,7 +131,8 @@ class Command(BaseCommand):
                 geolocation=ubication[0] + ',' + ubication[1],
                 ami_code=fake.ssn(),
                 state=my_state,
-                city=random.choice(STATES_EC[my_state]),
+                city=my_citie,
+                parroquia=my_parroquia,
                 phone=fake.phone_number(),
                 email=fake.company_email(),
                 website=fake.url(),
@@ -471,3 +363,12 @@ class Command(BaseCommand):
         for user in all_users:
             user.last_login = fake.past_datetime()
             user.save()
+
+    def select_city_and_parroquia(self):
+        """
+        Selecciona una ciudad y una parroquia de una provincia en especifico
+        """
+        my_state = random.choice([x for x in STATES_EC])
+        my_city = random.choice([x for x in my_state['cantones']])
+        my_parroquia = random.choice([x for x in my_city['parroquias']])
+        return my_state['provincia'], my_city['canton'], my_parroquia

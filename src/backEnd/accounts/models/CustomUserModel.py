@@ -96,10 +96,10 @@ class CustomUserModel(AbstractUser):
         'Ciudad',
         max_length=100,
         blank=True,
-        null=True,
+        null=True,  
     )
-    canton = models.CharField(
-        'Cantón',
+    parroquia = models.CharField(
+        'Parroquia',
         max_length=100,
         blank=True,
         null=True,
