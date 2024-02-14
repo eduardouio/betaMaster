@@ -125,6 +125,9 @@ class Command(BaseCommand):
         for i in range(quantity):
             my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
             ubication = fake.local_latlng(country_code='EC')
+            my_owner = CustomUserModel.objects.filter(
+                role='COLEGIO'
+            ).order_by('?').first()
             School.objects.create(
                 name='Colegio ' + fake.company(),
                 address=fake.address(),
@@ -137,9 +140,7 @@ class Command(BaseCommand):
                 email=fake.company_email(),
                 website=fake.url(),
                 description=fake.text(),
-                id_owner=CustomUserModel.objects.filter(
-                    role='COLEGIO'
-                ).order_by('?').first(),
+                id_owner=my_owner,
                 is_active=True,
                 id_user_created=1,
                 id_user_updated=1,

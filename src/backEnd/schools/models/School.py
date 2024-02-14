@@ -117,6 +117,13 @@ class School(BaseModel):
         CustomUserModel,
         on_delete=models.RESTRICT
     )
+    parroquia = models.CharField(
+        'Parroquia',
+        max_length=100,
+        blank=True,
+        null=True,
+        default=None
+    )
 
     def __str__(self) -> str:
         return self.name
