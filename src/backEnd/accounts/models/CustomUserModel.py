@@ -96,7 +96,7 @@ class CustomUserModel(AbstractUser):
         'Ciudad',
         max_length=100,
         blank=True,
-        null=True,  
+        null=True
     )
     parroquia = models.CharField(
         'Parroquia',
@@ -199,6 +199,16 @@ class CustomUserModel(AbstractUser):
         default=False,
         help_text='Estado de confirmación del correo electrónico.'
     )
+    is_homescholing = models.BooleanField(
+        'hace homescholing?',
+        default=True,
+        help_text='Habilitado para homeschooling.'
+    )
+    is_replacement = models.BooleanField(
+        'reemplazo?',
+        default=False,
+        help_text='Habilitado como reemplazo'
+    )
     token = models.CharField(
         'token',
         max_length=40,
@@ -284,7 +294,7 @@ class CustomUserModel(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
-
+# reemplazo y homescholing LAS DOS SI
     @classmethod
     def get(cls, email):
         try:

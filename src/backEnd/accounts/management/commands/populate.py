@@ -87,7 +87,13 @@ class Command(BaseCommand):
         print('<==\t Ultima sesion cargada')
 
     def create_users_by_profile(self, fake, role, quantity):
+        is_replacement = False
+        is_homescholing = False
         for i in range(quantity):
+            if role == 'PROFESOR':
+                is_replacement = random.choice([True, False, False, False])
+                is_homescholing = random.choice([True, False, False, False])
+
             ubication = fake.local_latlng(country_code='EC')
             my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
             CustomUserModel.objects.create_user(
@@ -98,11 +104,13 @@ class Command(BaseCommand):
                 presentation=PRESENTATION[role],
                 dni_number=fake.ssn(),
                 address=fake.address(),
+                is_replacement=is_replacement,
+                is_homescholing=is_homescholing,
                 url_instagram=random.choice([fake.url(), None]),
                 url_facebook=random.choice([fake.url(), '']),
                 url_twiter=random.choice([fake.url(), '']),
                 url_linkedin=random.choice([fake.url(), '']),
-                sex=random.choice(['hombre', 'mujer']),
+                sex=random.choice(['HOMBRE', 'MUJER', 'OTRO']),
                 nationality=random.choice(
                     ['ECUATORIANO', 'COLOMBIANO', 'ECUATORIANO', 'PERUANO']
                 ),
@@ -317,7 +325,7 @@ class Command(BaseCommand):
 
     def create_personal_references(self, fake):
         all_users = CustomUserModel.objects.filter(
-            role='profesor'
+            role='PROFESOR'
         )
         start_date = fake.past_datetime()
         end_date = start_date + relativedelta(months=+random.randint(7, 38))

@@ -37,19 +37,19 @@ const router = createRouter({
           component: HomeDashboard,
         },
         {
-          path: 'schools',
+          path: 'schools/',
           component: SchoolsList,
         },
         {
-          path: 'students',
+          path: 'students/',
           component: StudentsList,
         },
         {
-          path: 'profile',
+          path: 'profile/',
           component: TeacherProfile,
         },
         {
-          path: 'edit',
+          path: 'edit/',
           component: TeacherProfileForm,
         },
       ],

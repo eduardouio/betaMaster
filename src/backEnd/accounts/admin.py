@@ -24,8 +24,9 @@ class CustomUserModelAdmin(UserAdmin):
         ('Información Personal', {
             'fields': (
                 'first_name', 'last_name', 'dni_number', 'date_of_birth',
-                'phone', 'address', 'country', 'state', 'city', 'canton',
-                'geolocation', 'presentation', 'cv', 'notes'
+                'phone', 'address', 'country', 'state', 'city', 'parroquia',
+                'geolocation', 'presentation', 'cv', 'notes', 'is_homescholing',
+                'is_replacement'
             )
         }
         ),
@@ -38,7 +39,7 @@ class CustomUserModelAdmin(UserAdmin):
         ('Otros', {
             'fields': (
                 'url_facebook', 'url_twiter', 'url_linkedin',
-                'url_instagram','last_login', 'date_joined'
+                'url_instagram', 'last_login', 'date_joined'
                 )
         }),
     )
@@ -62,7 +63,8 @@ class CustomUserModelAdmin(UserAdmin):
         'is_active',
         'is_aproved',
         'is_confirmed_mail',
-        'date_joined',
+        'is_homescholing',
+        'is_replacement',
     )
 
     list_filter = (

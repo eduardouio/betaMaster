@@ -17,7 +17,6 @@ const store = useStore();
 let userData = {};
 
 onMounted(() => {
-    console.log('montado dashboard');
     getUserData();
 });
 
@@ -105,21 +104,21 @@ const timeLapsed = ((my_date, years = true) => {
 </script>
 <template>
     <div>
-        <Loader class="mx-auto" v-if="showLoader.value" />
+        <Loader class="mx-auto" v-if="showLoader" />
         <div v-else>
             <div class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
                 <div class="w-full h-[30px] bg-gradient-to-l from-blue-100 to-cyan-100 border"></div>
                 <div class="flex flex-col items-center -mt-20 border">
                     <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
-                        <p class="text-2xl">{{ userData.first_name }} {{ userData.last_name }}
+                        <p class="text-2xl">{{ userData.user.first_name }} {{ userData.user.last_name }}
 
                         </p>
                         <span class="bg-blue-500 rounded-full p-1" title="Verified">
                             <CheckBadgeIcon class="h-5 w-5 text-white" aria-hidden="true" />
                         </span>
                     </div>
-                    <p class="text-gray-700 text-md text-center ">{{ userData.presentation }}</p>
+                    <p class="text-gray-700 text-md text-center ">{{ userData.user.presentation }}</p>
                     <br />
                     <button class="btn btn-sm btn-primary text-white mb-2">
                         <RouterLink to="/dashboard-teacher/edit/">
@@ -150,56 +149,56 @@ const timeLapsed = ((my_date, years = true) => {
                             <li class="flex border-y py-2">
                                 <span class="font-bold w-2/5">Nombres:</span>
                                 <span class="text-gray-700">
-                                    <div class="tooltip" data-tip="Descargar Hoja de Vida" v-if="userData.cv">
-                                        <a :href="userData.cv">
+                                    <div class="tooltip" data-tip="Descargar Hoja de Vida" v-if="userData.user.cv">
+                                        <a :href="userData.user.cv">
                                             <FolderArrowDownIcon class="w-5 h-5 inline-block text-info" />
                                         </a>
                                     </div>
-                                    {{ userData.first_name }} {{ userData.last_name }}
-                                    <small v-if="userData.profesion" class="badge badge-outline badge-neutral">{{
-                                        userData.profesion }}</small>
+                                    {{ userData.user.first_name }} {{ userData.user.last_name }}
+                                    <small v-if="userData.user.profesion" class="badge badge-outline badge-neutral">{{
+                                        userData.user.profesion }}</small>
 
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">F Nacimiento:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.date_of_birth) }} <small
-                                        class="text-slate-600">({{ timeLapsed(userData.date_of_birth) }})</small></span>
+                                <span class="text-gray-700">{{ formatDate(userData.user.date_of_birth) }} <small
+                                        class="text-slate-600">({{ timeLapsed(userData.user.date_of_birth) }})</small></span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Joined:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.date_joined) }}<small
-                                        class="text-slate-600">({{ timeLapsed(userData.date_joined,
+                                <span class="text-gray-700">{{ formatDate(userData.user.date_joined) }}<small
+                                        class="text-slate-600">({{ timeLapsed(userData.user.date_joined,
                                             years = false) }})</small></span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Celular:</span>
-                                <span class="text-gray-700">{{ userData.phone }} <span class="text-gray-300">|</span> {{
-                                    userData.phone_2 }}</span>
+                                <span class="text-gray-700">{{ userData.user.phone }} <span class="text-gray-300">|</span> {{
+                                    userData.user.phone_2 }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Email:</span>
                                 <div class="tooltip"
-                                    :data-tip="userData.is_confirmed_mail ? 'Correo Confirmado' : 'Sin Confirmar'"
-                                    :class="!userData.is_confirmed_mail ? 'tooltip-error' : ''">
-                                    <span class="text-gray-700">{{ userData.email }}
-                                        <CheckBadgeIcon v-if="userData.is_confirmed_mail"
+                                    :data-tip="userData.user.is_confirmed_mail ? 'Correo Confirmado' : 'Sin Confirmar'"
+                                    :class="!userData.user.is_confirmed_mail ? 'tooltip-error' : ''">
+                                    <span class="text-gray-700">{{ userData.user.email }}
+                                        <CheckBadgeIcon v-if="userData.user.is_confirmed_mail"
                                             class="w-5 h-5 inline-block text-success" />
                                     </span>
                                 </div>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Ubicación:</span>
-                                <span class="text-gray-700">{{ userData.state }}, {{ userData.city }} <br> {{
-                                    userData.address
+                                <span class="text-gray-700">{{ userData.user.state }}, {{ userData.user.city }} <br> {{
+                                    userData.user.address
                                 }}</span>
                             </li>
                             <li class="flex items-center border-b py-2 space-x-2">
                                 <span class="font-bold w-2/5">Mis Redes:</span>
-                                <SocialIcon :url="userData.url_facebook" :icon="'facebook'" />
-                                <SocialIcon :url="userData.url_linkedin" :icon="'linkedin'" />
-                                <SocialIcon :url="userData.url_instagram" :icon="'instagram'" />
-                                <SocialIcon :url="userData.url_twiter" :icon="'twitter'" />
+                                <SocialIcon :url="userData.user.url_facebook" :icon="'facebook'" />
+                                <SocialIcon :url="userData.user.url_linkedin" :icon="'linkedin'" />
+                                <SocialIcon :url="userData.user.url_instagram" :icon="'instagram'" />
+                                <SocialIcon :url="userData.user.url_twiter" :icon="'twitter'" />
                             </li>
                         </ul>
                     </div>
@@ -213,33 +212,33 @@ const timeLapsed = ((my_date, years = true) => {
                                     <a :href="geolocation" target="_blank">
                                         <MapPinIcon class="w-6 h-6 text-primary" />
                                     </a>
-                                    {{ userData.state }}, {{ userData.city }}, {{ userData.address }}
+                                    {{ userData.user.state }}, {{ userData.user.city }}, {{ userData.user.address }}
                                 </section>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nacionalidad:</span>
-                                <span class="text-gray-700">{{ userData.nationality }} <small
-                                        class="text-gray-300">|</small> {{ userData.civil_status }}</span>
+                                <span class="text-gray-700">{{ userData.user.nationality }} <small
+                                        class="text-gray-300">|</small> {{ userData.user.civil_status }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nro Cedula:</span>
-                                <span class="text-gray-700">{{ userData.dni_number }}</span>
+                                <span class="text-gray-700">{{ userData.user.dni_number }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nivel Educativo:</span>
-                                <span class="text-gray-700 uppercase">{{ userData.level_education }}</span>
+                                <span class="text-gray-700 uppercase">{{ userData.user.level_education }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Discapacidad:</span>
-                                <span class="text-gray-700">{{ userData.have_disability ? 'SI' : 'NO' }}
-                                    <small v-if="userData.have_disability" class="badge bg-cyan-50">{{
-                                        userData.type_disability }} {{ userData.disability_persent }}% Carnet:{{
+                                <span class="text-gray-700">{{ userData.user.have_disability ? 'SI' : 'NO' }}
+                                    <small v-if="userData.user.have_disability" class="badge bg-cyan-50">{{
+                                        userData.user.type_disability }} {{ userData.user.disability_persent }}% Carnet:{{
         userData.card_conadis }}</small>
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Último Acceso:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.last_login) }}</span>
+                                <span class="text-gray-700">{{ formatDate(userData.user.last_login) }}</span>
                             </li>
                         </ul>
                     </div>

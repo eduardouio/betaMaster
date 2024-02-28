@@ -158,8 +158,9 @@ class UserSerializerPrivate(serializers.ModelSerializer):
         ]
 
     def to_representation(self, obj):
-        data = super().to_representation(obj)
+        data = {}
         references = PersonalReferences.objects.filter(id_user=obj)
+        data['user'] = super().to_representation(obj)
         data['references'] = PersonalReferencesSerializer(
             references, many=True).data
         accounts = BankAccount.objects.filter(id_user=obj)

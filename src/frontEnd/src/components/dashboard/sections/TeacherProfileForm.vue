@@ -3,24 +3,33 @@ import { useStore } from 'vuex';
 import { onMounted, ref, watch } from 'vue';
 import provincias from '@/assets/provincias.json';
 import LoaderVue from '@/components/generics/Loader.vue';
+import { CheckBadgeIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 
 const store = useStore();
 const showLoader = ref(true);
 let states = ref([]);
 let cities = ref([]);
+let parroquias = ref([]);
 let userData = null;
+const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
 
 onMounted(async() => {
-  console.log('Empezamos con el montaje de la vista de perfil de usuario.');
   userData = await store.state.userData;
   states = Object.values(provincias).map(item => item.provincia);
-  cities = Object.values(Object.values(provincias).filter(item=>item.provincia===userData.state)[0].cantones).map(item=>item.canton)
+  cities = Object.values(
+    Object.values(provincias).filter(
+      item=>item.provincia===userData.user.state)[0].cantones
+      ).map(item=>item.canton);
+  parroquias =  Object.values(
+    Object.values(
+      Object.values(provincias).filter(
+        item=>item.provincia===userData.user.state)[0].cantones
+        ).map(item=>item).filter(
+          item => item.canton===userData.user.city)[0].parroquias);
   if (userData) {
     showLoader.value = false;
   }
 });
-
-
 </script>
 <template>
   <div>
@@ -31,7 +40,14 @@ onMounted(async() => {
           <div class="grid grid-cols-1 lg:grid-cols-4">
             <div class="lg:col-span-2"><h2 class="font-semibold text-xl text-gray-700">Actualización de Perfil</h2></div>
             <div class="lg:col-span-2 text-end">
-              <span class="ring-2 ring-secondary rounded-md p-1 pl-3 pr-3 bg-error text-white">En revision</span>
+              <span v-if="userData.user.is_aproved" class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
+                <ExclamationTriangleIcon class="h-4 w-4 inline-block" /> 
+                &nbsp;En Revisión
+              </span>
+              <span v-else class="badge rounded-md p-2 pl-3 pr-3 text-green-800 hover:text-white hover:bg-green-800">
+                <CheckBadgeIcon class="h-4 w-4 inline-block" />
+                &nbsp;Verificado
+              </span>
             </div>
           </div>
           <div class="bg-white rounded shadow-lg p-4 px-4 md:p-5 mb-4">
@@ -55,7 +71,7 @@ onMounted(async() => {
                       type="text"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Sus Nombres"
-                      v-model="userData.first_name"
+                      v-model="userData.user.first_name"
                     />
                   </div>
                   <div class="md:col-span-3">
@@ -67,7 +83,7 @@ onMounted(async() => {
                       type="text"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Sus Apellidos"
-                      v-model="userData.last_name"
+                      v-model="userData.user.last_name"
                     />
                   </div>
                   <div class="md:col-span-3">
@@ -79,22 +95,56 @@ onMounted(async() => {
                       type="text"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Su Identificación"
-                      v-model="userData.dni_number"
+                      v-model="userData.user.dni_number"
                     />
                   </div>
+                  <div class="md:col-span-3">
+                    <label for="full_name">
+                      <strong class="text-red-500">*</strong>
+                      Sexo
+                    </label>
+                    <input
+                      type="text"
+                      class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                      placeholder="Sus Nombres"
+                      v-model="userData.user.sex"
+                    />
+                  </div>
+                  <div class="md:col-span-3">
+                    <label for="full_name">
+                      <strong class="text-red-500">*</strong>
+                      Pais
+                    </label>
+                    <input
+                      type="text"
+                      class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                      placeholder="Sus Apellidos"
+                      v-model="userData.user.country"
+                      readonly
+                    />
+                  </div>  
                   <div class="md:col-span-3">
                     <label for="address">
                       <strong class="text-red-500">*</strong>
                       Correo Electronico:
+                      <small v-if="userData.user.is_confirmed_mail" class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
+                        <ExclamationTriangleIcon class="h-4 w-4 inline-block" /> 
+                        &nbsp;Pendiente
+                      </small>
+                      <small v-else class="badge rounded-md p-2 pl-3 pr-3 text-green-800 hover:text-white hover:bg-green-800">
+                        <CheckBadgeIcon class="h-4 w-4 inline-block" />
+                        &nbsp;Correo Verificado
+                      </small>
                     </label>
                     <input
                       type="email"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="nombre@dominio.com"
-                      v-model="userData.email"
+                      v-model="userData.user.email"
+                      readonly
                     />
                   </div>
-                  <div class="md:col-span-3">
+                  <di v class="md:col-span-3">
                     <label for="zipcode">
                       <strong class="text-red-500">*</strong>
                       Fecha de Nacimiento
@@ -103,9 +153,9 @@ onMounted(async() => {
                       type="date"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Nacimiento"
-                      v-model="userData.date_of_birth"
+                      v-model="userData.user.date_of_birth"
                       />
-                  </div>
+                  </di>
                   <div class="md:col-span-3">
                     <label for="zipcode">
                       <strong class="text-red-500">*</strong>
@@ -115,7 +165,7 @@ onMounted(async() => {
                       type="text"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Ubicación"
-                      v-model="userData.geolocation"
+                      v-model="userData.user.geolocation"
                     />
                   </div>
                   <div class="md:col-span-4">
@@ -127,7 +177,7 @@ onMounted(async() => {
                       type="text"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Su Dirección"
-                      v-model="userData.address"
+                      v-model="userData.user.address"
                       />
                   </div>
                   <div class="md:col-span-2">
@@ -140,7 +190,7 @@ onMounted(async() => {
                       maxlength="13"
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
                       placeholder="Su Pais"
-                      v-model="userData.country"
+                      v-model="userData.user.country"
                     />
                   </div>
                   <div class="md:col-span-2">
@@ -151,7 +201,7 @@ onMounted(async() => {
                     <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
                       <select 
                         class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        v-model="userData.state"
+                        v-model="userData.user.state"
                         >
                         <option 
                           v-for="item in states"
@@ -170,9 +220,15 @@ onMounted(async() => {
                     <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
                       <select 
                       class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      v-model="userData.city"
+                      v-model="userData.user.city"
                       >
-                        <option v-for="item in cities" :key="item" :value="item" v-text="item"></option>
+                        <option
+                          v-for="item in cities"
+                          :key="item"
+                          :value="item" 
+                          v-text="item"
+                        >
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -181,17 +237,39 @@ onMounted(async() => {
                       <strong class="text-red-500">*</strong>
                       Parroquia
                     </label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-11">
-                      <option value="">Seleccione...</option>
+                    <select
+                      class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                      v-model="userData.user.parroquia"
+                    >
+                      <option 
+                        v-for="item in parroquias"
+                        :key="item"
+                        :value="item"
+                        v-text="item"
+                      >
+                      </option>
                     </select>
                   </div>
                   <div class="md:col-span-2">
-                    <label for="zipcode"><strong class="text-red-500">*</strong> Celular</label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11" />
+                    <label for="zipcode">
+                      <strong class="text-red-500">*</strong>
+                      Celular
+                    </label>
+                    <input
+                      type="text"
+                      class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                      placeholder="Su Celular"
+                      v-model="userData.user.phone"
+                    />
                   </div>
                   <div class="md:col-span-2">
-                    <label for="zipcode">Fijo</label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11" />
+                    <label for="zipcode">Tel Fijo</label>
+                    <input
+                      type="text"
+                      class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                      placeholder="Su Teléfono"
+                      v-model="userData.user.phone_2"
+                      />
                   </div>
                   <div class="md:col-span-2">
                     <label for="zipcode"><strong class="text-red-500">*</strong> Código ZIP</label>
