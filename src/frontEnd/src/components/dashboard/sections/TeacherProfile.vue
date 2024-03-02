@@ -7,12 +7,26 @@
                 <div class="flex flex-col items-center -mt-20 border">
                     <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
-                        <p class="text-2xl">{{ userData.user.first_name }} {{ userData.user.last_name }}
-
+                        
+                        <div v-if="userData.user.is_active" class="tooltip" data-tip="Perfil Verificado">
+                            <CheckBadgeIcon class="w-5 h-5 inline-block text-success" title="Perfil verificado"/>
+                        </div>
+                        <div v-else class="tooltip" data-tip="Perfil Verificado" >
+                            <XMarkIcon class="w-5 h-5 inline-block text-success" title="Pendiente de Verificar"/>
+                        </div>
+                        <p class="text-2xl">
+                            {{ userData.user.first_name }} {{ userData.user.last_name }}
                         </p>
-                        <span class="bg-blue-500 rounded-full p-1" title="Verified">
-                            <CheckBadgeIcon class="h-5 w-5 text-white" aria-hidden="true" />
-                        </span>
+                        <div v-if="userData.user.is_homescholing" class="tooltip" data-tip="El Docente está activo para HomeSchooling">
+                            <span class="badge" title="Verified">
+                                HomeSchooling
+                            </span>
+                        </div>
+                        <div v-if="userData.user.is_replacement" class="tooltip" data-tip="El Docente está activo para Reemplazo">
+                            <span class="badge">
+                                Reemplazo
+                            </span>
+                        </div>
                     </div>
                     <p class="text-gray-700 text-md text-center ">{{ userData.user.presentation }}</p>
                     <br />
@@ -129,9 +143,16 @@
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Discapacidad:</span>
                                 <span class="text-gray-700">{{ userData.user.have_disability ? 'SI' : 'NO' }}
-                                    <small v-if="userData.user.have_disability" class="badge bg-cyan-50">{{
+                                    <small v-if="userData.user.have_disability" class="badge badge-info badge-outline">{{
                                         userData.user.type_disability }} {{ userData.user.disability_persent }}% Carnet:{{
         userData.card_conadis }}</small>
+                                </span>
+                            </li>
+                            <li class="flex border-b py-2">
+                                <span class="font-bold w-2/5">Modalidades:</span>
+                                <span class="text-gray-700">
+                                    <span v-if="userData.user.is_homescholing" class="badge badge-success badge-outline"> HomeSchooling </span>
+                                    <strong v-if="userData.user.is_replacement" class="badge badge-success badge-outline">Reemplazo</strong>
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
@@ -336,4 +357,19 @@ const timeLapsed = ((my_date, years = true) => {
     let lapsed = Math.abs(age * 12 + m);
     return `${lapsed} Meses`;
 });
+
+    const cheff = {
+        typo: 'cocina china',
+        cocinar: (plato='')=>{
+            console.log('cocinando', plato);
+        }
+    }
+
+    const eduardo = {
+        nombre: 'Eduardo',
+        apellido: 'Villavicencio',
+        edad: 30,
+        sexo: 'masculino',
+    }
+
 </script>
