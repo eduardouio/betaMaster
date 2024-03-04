@@ -1,36 +1,3 @@
-<script setup>
-import { useStore } from 'vuex';
-import { onMounted, ref, watch } from 'vue';
-import provincias from '@/assets/provincias.json';
-import LoaderVue from '@/components/generics/Loader.vue';
-import { CheckBadgeIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
-
-const store = useStore();
-const showLoader = ref(true);
-let states = ref([]);
-let cities = ref([]);
-let parroquias = ref([]);
-let userData = null;
-const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
-
-onMounted(async() => {
-  userData = await store.state.userData;
-  states = Object.values(provincias).map(item => item.provincia);
-  cities = Object.values(
-    Object.values(provincias).filter(
-      item=>item.provincia===userData.user.state)[0].cantones
-      ).map(item=>item.canton);
-  parroquias =  Object.values(
-    Object.values(
-      Object.values(provincias).filter(
-        item=>item.provincia===userData.user.state)[0].cantones
-        ).map(item=>item).filter(
-          item => item.canton===userData.user.city)[0].parroquias);
-  if (userData) {
-    showLoader.value = false;
-  }
-});
-</script>
 <template>
   <div>
     <LoaderVue v-if="showLoader"/>
@@ -374,3 +341,36 @@ onMounted(async() => {
   </div>
 </div>
 </template>
+<script setup>
+import { useStore } from 'vuex';
+import { onMounted, ref, watch } from 'vue';
+import provincias from '@/assets/provincias.json';
+import LoaderVue from '@/components/generics/Loader.vue';
+import { CheckBadgeIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
+
+const store = useStore();
+const showLoader = ref(true);
+let states = ref([]);
+let cities = ref([]);
+let parroquias = ref([]);
+let userData = null;
+const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
+
+onMounted(async() => {
+  userData = await store.state.userData;
+  states = Object.values(provincias).map(item => item.provincia);
+  cities = Object.values(
+    Object.values(provincias).filter(
+      item=>item.provincia===userData.user.state)[0].cantones
+      ).map(item=>item.canton);
+  parroquias =  Object.values(
+    Object.values(
+      Object.values(provincias).filter(
+        item=>item.provincia===userData.user.state)[0].cantones
+        ).map(item=>item).filter(
+          item => item.canton===userData.user.city)[0].parroquias);
+  if (userData) {
+    showLoader.value = false;
+  }
+});
+</script>
