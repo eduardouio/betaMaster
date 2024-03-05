@@ -126,6 +126,12 @@ class CustomUserModel(AbstractUser):
         default=None,
         choices=LEVEL_EDUCATION
     )
+    disipline = models.JSONField(
+        'Disciplinas',
+        blank=True,
+        null=True,
+        default=None,
+    )
     profesion = models.CharField(
         'Profesión',
         max_length=100,
