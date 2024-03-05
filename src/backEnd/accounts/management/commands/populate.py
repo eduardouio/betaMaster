@@ -20,6 +20,14 @@ PRESENTATION = {
     'INVITADO': 'Hola!, soy un invitado, el rol de este usurio aun no esta claro, pero se que es importante.',
 }
 
+DICIPLINES = [
+    json.dumps({'disiplinas': ['MATEMATICAS', 'FISICA', 'QUIMICA', 'BIOLOGIA']}),
+    json.dumps({'disiplinas': ['LENGUAJE Y LITERATURA', 'HISTORIA', 'ARTES', 'EDUCACIÓN ÉTICA Y VALORES']}),
+    json.dumps({'disiplinas': ['INGLES', 'FILOSOFIA', 'COMPUTACION', 'TECNICAS DE ESTUDIO']}),
+    json.dumps({'disiplinas': ['ARTES', 'EDUCACIÓN FÍSICA', 'LENGUAJE']}),
+    json.dumps({'disiplinas': ['RELIGION', 'FILOSOFÍA', 'INGLES']}),
+]
+
 
 with open('accounts/management/commands/statesAndCitiesEC.json', 'r') as file:
     STATES_EC = json.load(file)
@@ -56,8 +64,8 @@ class Command(BaseCommand):
         print('==>\tGenerando datos de prueba \n')
         fake = Faker('es_ES')
         print('Creando usuarios de prueba \n')
-        self.create_users_by_profile(fake, 'ESTUDIANTE', 350)
-        self.create_users_by_profile(fake, 'PROFESOR', 54)
+        self.create_users_by_profile(fake, 'ESTUDIANTE', 450)
+        self.create_users_by_profile(fake, 'PROFESOR', 38)
         self.create_users_by_profile(fake, 'COORDINADOR', 12)
         self.create_users_by_profile(fake, 'COLEGIO', 27)
         self.create_users_by_profile(fake, 'INVITADO', 3)
@@ -89,10 +97,13 @@ class Command(BaseCommand):
     def create_users_by_profile(self, fake, role, quantity):
         is_replacement = False
         is_homescholing = False
+        disipline = None
+
         for i in range(quantity):
             if role == 'PROFESOR':
                 is_replacement = random.choice([True, False, False, False])
                 is_homescholing = random.choice([True, False, False, False])
+                disipline = random.choice(DICIPLINES)
 
             ubication = fake.local_latlng(country_code='EC')
             my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
@@ -103,6 +114,7 @@ class Command(BaseCommand):
                 date_of_birth=fake.date_of_birth(),
                 presentation=PRESENTATION[role],
                 dni_number=fake.ssn(),
+                disipline=disipline,
                 address=fake.address(),
                 is_replacement=is_replacement,
                 is_homescholing=is_homescholing,
