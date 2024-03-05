@@ -326,12 +326,28 @@
                     <input type="file" class="input input-sm input-bordered input-secondary focus:input-primary w-full"
                       placeholder="Sus Nombres" />
                   </div>
-                  <div class="md:col-span-6">
-                    <label for="zipcode"><strong class="text-red-500">*</strong> Acerca de Mi</label>
-                    <textarea class="input input-sm input-secondary focus:input-primary w-full h-30"></textarea>
+                  <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
+                    <label for="profesion">Disiplinas</label>
+                    <ul class="flex flex-col md:flex-row gap-4 md:pt-4">
+                      <li 
+                        v-for="item in JSON.parse(userData.user.disipline).disiplinas"
+                        :key="item"
+                        class="badge badge-primary badge-outline"
+                        > {{ item }}
+                      </li>
+                    </ul>
+                    <hr class="m-3"/>
+                    <ul class="flex flex-col md:flex-row gap-4 md:pt-4">
+                      <li>QUIMICA</li>
+                      <li>QUIMICA</li>  
+                      <li>QUIMICA</li>
+                    </ul>
+                  </div>
+
+                  <div class="lg:col-span-6 mt-5 bg-gray-100 p-3">
+                    <span class="text-info uppercase">Referencias Personales</span>
                   </div>
                   <div class="md:col-span-6">
-                    <label for="">Referencias</label>
                     <div class="overflow-x-auto">
                       <table class="table">
                         <!-- head -->
@@ -339,32 +355,21 @@
                           <tr>
                             <th>#</th>
                             <th>Institución</th>
+                            <th>Tipo</th>
+                            <th>Tiempo</th>
                             <th>Contacto</th>
                             <th>Estado</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <!-- row 1 -->
-                          <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td class="text-error">Rechazado</td>
-                          </tr>
-                          <!-- row 2 -->
-                          <tr class="hover">
-                            <th>2</th>
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td class="text-success">Verificado</td>
-                          </tr>
-                          <!-- row 3 -->
-                          <tr>
-                            <th>3</th>
-                            <td>Brice Swyre</td>
-                            <td>Tax Accountant</td>
-                            <td class="text-success">Verificado</td>
-                          </tr>
+                        <tr v-for="(exp, idx) in userData.references" :key="exp">
+                            <td>{{ idx+1 }}</td>
+                            <td>{{ exp.enterprise }}</td>
+                            <td>{{ exp.type }}</td>
+                            <td>{{ exp.start_date - exp.end_date }}</td>
+                            <td>{{ exp.name_contact }}</td>
+                            <td>{{ exp.is_verified }}</td>
+                        </tr>
                         </tbody>
                       </table>
                     </div>
