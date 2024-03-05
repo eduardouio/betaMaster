@@ -28,6 +28,10 @@ DICIPLINES = [
     json.dumps({'disiplinas': ['RELIGION', 'FILOSOFÍA', 'INGLES']}),
 ]
 
+PROFESIONS = [
+    'PROFESOR', 'LICIENCIADO', 'TÉCNICO', 'TECNÓLOGO', 'INGENIERO',
+    'MEDICO', 'ABOGADO', 'ECONOMISTA', 'ADMINISTRADOR', 'OTRO',
+]
 
 with open('accounts/management/commands/statesAndCitiesEC.json', 'r') as file:
     STATES_EC = json.load(file)
@@ -103,12 +107,14 @@ class Command(BaseCommand):
         is_replacement = False
         is_homescholing = False
         disipline = None
+        profesion = None
 
         for i in range(quantity):
             if role == 'PROFESOR':
                 is_replacement = random.choice([True, False, False, False])
                 is_homescholing = random.choice([True, False, False, False])
                 disipline = random.choice(DICIPLINES)
+                profesion = random.choice(PROFESIONS)
 
             ubication = fake.local_latlng(country_code='EC')
             my_state, my_citie, my_parroquia = self.select_city_and_parroquia()
@@ -119,6 +125,7 @@ class Command(BaseCommand):
                 date_of_birth=fake.date_of_birth(),
                 presentation=PRESENTATION[role],
                 dni_number=fake.ssn(),
+                profesion=profesion,
                 disipline=disipline,
                 address=fake.address(),
                 is_replacement=is_replacement,
