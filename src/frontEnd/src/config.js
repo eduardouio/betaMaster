@@ -3,7 +3,7 @@
 const csrfToken = 'kjhgfdertyukmnbv';
 const baseUrl = 'http://localhost:8000';
 //usuario profesor
-const idUser = 359;
+const idUser = 473;
 
 const serverConfigData = {
     'csrfToken': csrfToken,
