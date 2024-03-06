@@ -30,7 +30,10 @@
                       src="https://photoaid.com/en/tools/_next/static/images/before-25ed01ce5b208e9df51888c519ef7949.webp"
                       :alt="userData.user.first_name" class="w-2/3 h:auto" />
                   </figure>
-                  <small class="text-primary mt-3 btn btn-xs btn-outline btn-ghost">Cambiar Imagen</small>
+                  <div class="flex flex-col xl:flex-row md:gap-2">
+                    <small class="mt-3 btn btn-xs btn-primary text-white">Cambiar Imagen</small>
+                    <small class="mt-3 btn btn-xs btn-primary text-white">Cambiar Clave</small>
+                  </div>
                 </div>
               </div>
               <div class="lg:col-span-3 mt-5">
@@ -348,63 +351,13 @@
                     <span class="text-info uppercase">Referencias Personales</span>
                   </div>
                   <div class="md:col-span-6">
-                    <div class="overflow-x-auto">
-                      <table class="table">
-                        <!-- head -->
-                        <thead class="text-gray-600">
-                          <tr>
-                            <th>#</th>
-                            <th>Institución</th>
-                            <th>Tipo</th>
-                            <th>Tiempo</th>
-                            <th>Contacto</th>
-                            <th>Estado</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(exp, idx) in userData.references" :key="exp">
-                            <td>{{ idx+1 }}</td>
-                            <td>{{ exp.enterprise }}</td>
-                            <td>{{ exp.type }}</td>
-                            <td>{{ exp.start_date - exp.end_date }}</td>
-                            <td>{{ exp.name_contact }}</td>
-                            <td>{{ exp.is_verified }}</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                   <PersonalReferencesVue :references="userData.references"/>
                   </div>
                 </div>
               </div>
               <div class="md:col-span-6 text-right py-5">
                 <div class="inline-flex items-end">
-                  <button class="btn btn-primary text-white">Actualizar Información</button>
-                </div>
-              </div>
-            </div>
-            <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
-              <div class="text-gray-700 ">
-                <strong class="font-medium text-lg">Acciones de 4ta</strong>
-                <div class="card card-side bg-base-100">
-                </div>
-              </div>
-              <div class="lg:col-span-3">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
-                  <div class="md:col-span-3">
-                    <label for="full_name">Contraseña</label>
-                    <input type="text" class="input input-sm input-bordered input-secondary focus:input-primary w-full"
-                      placeholder="Sus Nombres" />
-                  </div>
-                  <div class="md:col-span-3">
-                    <label for="full_name">Repita Contraseña</label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Sus Apellidos" />
-                  </div>
-                  <div class="md:col-span-6 text-right py-5">
-                    <div class="inline-flex items-end">
-                      <button class="btn btn-primary text-white">Actualizar Contraseña</button>
-                    </div>
-                  </div>
+                  <button class="btn btn-primary text-white btn-sm"><FolderArrowDownIcon class="w-5 h-5 text-white"/> Actualizar Información</button>
                 </div>
               </div>
             </div>
@@ -417,11 +370,16 @@
 <script setup>
 import { useStore } from 'vuex';
 import { onMounted, ref, watch } from 'vue';
+import { ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
+        CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon } 
+from '@heroicons/vue/24/outline';
 import provincias from '@/assets/provincias.json';
 import LoaderVue from '@/components/generics/Loader.vue';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
-import { ExclamationTriangleIcon, CheckBadgeIcon } from '@heroicons/vue/24/outline';
+import PersonalReferencesVue from './PersonalReferences.vue';
+
+
 
 const store = useStore();
 const showLoader = ref(true);
@@ -429,6 +387,11 @@ let states = ref([]);
 let cities = ref([]);
 let parroquias = ref([]);
 let userData = null;
+const password = ref({
+  password: '',
+  password_2: '',
+
+});
 const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
 
 onMounted(async() => {
