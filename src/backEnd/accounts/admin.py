@@ -17,22 +17,29 @@ class CustomUserModelAdmin(UserAdmin):
         ('Basico', {
             'fields': (
                 'email', 'role', 'password', 'is_active', 'is_aproved',
-                'is_confirmed_mail', 'picture'
+                'is_confirmed_mail', 'picture','sex', 'nationality','civil_status'
             )
         }
         ),
         ('Información Personal', {
             'fields': (
                 'first_name', 'last_name', 'dni_number', 'date_of_birth',
-                'phone', 'address', 'country', 'state', 'city', 'parroquia',
-                'geolocation', 'presentation', 'cv', 'notes', 'is_homescholing',
-                'is_replacement'
+                'phone', 'phone_2', 'address', 'country', 'state', 'city',
+                'parroquia','geolocation', 'presentation', 'cv', 'notes', 
+                'is_homescholing', 'is_replacement','disipline', 'profesion'
+            )
+        }
+        ),
+        ('Discapacidades', {
+            'fields': (
+                'have_disability', 'type_disability', 'disability_persent', 
+                'card_conadis',
             )
         }
         ),
         ('Permisos', {
             'fields': (
-                'is_staff', 'is_superuser', 'groups', 'user_permissions'
+                'is_staff', 'is_superuser', 'groups', 'user_permissions','date_aproved'
             )
         }
         ),
