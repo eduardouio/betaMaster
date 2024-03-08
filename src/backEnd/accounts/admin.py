@@ -17,7 +17,8 @@ class CustomUserModelAdmin(UserAdmin):
         ('Basico', {
             'fields': (
                 'email', 'role', 'password', 'is_active', 'is_aproved',
-                'is_confirmed_mail', 'picture','sex', 'nationality','civil_status'
+                'is_confirmed_mail', 'picture', 'sex', 'nationality',
+                'civil_status'
             )
         }
         ),
@@ -25,21 +26,22 @@ class CustomUserModelAdmin(UserAdmin):
             'fields': (
                 'first_name', 'last_name', 'dni_number', 'date_of_birth',
                 'phone', 'phone_2', 'address', 'country', 'state', 'city',
-                'parroquia','geolocation', 'presentation', 'cv', 'notes', 
-                'is_homescholing', 'is_replacement','disipline', 'profesion'
+                'parroquia', 'geolocation', 'presentation', 'cv', 'notes',
+                'is_homescholing', 'is_replacement', 'disipline', 'profesion'
             )
         }
         ),
         ('Discapacidades', {
             'fields': (
-                'have_disability', 'type_disability', 'disability_persent', 
+                'have_disability', 'type_disability', 'disability_persent',
                 'card_conadis',
             )
         }
         ),
         ('Permisos', {
             'fields': (
-                'is_staff', 'is_superuser', 'groups', 'user_permissions','date_aproved'
+                'is_staff', 'is_superuser', 'groups', 'user_permissions',
+                'date_aproved'
             )
         }
         ),
@@ -47,7 +49,7 @@ class CustomUserModelAdmin(UserAdmin):
             'fields': (
                 'url_facebook', 'url_twiter', 'url_linkedin',
                 'url_instagram', 'last_login', 'date_joined'
-                )
+            )
         }),
     )
     add_fieldsets = (
@@ -78,7 +80,7 @@ class CustomUserModelAdmin(UserAdmin):
         'role',
         'is_active',
         'is_aproved',
-        'is_confirmed_mail', 
+        'is_confirmed_mail',
     )
 
     ordering = ('-date_joined',)
