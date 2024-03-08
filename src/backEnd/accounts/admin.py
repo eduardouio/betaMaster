@@ -27,7 +27,7 @@ class CustomUserModelAdmin(UserAdmin):
                 'first_name', 'last_name', 'dni_number', 'date_of_birth',
                 'phone', 'phone_2', 'address', 'country', 'state', 'city',
                 'parroquia', 'geolocation', 'presentation', 'cv', 'notes',
-                'is_homescholing', 'is_replacement', 'disipline', 'profesion'
+                'disipline', 'profesion'
             )
         }
         ),
@@ -41,7 +41,7 @@ class CustomUserModelAdmin(UserAdmin):
         ('Permisos', {
             'fields': (
                 'is_staff', 'is_superuser', 'groups', 'user_permissions',
-                'date_aproved'
+                'date_aproved', 'is_homescholing','is_replacement'
             )
         }
         ),
