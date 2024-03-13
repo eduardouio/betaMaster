@@ -264,6 +264,7 @@ import {
     XMarkIcon, CheckIcon, PencilSquareIcon
 } from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config.js';
+import serverInteractions from '@/server-interactions.js';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import ProfilePicMen from '@/assets/profile-pic-men.png';
 import ProfilePicWomen from '@/assets/profile-pic-woman.png';
@@ -278,21 +279,18 @@ onMounted(() => {
 
 // recuperamos los datos del usuario y lo colocamos en el store
 async function getUserData() {
+    showLoader.value = true
     let url = serverConfigData.urls.getUser.replace(
         '{idUser}', serverConfigData.idUser
     );
-    let response = await fetch(url, {
-        method: 'GET',
-        headers: serverConfigData.headers
-    });
-
-    if (response.status != 200) {
-        console.log('Error al cargar los datos del dashboard');
-        console.log(response);
-    } else {
-        store.commit('setUserData', await response.json());
-        userData = await store.state.userData;
+    let response = await serverInteractions.getData(url);
+    if (response.status.is_success) {
+        store.commit('setUserData', response.response);
+        store.commit('setStatusResponse', response.status);
+        userData = store.state.userData;
         showLoader.value = false;
+    }else{
+        console.log('Error al cargar los datos del dashboard');
     }
 }
 
