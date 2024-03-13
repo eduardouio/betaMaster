@@ -41,7 +41,7 @@ class CustomUserModelAdmin(UserAdmin):
         ('Permisos', {
             'fields': (
                 'is_staff', 'is_superuser', 'groups', 'user_permissions',
-                'date_aproved', 'is_homescholing','is_replacement'
+                'date_aproved', 'is_homescholing', 'is_replacement'
             )
         }
         ),
