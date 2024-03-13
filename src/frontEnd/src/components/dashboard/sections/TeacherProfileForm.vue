@@ -7,6 +7,8 @@
           <div class="grid grid-cols-1 lg:grid-cols-4">
             <div class="lg:col-span-2">
               <h2 class="font-semibold text-xl text-gray-700">Actualización de Perfil</h2>
+              status
+              {{ statusResponse }}
             </div>
             <div class="lg:col-span-2 text-end">
               <span v-if="userData.user.is_aproved"
@@ -67,8 +69,11 @@
                       <strong class="text-red-500">*</strong>
                       Sexo
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Sus Nombres" v-model="userData.user.sex" />
+                    <select v-model="userData.user.sex" class="input input-sm input-secondary focus:input-primary w-full md:h-8"
+                    >
+                      <option selected disabled>Seleccione...</option>
+                      <option v-for="item in sexo" :key="item" :value="item" v-text="item"></option>
+                    </select>
                   </div>
                   <div class="md:col-span-3">
                     <label for="country">
@@ -195,13 +200,21 @@
                   <div class="md:col-span-3 md:mt-4 md:border md:rounded-xl">
                     <label class="label cursor-pointer">
                       <span class="label-text">¿Hago HomeSchooling?</span>
-                      <input type="checkbox" class="checkbox" />
+                      <input 
+                        type="checkbox"
+                        class="checkbox"
+                        v-model="userData.user.is_homescholing"
+                        />
                     </label>
                   </div>
                   <div class="md:col-span-3 md:mt-4 md:border md:rounded-xl">
                     <label class="label cursor-pointer">
                       <span class="label-text">¿Puedo Reemplazar?</span>
-                      <input type="checkbox" checked="checked" class="checkbox" />
+                      <input 
+                        type="checkbox" 
+                        class="checkbox"
+                        v-model="userData.user.is_replacement"
+                        />
                     </label>
                   </div>
                 </div>
@@ -217,34 +230,34 @@
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="facebook" />
-                        <label for="facebook">Facebook</label>
+                        <label for="url_facebook">Facebook</label>
                       </div>
                       <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.facebook" />
+                        placeholder="Su Facebook" v-model="userData.user.url_facebook" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="linkedin" />
-                        <label for="linkedin">Linkedind</label>
+                        <label for="url_linkedin">Linkedind</label>
                       </div>
                       <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.facebook" />
+                        placeholder="Su Facebook" v-model="userData.user.url_linkedin" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="instagram" />
-                        <label for="instagram">Instagram</label>
+                        <label for="url_instagram">Instagram</label>
                       </div>
                       <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.facebook" />
+                        placeholder="Su Facebook" v-model="userData.user.url_instagram" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="twitter" />
-                        <label for="twitter">Twitter</label>
+                        <label for="url_twiter">Twitter</label>
                       </div>
                       <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.facebook" />
+                        placeholder="Su Facebook" v-model="userData.user.url_twiter" />
                     </div>
                   </div>
                 </div>
@@ -348,16 +361,18 @@
                   </div>
 
                   <div class="lg:col-span-6 mt-5 bg-gray-100 p-3">
-                    <span class="text-info uppercase">Referencias Personales</span>
+                      espacio  para las referencias
                   </div>
                   <div class="md:col-span-6">
-                   <PersonalReferencesVue :references="userData.references"/>
                   </div>
                 </div>
               </div>
               <div class="md:col-span-6 text-right py-5">
                 <div class="inline-flex items-end">
-                  <button class="btn btn-primary text-white btn-sm"><FolderArrowDownIcon class="w-5 h-5 text-white"/> Actualizar Información</button>
+                  <button @click="updateProfile" class="btn btn-primary text-white btn-sm">
+                    <FolderArrowDownIcon class="w-5 h-5 text-white"/>
+                    Actualizar Información
+                  </button>
                 </div>
               </div>
             </div>
@@ -365,50 +380,120 @@
         </div>
       </div>
     </div>
+    <Toast
+      v-if="toastMessage.showToast" 
+      :typeToast="toastMessage.typeToast"
+      :statusResponse="statusResponse"
+    />
   </div>
 </template>
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch } from 'vue';
-import { ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
-        CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon } 
-from '@heroicons/vue/24/outline';
+import { computed, onMounted, ref, reactive } from 'vue';
+import {
+  ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
+  CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon
+}
+  from '@heroicons/vue/24/outline';
+
+import serverInteractions from '@/server-interactions.js';
+import serverConfigData from '@/config.js';
+
 import provincias from '@/assets/provincias.json';
 import LoaderVue from '@/components/generics/Loader.vue';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
-import PersonalReferencesVue from './PersonalReferences.vue';
+import Toast from '@/components/dashboard/Toast.vue';
 
 
+const toastMessage = reactive({
+  showToast: false,
+  message: '',
+  typeToast: 'error',
+});
 
 const store = useStore();
 const showLoader = ref(true);
+const showError = ref(false);
 let states = ref([]);
 let cities = ref([]);
 let parroquias = ref([]);
-let userData = null;
+let userData = ref(null);
 const password = ref({
   password: '',
   password_2: '',
 
 });
 const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
+const statusResponse = computed(() => store.state.statusResponse);
 
-onMounted(async() => {
+onMounted(async () => {
+  showLoader.value = true;
   userData = await store.state.userData;
+
+  if (!userData) {
+    getUserData();
+  }
+
   states = Object.values(provincias).map(item => item.provincia);
   cities = Object.values(
     Object.values(provincias).filter(
-      item=>item.provincia===userData.user.state)[0].cantones
-      ).map(item=>item.canton);
-  parroquias =  Object.values(
+      item => item.provincia === userData.user.state)[0].cantones
+  ).map(item => item.canton);
+  parroquias = Object.values(
     Object.values(
       Object.values(provincias).filter(
-        item=>item.provincia===userData.user.state)[0].cantones
-        ).map(item=>item).filter(
-          item => item.canton===userData.user.city)[0].parroquias);
+        item => item.provincia === userData.user.state)[0].cantones
+    ).map(item => item).filter(
+      item => item.canton === userData.user.city)[0].parroquias);
   if (userData) {
     showLoader.value = false;
   }
 });
+
+
+// recuperamos los datos del usuario y lo colocamos en el store
+async function getUserData() {
+  showLoader.value = false;
+  let url = serverConfigData.urls.getUser.replace(
+    '{idUser}', serverConfigData.idUser
+  );
+  let response = await serverInteractions.getData(url);
+  if (response.status.is_success) {
+    store.commit('setUserData', response.response);
+    store.commit('setStatusResponse', response.status);
+    userData = store.state.userData;
+    showLoader.value = false;
+  } else {
+    console.log('Error al cargar los datos del dashboard');
+  }
+
+  if (statusResponse.value.is_success) {
+    showToast('Datos actualizados correctamente', 'success');
+  } else {
+    showToast('Error al actualizar los datos', 'error');
+  }
+}
+
+async function updateProfile() {
+  showError.value = true;
+  await store.dispatch('updateProfile', userData);
+  userData = await store.state.userData;
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+      showToast('error');
+  }
+
+}
+
+function showToast(typeToast) {
+  toastMessage.showToast = true;
+  toastMessage.typeToast = typeToast;
+  setTimeout(() => {
+    toastMessage.showToast = false;
+  }, 4000);
+}
+
 </script>
