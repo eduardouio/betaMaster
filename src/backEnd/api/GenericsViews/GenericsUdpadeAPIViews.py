@@ -17,38 +17,38 @@ from subscriptions.models import Payment
 
 
 class BasedUpdateAPIView(RetrieveUpdateAPIView):
-    permission_classes = [IsNotUserAS]
+    pass
+    # # permission_classes = [IsNotUserAS]
 
-    def get_permissions(self):
-        permissions = []
-        for perm in self.permission_classes:
-            if (perm.__name__ == 'IsNotUserAS'):
-                permissions.append(perm(role_exclude='guest'))
-            else:
-                permissions.append(perm())
-
-        return permissions
+    #def get_permissions(self):
+    #    permissions = []
+    # #    for perm in self.permission_classes:
+    #        if (perm.__name__ == 'IsNotUserAS'):
+    #            permissions.append(perm(role_exclude='guest'))
+    #        else:
+    #            permissions.append(perm())
+    #    return permissions
 
 
 # /api/bank-account/<pk:int>/ -> api-update-bank-account
 class UpdateBankAccountAPIView(BasedUpdateAPIView):
     queryset = BankAccount.objects.all()
     serializer_class = BankAccountSerializer
-    permission_classes = [IsNotUserAS]
+    # permission_classes = [IsNotUserAS]
 
 
 # /api/school/<pk:int>/ -> api-update-school
 class UpdateSchoolAPIView(BasedUpdateAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
-    permission_classes = [IsNotUserAS]
+    # permission_classes = [IsNotUserAS]
 
 
 # /api/user/<pk:int>/ -> api-update-user
 class UpdateUserAPIView(BasedUpdateAPIView):
     queryset = CustomUserModel.objects.all()
     serializer_class = UserSerializerPrivate
-    permission_classes = [IsNotUserAS]
+    # permission_classes = [IsNotUserAS]
 
 
 # /api/user/update-password/<pk:int>/ -> api-update-user-password
@@ -75,7 +75,7 @@ class UpdateUserPassword(APIView):
 class UpdatePersonalRefAPIView(BasedUpdateAPIView):
     queryset = PersonalReferences.objects.all()
     serializer_class = PersonalReferencesSerializer
-    permission_classes = [IsNotUserAS]
+    # permission_classes = [IsNotUserAS]
     parser_classes = [MultiPartParser]
 
 
@@ -83,4 +83,4 @@ class UpdatePersonalRefAPIView(BasedUpdateAPIView):
 class UpdatePaymentAPIView(BasedUpdateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsNotUserAS]
+    # permission_classes = [IsNotUserAS]

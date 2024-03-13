@@ -20,17 +20,18 @@ from schools.models import School
 
 
 class BaseRetrieveAPIView(RetrieveAPIView):
-    permission_classes = [IsNotUserAS]
-
-    def get_permissions(self):
-        permissions = []
-        for perm in self.permission_classes:
-            if (perm.__name__ == 'IsNotUserAS'):
-                permissions.append(perm(role_exclude='guest'))
-            else:
-                permissions.append(perm())
-
-        return permissions
+    pass
+    #permission_classes = [IsNotUserAS]
+#
+    #def get_permissions(self):
+    #    permissions = []
+    #    for perm in self.permission_classes:
+    #        if (perm.__name__ == 'IsNotUserAS'):
+    #            permissions.append(perm(role_exclude='guest'))
+    #        else:
+    #            permissions.append(perm())
+#
+    #    return permissions
 
 
 # /api/bank-account/<int:pk>/ -> api-detail-bank-account
