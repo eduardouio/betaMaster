@@ -21,9 +21,9 @@ from django.contrib.staticfiles.urls import static
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = True
-admin.site.site_title = 'HomeSchooling'
+admin.site.site_title = ''
+admin.site.site_header = ''
 admin.site.site_description = 'Sistema de Escuela En Casa'
-admin.site.site_header = 'HomeSchooling'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

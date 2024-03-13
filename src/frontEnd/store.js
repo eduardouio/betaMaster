@@ -1,11 +1,14 @@
-import { createStore } from "vuex";
+import { createStore, storeKey } from "vuex";
+import serverConfigData from "@/config.js";
+import serverInteractions from "@/server-interactions";
 
 export default createStore({
     state: {
         userData: null,
         dashboardData: null,
         studentDataByTeacher:null,
-    },
+        statusResponse: null,
+    },  
     mutations: {
         setUserData(state, userData) {
             state.userData = userData;
@@ -16,17 +19,22 @@ export default createStore({
         setStudentDataByTeacher(state, studentDataByTeacher) {
             state.studentDataByTeacher = studentDataByTeacher;
         },
+        setStatusResponse(state, statusResponse) {
+            state.statusResponse = statusResponse;
+        }
     },
     actions: {
-        setUserData({ commit }, userData) {
-            commit('setUserData', userData);
-        },
-        setDashboardData({ commit }, dashboardData) {
-            commit('setDashboardData', dashboardData);
-        },
-        setStudentDataByTeacher({ commit }, studentDataByTeacher) {
-            commit('setstudentDataByTeacher', studentDataByTeacher);
-        },
+        async updateProfile({ commit }, userData) {
+            let url = serverConfigData.urls.updateUser.replace('{idUser}',
+                serverConfigData.idUser
+            );
+            let response = await serverInteractions.putData(url, userData.user); 
+            commit('setStatusResponse', response.status);
+            if (response.status.is_success) {
+                commit('setUserData', userData);
+            }
+            return userData;
+        }
     },
     getters: {
         getUserData(state) {
@@ -37,6 +45,9 @@ export default createStore({
         },
         getStudentDataByTeacher(state) {
             return state.studentDataByTeacher;
+        },
+        getStatusResponse(state) {
+            return state.statusResponse;
         }
     }
 });
