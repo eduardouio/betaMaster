@@ -25,7 +25,7 @@ const serverConfigData = {
         registerUser : baseUrl + '/api/user/add/', // POST
         loginUser : baseUrl + '/login/', // POST
         logoutUser : baseUrl + '/logout/', // GET
-        updateUser : baseUrl + '/api/user/update-password/{idUser}/', // PUT
+        updatePasswordUser : baseUrl + '/api/user/update-password/{idUser}/', // PUT
         getUser : baseUrl + '/api/user/{idUser}/', // GET
         getUsers : baseUrl + '/api/user/users-by-role/{roleName}/', // GET
         updateUser : baseUrl + '/api/user/update/{idUser}/', // PUT
