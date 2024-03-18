@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="bg-slate-5000">
     <div id="editor" @keyup="saveData">
       {{ text }}
     </div>    
