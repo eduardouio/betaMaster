@@ -34,6 +34,10 @@ export default createStore({
                 commit('setUserData', userData);
             }
             return userData;
+        },
+        updatePresentation({ commit }, presentation) {
+            console.log(presentation);
+
         }
     },
     getters: {

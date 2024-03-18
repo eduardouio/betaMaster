@@ -7,8 +7,6 @@
           <div class="grid grid-cols-1 lg:grid-cols-4">
             <div class="lg:col-span-2">
               <h2 class="font-semibold text-xl text-gray-700">Actualización de Perfil</h2>
-              status
-              {{ statusResponse }}
             </div>
             <div class="lg:col-span-2 text-end">
               <span v-if="userData.user.is_aproved"
@@ -221,7 +219,7 @@
                 <div class="lg:col-span-3 mt-5 p-3">
                   <span class="text-info uppercase">Cuentanos un poco de Ti</span>
                   <hr class="m-3" />
-                  <TextEditor class="h-100"></TextEditor>
+                  <TextEditor class="h-100" :text="userData.user.presentation"></TextEditor>
                 </div>
                 <div class="lg:col-span-3 mt-5 p-3">
                   <span class="text-info uppercase">Redes Sociales</span>
@@ -403,7 +401,7 @@ import provincias from '@/assets/provincias.json';
 import LoaderVue from '@/components/generics/Loader.vue';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
-import Toast from '@/components/dashboard/Toast.vue';
+import Toast  from '@/components/dashboard/Toast.vue';
 
 
 const toastMessage = reactive({
@@ -473,7 +471,7 @@ async function getUserData() {
   } else {
     showToast('Error al actualizar los datos', 'error');
   }
-}
+} 
 
 async function updateProfile() {
   showError.value = true;

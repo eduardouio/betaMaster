@@ -1,14 +1,24 @@
 <template>
 <div>
-    <div id="editor">
+    <div id="editor" @keyup="saveData">
+      {{ text }}
     </div>    
 </div>    
 </template>
 <script setup>
 import {onMounted, ref} from 'vue';
+import { useStore } from 'vuex';
 import Quill from 'quill';
+import { QueueListIcon } from '@heroicons/vue/24/outline';
+
+const store = useStore();
+let quill = null;
+const props = defineProps({
+    text: String
+})
 
 onMounted(() => {
+  // settings from text editor
     const toolbarOptions = [
   ['bold', 'italic', 'underline'],
   ['link'],
@@ -19,14 +29,20 @@ onMounted(() => {
   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
 ];
-const quill = new Quill('#editor', {
+quill = new Quill('#editor', {
   modules: {
     toolbar: toolbarOptions,
   },
   placeholder: 'Cuentanos cosas de ti...',
-  theme: 'snow', // or 'bubble'
+  theme: 'snow',
 });
+  quill.clipboard.dangerouslyPasteHTML(props.text);
 });
+
+const saveData = ()=>{
+  const myText = quill.root.innerHTML;
+  store.dispatch('updatePresentation', { about: myText });
+};
 </script>
 <style>
 /*!
