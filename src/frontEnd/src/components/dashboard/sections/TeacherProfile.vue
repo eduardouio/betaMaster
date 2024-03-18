@@ -28,7 +28,7 @@
                             </span>
                         </div>
                     </div>
-                    <p class="text-gray-700 text-md text-center ">{{ userData.user.presentation }}</p>
+                    <p class="text-gray-700 text-md text-center" v-html="userData.user.presentation"></p>
                     <br />
                     <button class="btn btn-sm btn-primary text-white mb-2">
                         <RouterLink to="/dashboard-teacher/edit/">

@@ -1,47 +1,51 @@
 <template>
-<div class="bg-slate-500">
-    <div id="editor" @keyup="saveData">
+<div class="bg-slate-50">
+    <div id="editor">
       {{ text }}
     </div>    
 </div>    
 </template>
 <script setup>
-import {onMounted, ref} from 'vue';
-import { useStore } from 'vuex';
+import { onMounted, defineEmits, ref } from 'vue';
 import Quill from 'quill';
 import { QueueListIcon } from '@heroicons/vue/24/outline';
 
-const store = useStore();
 let quill = null;
 const props = defineProps({
-    text: String
+  text: String
 })
+
+const emits = defineEmits(['handleTextEditor']);
 
 onMounted(() => {
   // settings from text editor
-    const toolbarOptions = [
-  ['bold', 'italic', 'underline'],
-  ['link'],
-  [{ 'header': 1 }, { 'header': 2 }],
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'indent': '-1'}, { 'indent': '+1' }],
-  [{ 'direction': 'rtl' }],
-  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline'],
+    ['link'],
+    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+    [{ 'indent': '-1' }, { 'indent': '+1' }],
+    [{ 'direction': 'rtl' }],
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-];
-quill = new Quill('#editor', {
-  modules: {
-    toolbar: toolbarOptions,
-  },
-  placeholder: 'Cuentanos cosas de ti...',
-  theme: 'snow',
-});
+  ];
+  quill = new Quill('#editor', {
+    modules: {
+      toolbar: toolbarOptions,
+    },
+    placeholder: 'Cuentanos cosas de ti...',
+    theme: 'snow',
+  });
   quill.clipboard.dangerouslyPasteHTML(props.text);
+  quill.on('text-change', function (delta, oldDelta, source) {
+    saveData();
+  });
 });
 
-const saveData = ()=>{
+
+const saveData = () => {
   const myText = quill.root.innerHTML;
-  store.dispatch('updatePresentation', { about: myText });
+  emits('handleTextEditor', myText);  
 };
 </script>
 <style>

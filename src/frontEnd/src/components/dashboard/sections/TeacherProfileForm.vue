@@ -219,7 +219,13 @@
                 <div class="lg:col-span-3 mt-5 p-3">
                   <span class="text-info uppercase">Cuentanos un poco de Ti</span>
                   <hr class="m-3" />
-                  <TextEditor class="h-100" :text="userData.user.presentation"></TextEditor>
+                  <TextEditor 
+                    v-if="showPresentation"
+                    class="h-100"
+                    :text="userData.user.presentation"
+                    @handleTextEditor="handleTextEditor($event)"
+                    >
+                  </TextEditor>
                 </div>
                 <div class="lg:col-span-3 mt-5 p-3">
                   <span class="text-info uppercase">Redes Sociales</span>
@@ -422,7 +428,9 @@ const password = ref({
   password_2: '',
 
 });
-const sexo = ref(['HOMBRE', 'MUJER', 'OTRO']);
+let userPresentation = ref('');
+let showPresentation = ref(true);
+const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
 const statusResponse = computed(() => store.state.statusResponse);
 
 onMounted(async () => {
@@ -474,9 +482,17 @@ async function getUserData() {
 } 
 
 async function updateProfile() {
+
   showError.value = true;
+  if (userPresentation){
+    showPresentation.value = false;
+    userData.user.presentation = userPresentation;
+  }
   await store.dispatch('updateProfile', userData);
   userData = await store.state.userData;
+  setTimeout(() => {
+    showPresentation.value = true;
+  }, 200);
 
   if (statusResponse.value.is_success) {
     showToast('success');
@@ -486,12 +502,16 @@ async function updateProfile() {
 
 }
 
-function showToast(typeToast) {
+const showToast = (typeToast) => {
   toastMessage.showToast = true;
   toastMessage.typeToast = typeToast;
   setTimeout(() => {
     toastMessage.showToast = false;
   }, 4000);
+}
+
+const handleTextEditor = (event) => {
+  userPresentation = event;
 }
 
 </script>
