@@ -21,11 +21,11 @@ PRESENTATION = {
 }
 
 DICIPLINES = [
-    json.dumps({'disiplinas': ['MATEMATICAS', 'FISICA', 'QUIMICA', 'BIOLOGIA']}),
-    json.dumps({'disiplinas': ['LENGUAJE Y LITERATURA', 'HISTORIA', 'ARTES', 'EDUCACIÓN ÉTICA Y VALORES']}),
-    json.dumps({'disiplinas': ['INGLES', 'FILOSOFIA', 'COMPUTACION', 'TECNICAS DE ESTUDIO']}),
-    json.dumps({'disiplinas': ['ARTES', 'EDUCACIÓN FÍSICA', 'LENGUAJE']}),
-    json.dumps({'disiplinas': ['RELIGION', 'FILOSOFÍA', 'INGLES']}),
+    json.dumps({'disiplinas': ['MATEMÁTICAS', 'FÍSICA', 'QUÍMICA', 'BIOLOGÍA']}),
+    json.dumps({'disiplinas': ['LENGUA Y LIRETURA', 'CIENCIAS SOCIALES', 'ÉTICA Y VALORES']}),
+    json.dumps({'disiplinas': ['INGLÉS', 'FILOSOFÍA', 'COMPUTACIÓN']}),
+    json.dumps({'disiplinas': ['EDUCACIÓN FÍSICA', 'LENGUA Y LIRETURA']}),
+    json.dumps({'disiplinas': ['FILOSOFÍA', 'INGLÉS']}),
 ]
 
 PROFESIONS = [
