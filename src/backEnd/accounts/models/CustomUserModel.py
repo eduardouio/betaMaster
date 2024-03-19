@@ -223,7 +223,10 @@ class CustomUserModel(AbstractUser):
     )
     date_aproved = models.DateTimeField(
         'fecha de aprobación',
-        help_text='Fecha de aprobación del usuario.'
+        help_text='Fecha de aprobación del usuario.',
+        default=None,
+        blank=True,
+        null=True,
     )
     url_instagram = models.URLField(
         'url instagram',
