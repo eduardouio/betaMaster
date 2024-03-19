@@ -347,21 +347,11 @@
                       placeholder="Sus Nombres" />
                   </div>
                   <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
-                    <label for="profesion">Disiplinas</label>
-                    <ul class="flex flex-col md:flex-row gap-4 md:pt-4">
-                      <li 
-                        v-for="item in JSON.parse(userData.user.disipline).disiplinas"
-                        :key="item"
-                        class="badge badge-primary badge-outline"
-                        > {{ item }}
-                      </li>
-                    </ul>
-                    <hr class="m-3"/>
-                    <ul class="flex flex-col md:flex-row gap-4 md:pt-4">
-                      <li>QUIMICA</li>
-                      <li>QUIMICA</li>  
-                      <li>QUIMICA</li>
-                    </ul>
+                    <Skills
+                      :skills="userData.user.disipline"
+                      @handleUpdateSkills="handleUpdateSkills($event)"
+                    >
+                  </Skills>
                   </div>
 
                   <div class="lg:col-span-6 mt-5 bg-gray-100 p-3">
@@ -408,6 +398,7 @@ import LoaderVue from '@/components/generics/Loader.vue';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
 import Toast  from '@/components/dashboard/Toast.vue';
+import Skills from '@/components/dashboard/Skills.vue';
 
 
 const toastMessage = reactive({
@@ -512,6 +503,10 @@ const showToast = (typeToast) => {
 
 const handleTextEditor = (event) => {
   userPresentation = event;
+}
+
+const handleUpdateSkills = (event) => {
+  userData.user.disipline = event;
 }
 
 </script>
