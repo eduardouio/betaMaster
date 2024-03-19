@@ -6,7 +6,7 @@
 </div>    
 </template>
 <script setup>
-import { onMounted, defineEmits, ref } from 'vue';
+import { onMounted } from 'vue';
 import Quill from 'quill';
 import { QueueListIcon } from '@heroicons/vue/24/outline';
 
@@ -20,15 +20,25 @@ const emits = defineEmits(['handleTextEditor']);
 onMounted(() => {
   // settings from text editor
   const toolbarOptions = [
-    ['bold', 'italic', 'underline'],
-    ['link'],['image'],
-    [{ 'header': 1 }, { 'header': 2 }],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-    [{ 'indent': '-1' }, { 'indent': '+1' }],
-    [{ 'direction': 'rtl' }],
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['blockquote', 'code-block'],
+  ['link', 'image', 'video', 'formula'],
 
-  ];
+  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+  [{ 'direction': 'rtl' }],                         // text direction
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean']                                         // remove formatting button
+];
   quill = new Quill('#editor', {
     modules: {
       toolbar: toolbarOptions,
