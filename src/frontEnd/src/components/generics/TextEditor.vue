@@ -21,7 +21,7 @@ onMounted(() => {
   // settings from text editor
   const toolbarOptions = [
     ['bold', 'italic', 'underline'],
-    ['link'],
+    ['link'],['image'],
     [{ 'header': 1 }, { 'header': 2 }],
     [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
     [{ 'indent': '-1' }, { 'indent': '+1' }],
