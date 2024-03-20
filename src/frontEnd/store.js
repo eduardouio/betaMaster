@@ -34,7 +34,7 @@ export default createStore({
                 commit('setUserData', userData);
             }
             return userData;
-        }
+        },
     },
     getters: {
         getUserData(state) {
