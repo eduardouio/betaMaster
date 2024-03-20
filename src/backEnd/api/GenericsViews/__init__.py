@@ -3,3 +3,4 @@ from .CompleteDataProfile import (
     StudentDataAPIView,
     StudentDataForTeacherAPIView,
 )
+from .UploadCVFileView import UploadCVFileView

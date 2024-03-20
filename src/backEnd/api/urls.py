@@ -43,6 +43,7 @@ from api.GenericsViews import (
     StudentDataForTeacherAPIView,
 )
 
+from api.GenericsViews import UploadCVFileView
 
 from django.urls import path
 
@@ -89,6 +90,7 @@ urlpatterns = [
         StudentDataForTeacherAPIView.as_view(),
         name="api-student-data-teacher",
     ),
+    path("user/upload-cv/<int:pk>/<str:filename>", UploadCVFileView.as_view(), name="api-upload-cv"),
     # bancos de usuario
     path(
         "bank-account/<int:pk>/",
