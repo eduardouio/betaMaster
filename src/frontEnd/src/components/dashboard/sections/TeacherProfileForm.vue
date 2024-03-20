@@ -342,13 +342,24 @@
                     </select>
                   </div>
                   <div class="md:col-span-6">
-                    <label for="full_name">Hoja de Vida PDF</label>
+                    <section class="flex flex-col items-start">
+                    <span>Hoja de Vida:</span>
+                    <div class="flex gap-4">
+                      <a class="badge"
+                        :class="userData.user.cv ? 'text-green-600' : 'text-red-500'"
+                        :href="userData.user.cv ? userData.user.cv : '#'">
+                        {{ userData.user.cv ? userData.user.cv : 'Sin Archivo Adjunto'}}
+                      </a>
+                      <CheckIcon v-if="userData.user.cv" class="w-5 h-5 text-green-600"></CheckIcon>
+                      <span v-if="userData.user.cv" class="text-green-600">Archivo cargado</span>
+                    </div>
                     <input  
-                      @change="handleFileUpload"
-                      type="file"
-                      accept="application/pdf"
-                      class="input input-sm input-bordered input-secondary focus:input-primary w-full"
-                      placeholder="Archivo PDF" />
+                    @change="handleFileUpload"
+                    type="file"
+                    accept="application/pdf"
+                    class="input input-sm input-bordered input-secondary focus:input-primary w-full"
+                    placeholder="Archivo PDF" />
+                  </section>
                   </div>
                   <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
                     <Skills
@@ -401,7 +412,7 @@ import provincias from '@/assets/provincias.json';
 import LoaderVue from '@/components/generics/Loader.vue';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
-import Toast  from '@/components/dashboard/Toast.vue';
+import Toast from '@/components/dashboard/Toast.vue';
 import Skills from '@/components/dashboard/Skills.vue';
 
 
@@ -433,7 +444,7 @@ onMounted(async () => {
   userData = await store.state.userData;
 
   if (!userData) {
-    getUserData();
+    await getUserData();
   }
 
   states = Object.values(provincias).map(item => item.provincia);
@@ -460,9 +471,10 @@ async function getUserData() {
     '{idUser}', serverConfigData.idUser
   );
   let response = await serverInteractions.getData(url);
+  store.commit('setStatusResponse', response.status);
+
   if (response.status.is_success) {
     store.commit('setUserData', response.response);
-    store.commit('setStatusResponse', response.status);
     userData = store.state.userData;
     showLoader.value = false;
   } else {
@@ -470,16 +482,16 @@ async function getUserData() {
   }
 
   if (statusResponse.value.is_success) {
-    showToast('Datos actualizados correctamente', 'success');
+    showToast('success');
   } else {
-    showToast('Error al actualizar los datos', 'error');
+    showToast('error');
   }
-} 
+}
 
 async function updateProfile() {
 
   showError.value = true;
-  if (userPresentation){
+  if (userPresentation) {
     showPresentation.value = false;
     userData.user.presentation = userPresentation;
   }
@@ -492,7 +504,7 @@ async function updateProfile() {
   if (statusResponse.value.is_success) {
     showToast('success');
   } else {
-      showToast('error');
+    showToast('error');
   }
 
 }
@@ -516,14 +528,31 @@ const handleUpdateSkills = (event) => {
 
 const handleFileUpload = async (event) => {
   const file = event.target.files[0];
+  if (!file) {
+    return;
+  }
+
+  showError.value = true;
   const formData = new FormData();
   formData.append('file', file);
+
   let url = serverConfigData.urls.uploadCVFile.replace(
     '{idUser}', serverConfigData.idUser
   ) + file.name;
-  const response = await serverInteractions.postFile(
-      url , formData
-    );
+
+  const response = await serverInteractions.postFile(url, formData);
+  store.commit('setStatusResponse', response.status);
+
+  if (response.status.is_success) {
+    userData.user.cv = serverConfigData.baseUrl + response.response.url;
+    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
+  }
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
 };
 
 </script>
