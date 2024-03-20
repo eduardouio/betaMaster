@@ -343,8 +343,12 @@
                   </div>
                   <div class="md:col-span-6">
                     <label for="full_name">Hoja de Vida PDF</label>
-                    <input type="file" class="input input-sm input-bordered input-secondary focus:input-primary w-full"
-                      placeholder="Sus Nombres" />
+                    <input  
+                      @change="handleFileUpload"
+                      type="file"
+                      accept="application/pdf"
+                      class="input input-sm input-bordered input-secondary focus:input-primary w-full"
+                      placeholder="Archivo PDF" />
                   </div>
                   <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
                     <Skills
@@ -508,5 +512,18 @@ const handleTextEditor = (event) => {
 const handleUpdateSkills = (event) => {
   userData.user.disipline = event;
 }
+
+
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  let url = serverConfigData.urls.uploadCVFile.replace(
+    '{idUser}', serverConfigData.idUser
+  ) + file.name;
+  const response = await serverInteractions.postFile(
+      url , formData
+    );
+};
 
 </script>

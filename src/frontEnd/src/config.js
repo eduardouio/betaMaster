@@ -3,7 +3,7 @@
 const csrfToken = 'kjhgfdertyukmnbv';
 const baseUrl = 'http://localhost:8000';
 //usuario profesor
-const idUser = 473;
+const idUser = 474;
 
 const serverConfigData = {
     'csrfToken': csrfToken,
@@ -22,6 +22,7 @@ const serverConfigData = {
         login : baseUrl + '/login/', // POST
         logout : baseUrl + '/logout/', // GET
         // usuarios
+        uploadCVFile : baseUrl + '/api/user/upload-cv/{idUser}/', // POST
         registerUser : baseUrl + '/api/user/add/', // POST
         loginUser : baseUrl + '/login/', // POST
         logoutUser : baseUrl + '/logout/', // GET
