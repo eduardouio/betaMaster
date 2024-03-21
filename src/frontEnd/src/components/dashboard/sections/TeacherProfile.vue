@@ -1,3 +1,120 @@
+<script setup>
+import { RouterLink } from 'vue-router';
+import { useStore } from 'vuex';
+import Loader from '@/components/generics/Loader.vue';
+import { computed, reactive, onMounted, ref } from 'vue';
+import {
+    CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
+    XMarkIcon, CheckIcon, PencilSquareIcon
+} from '@heroicons/vue/24/outline';
+import serverConfigData from '@/config.js';
+import serverInteractions from '@/server-interactions.js';
+import SocialIcon from '@/components/generics/SocialIcon.vue';
+import ProfilePicMen from '@/assets/profile-pic-men.png';
+import ProfilePicWomen from '@/assets/profile-pic-woman.png';
+
+let showLoader = ref(true);
+const store = useStore();
+let userData = {};
+
+onMounted(() => {
+    getUserData();
+});
+
+// recuperamos los datos del usuario y lo colocamos en el store
+async function getUserData() {
+    showLoader.value = true
+    let url = serverConfigData.urls.getUser.replace(
+        '{idUser}', serverConfigData.idUser
+    );
+    let response = await serverInteractions.getData(url);
+    if (response.status.is_success) {
+        store.commit('setUserData', response.response);
+        store.commit('setStatusResponse', response.status);
+        userData = store.state.userData;
+        showLoader.value = false;
+    }else{
+        console.log('Error al cargar los datos del dashboard');
+    }
+}
+
+
+const tabList = reactive({
+    personal_data: true,
+    references: false,
+    bank_data: false
+});
+
+function changeTab(tabName) {
+    Object.keys(tabList).forEach((key) => {
+        tabList[key] = tabName === key;
+    });
+}
+
+// Computed properties
+const geolocation = computed(() => {
+    let url = '';
+    if (!userData.geolocation) {
+        return url;
+    }
+    let coordinates = userData.geolocation.split(',');
+    url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
+    return url;
+});
+
+const formatDate = ((my_date) => {
+    if (!my_date) {
+        return '';
+    }
+    let date = new Date(my_date);
+    return date.toLocaleDateString(
+        'es-EC', { year: 'numeric', month: 'long', day: 'numeric' }
+    );
+});
+
+const profilePic = computed(() => {
+    if (userData.picture) {
+        return userData.picture;
+    }
+    if (userData.sex === 'male') {
+        return ProfilePicWomen;
+    }
+    return ProfilePicMen;
+});
+
+const timeLapsed = ((my_date, years = true) => {
+    if (!my_date) {
+        return '';
+    }
+    let date = new Date(my_date);
+    let today = new Date();
+    let age = today.getFullYear() - date.getFullYear();
+    let m = today.getMonth() - date.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
+        age--;
+    }
+    if (years) {
+        return `${age} Años`
+    }
+    let lapsed = Math.abs(age * 12 + m);
+    return `${lapsed} Meses`;
+});
+
+    const cheff = {
+        typo: 'cocina china',
+        cocinar: (plato='')=>{
+            console.log('cocinando', plato);
+        }
+    }
+
+    const eduardo = {
+        nombre: 'Eduardo',
+        apellido: 'Villavicencio',
+        edad: 30,
+        sexo: 'masculino',
+    }
+
+</script>
 <template>
     <div>
         <Loader class="mx-auto" v-if="showLoader" />
@@ -253,121 +370,5 @@
             </div>
             <!--/tab bank data-->
         </div>
-</div></template>
-<script setup>
-import { RouterLink } from 'vue-router';
-import { useStore } from 'vuex';
-import Loader from '@/components/generics/Loader.vue';
-import { computed, reactive, onMounted, ref } from 'vue';
-import {
-    CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
-    XMarkIcon, CheckIcon, PencilSquareIcon
-} from '@heroicons/vue/24/outline';
-import serverConfigData from '@/config.js';
-import serverInteractions from '@/server-interactions.js';
-import SocialIcon from '@/components/generics/SocialIcon.vue';
-import ProfilePicMen from '@/assets/profile-pic-men.png';
-import ProfilePicWomen from '@/assets/profile-pic-woman.png';
-
-let showLoader = ref(true);
-const store = useStore();
-let userData = {};
-
-onMounted(() => {
-    getUserData();
-});
-
-// recuperamos los datos del usuario y lo colocamos en el store
-async function getUserData() {
-    showLoader.value = true
-    let url = serverConfigData.urls.getUser.replace(
-        '{idUser}', serverConfigData.idUser
-    );
-    let response = await serverInteractions.getData(url);
-    if (response.status.is_success) {
-        store.commit('setUserData', response.response);
-        store.commit('setStatusResponse', response.status);
-        userData = store.state.userData;
-        showLoader.value = false;
-    }else{
-        console.log('Error al cargar los datos del dashboard');
-    }
-}
-
-
-const tabList = reactive({
-    personal_data: true,
-    references: false,
-    bank_data: false
-});
-
-function changeTab(tabName) {
-    Object.keys(tabList).forEach((key) => {
-        tabList[key] = tabName === key;
-    });
-}
-
-// Computed properties
-const geolocation = computed(() => {
-    let url = '';
-    if (!userData.geolocation) {
-        return url;
-    }
-    let coordinates = userData.geolocation.split(',');
-    url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
-    return url;
-});
-
-const formatDate = ((my_date) => {
-    if (!my_date) {
-        return '';
-    }
-    let date = new Date(my_date);
-    return date.toLocaleDateString(
-        'es-EC', { year: 'numeric', month: 'long', day: 'numeric' }
-    );
-});
-
-const profilePic = computed(() => {
-    if (userData.picture) {
-        return userData.picture;
-    }
-    if (userData.sex === 'male') {
-        return ProfilePicWomen;
-    }
-    return ProfilePicMen;
-});
-
-const timeLapsed = ((my_date, years = true) => {
-    if (!my_date) {
-        return '';
-    }
-    let date = new Date(my_date);
-    let today = new Date();
-    let age = today.getFullYear() - date.getFullYear();
-    let m = today.getMonth() - date.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
-        age--;
-    }
-    if (years) {
-        return `${age} Años`
-    }
-    let lapsed = Math.abs(age * 12 + m);
-    return `${lapsed} Meses`;
-});
-
-    const cheff = {
-        typo: 'cocina china',
-        cocinar: (plato='')=>{
-            console.log('cocinando', plato);
-        }
-    }
-
-    const eduardo = {
-        nombre: 'Eduardo',
-        apellido: 'Villavicencio',
-        edad: 30,
-        sexo: 'masculino',
-    }
-
-</script>
+</div>
+</template>
