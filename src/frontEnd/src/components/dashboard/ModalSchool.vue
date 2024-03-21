@@ -10,7 +10,6 @@ const emits = defineEmits(['closeModal']);
 function emitCloseModal() {
     emits('closeModal');
 }
-let showModal = ref(true);
 
 const props = defineProps({
     school: {
@@ -38,11 +37,10 @@ const classsStatus = {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
 }
-
 </style>
 <template>
   <div class="my-modal">
-    <dialog v-if="showModal" class="modal" open>
+    <dialog class="modal" open>
       <div class="modal-box w-10/12 max-w-5xl">
         <span class="text-sm text-gray-400"> (#{{ school.school.id }}) | </span>
         <span class="rounded-md p-1 text-xl uppercase text-info">
@@ -138,7 +136,7 @@ const classsStatus = {
                 <td>{{ value.student.email }}</td>
                 <td>{{ value.student.state }},{{ value.student.city}} </td>
                 <td>
-                    <span v-for="aCourse in value.courses">
+                    <span v-for="aCourse in value.courses" :key="aCourse">
                         <ul>
                             <li class="flex items-center">
                               <small class="text-gray-400 text-center" >(#{{ aCourse.id_active_courses }})</small> 
