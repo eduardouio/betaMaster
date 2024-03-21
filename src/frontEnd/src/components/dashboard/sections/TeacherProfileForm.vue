@@ -394,6 +394,7 @@
       :typeToast="toastMessage.typeToast"
       :statusResponse="statusResponse"
     />
+    <ModalPasswordForm></ModalPasswordForm>
   </div>
 </template>
 <script setup>
@@ -414,6 +415,7 @@ import SocialIcon from '@/components/generics/SocialIcon.vue';
 import TextEditor from '@/components/generics/TextEditor.vue';
 import Toast from '@/components/dashboard/Toast.vue';
 import Skills from '@/components/dashboard/Skills.vue';
+import PasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
 
 
 const toastMessage = reactive({
