@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { XMarkIcon, MapPinIcon } from '@heroicons/vue/24/outline';
+import { XCircleIcon, MapPinIcon } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import imageDefault from '@/assets/logo.jpeg';
 
@@ -19,41 +19,39 @@ const props = defineProps({
 });
 
 const classsStatus = {
-    'POR INICIAR': 'text-sm text-sky-900 md:w-1/2 border inline p-1 rounded-md',
-    'EN PROCESO': 'text-sm text-green-900 md:w-1/2 border inline p-1 rounded-md',
-    'FINALIZADO': 'text-sm text-red-900 md:w-1/2 border inline p-1 rounded-md',
+    'POR INICIAR': 'text-xs md:text-sm text-sky-900 md:w-1/2 border inline p-1 rounded-md',
+    'EN PROCESO': 'text-xs md:text-sm text-green-900 md:w-1/2 border inline p-1 rounded-md',
+    'FINALIZADO': 'text-xs md:text-sm text-red-900 md:w-1/2 border inline p-1 rounded-md',
 };
 </script>
-
-<style scoped>
-.my-modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
-}
-</style>
 <template>
-  <div class="my-modal">
-    <dialog class="modal" open>
-      <div class="modal-box w-10/12 max-w-5xl">
-        <span class="text-sm text-gray-400"> (#{{ school.school.id }}) | </span>
-        <span class="rounded-md p-1 text-xl uppercase text-info">
-          {{ school.school.name }} 
-        </span>
+  <div class="text-sm md:text-md">
+    <dialog class="modal bg-gray-100/90" open>
+      <div class="modal-box p-3 border border-rounded border-sky-600 border-l-8 w-10/12 max-w-5xl">
+        <div class="flex">
+          <span class="w-full inline-block text-center text-sm text-cyan-800 bg- p-1">
+            (#{{ school.school.id }}) Información De Institución
+          </span>
+          <XCircleIcon @click="emitCloseModal" class="w-5 h-5 text-red-600 hover:text-red-900 hover:border" />
+        </div>
         <div class="flex flex-col items-center xl:flex-row xl:items-start rounded-md bg-white p-6">
-          <div class="flex flex-col items-center ">
-            <img class="w-40 h-40 rounded-md object-cover"
+          <div class="flex flex-col items-center">
+            <div class="card w-96 bg-base-100 shadow-md border rounded-md">
+              <div class="card-body flex items-center">
+                <span class="card-title p-1 uppercase text-info text-sm">
+                  {{ school.school.name }} 
+                </span>
+              </div>
+              <figure>
+                <img class="w-40 h-40 rounded-md object-cover"
               :src="school.school.logo ? school.school.logo : imageDefault"
               :alt="school.school.name" />
+              </figure>
+            </div>
+           
             <hr class="mt-4">
             <ul>
-              <li class="flex gap-3 flex-col md:flex-row">
+              <li class="flex gap-4 flex-row justify-between">
                 <SocialIcon v-if="school.school.url_facebook"
                   :url="school.school.url_facebook" :icon="'facebook'" />
                 <SocialIcon v-if="school.school.url_linkedin"
@@ -118,8 +116,9 @@ const classsStatus = {
           </div>
         </div>
         <div class="flex flex-col">
-          <span class="text-gray-700">Datos Históricos:</span>
-          <table class="table table-border">
+          <span class="text-gray-700 ">Datos Históricos:</span>
+          <div className="overflow-x-auto">
+            <table class="table table-xs table-border">
             <thead>
               <tr class="bg-gray-200 text-center text-gray-950">
                 <th>#</th>
@@ -138,10 +137,10 @@ const classsStatus = {
                 <td>
                     <span v-for="aCourse in value.courses" :key="aCourse">
                         <ul>
-                            <li class="flex items-center">
+                            <li class="flex flex-row items-center">
                               <small class="text-gray-400 text-center" >(#{{ aCourse.id_active_courses }})</small> 
                               <p>{{ aCourse.period }}</p>
-                              <span :class="classsStatus[aCourse.state]">{{ aCourse.state }}</span>
+                              <span class="inline-block" :class="classsStatus[aCourse.state]">{{ aCourse.state }}</span>
                             </li>
                         </ul>
                     </span>
@@ -150,10 +149,11 @@ const classsStatus = {
             </tbody>
           </table>
         </div>
+        </div>  
         <div class="modal-action">
           <form method="dialog">
-            <button class="btn btn-sm btn-error btn-outline hover:text-white" @click="emitCloseModal">
-              <XMarkIcon class="w-4 h-4" />
+            <button class="btn btn-sm btn-outline btn-info hover:text-white" @click="emitCloseModal">
+              <XCircleIcon class="w-5 h-5" />
               Cerrar
             </button>
           </form>
