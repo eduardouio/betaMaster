@@ -6,7 +6,7 @@
                 <li @click="updateSkills(item)"
                     class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md hover:shadow-lg">
                     <div class="flex gap-2">
-                        <span class="w-2" :class="item.color"></span>
+                        <span class="w-1" :class="item.color"></span>
                         <span v-text="item.name" class="uppercase text-sm"></span>
                     </div>
                     <XCircleIcon class="w-4 h-4 text-error" />
@@ -19,9 +19,9 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pt-4">
             <ul v-for="item in unselectedSkills" :key="item.name">
                 <li @click="updateSkills(item)"
-                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md hover:shadow-lg">
+                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md ">
                     <div class="flex gap-2">
-                        <span class="w-2" :class="item.color"></span>
+                        <span class="w-1" :class="item.color"></span>
                         <span v-text="item.name" class="uppercase text-sm"></span>
                     </div>
                     <CheckCircleIcon class="w-4 h-4 text-success" />
