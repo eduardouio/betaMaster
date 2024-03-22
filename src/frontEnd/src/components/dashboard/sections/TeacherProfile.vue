@@ -116,7 +116,7 @@ const timeLapsed = ((my_date, years = true) => {
 
 </script>
 <template>
-    <div>
+    <div class="text-sm lg:text-md">
         <Loader class="mx-auto" v-if="showLoader" />
         <div v-else>
             <div class="bg-gradient-to-b from-gray-50 to-slate-100 rounded-lg shadow-xl p5-8 pt-10 mr-4">
@@ -155,17 +155,30 @@ const timeLapsed = ((my_date, years = true) => {
                 </div>
             </div>
             <div role="tablist" class="tabs tabs-lifted mt-4">
-                <a role="tab" class="tab" :class="tabList.personal_data ? 'tab-active tb-active' : ''"
+                <a role="tab" class="tab h-10" :class="tabList.personal_data ? 'tab-active text-cyan-600' : ''"
                     @click="changeTab('personal_data')">
-                    Datos Personales
+                    <div v-if="!tabList.personal_data" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
+                        <span class="display md:hidden">DP</span>
+                        <span class="hidden md:block">Datos Personales</span>
+                        
+                    </div>
+                    <span v-else>Datos Personales</span>
                 </a>
-                <a role="tab" class="tab" :class="tabList.references ? 'tab-active tb-active' : ''"
+                <a role="tab" class="tab h-10" :class="tabList.references ? 'tab-active text-cyan-600' : ''"
                     @click="changeTab('references')">
-                    Referencias/Experiencia
+                    <div v-if="!tabList.references" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
+                        <span class="display md:hidden">RE</span>
+                        <span class="hidden md:block">Referencias/Experiencia</span>
+                    </div>
+                    <span v-else>Referencias/Experiencia</span>
                 </a>
-                <a role="tab" class="tab" :class="tabList.bank_data ? 'tab-active tb-active' : ''"
+                <a role="tab" class="tab h-10" :class="tabList.bank_data ? 'tab-active text-cyan-600' : ''"
                     @click="changeTab('bank_data')">
-                    Información Bancaria
+                    <div v-if="!tabList.bank_data" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
+                        <span class="display md:hidden">IB</span>
+                        <span class="hidden md:block">Información Bancaria</span>
+                    </div>
+                    <span v-else>Información Bancaria</span>
                 </a>
             </div>
             <!--tab profile-->
