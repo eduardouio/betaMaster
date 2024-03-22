@@ -1,3 +1,163 @@
+<script setup>
+import { useStore } from 'vuex';
+import { computed, onMounted, ref, reactive } from 'vue';
+import {
+  ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
+  CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon, KeyIcon, PhotoIcon
+}
+  from '@heroicons/vue/24/outline';
+
+import serverInteractions from '@/server-interactions.js';
+import serverConfigData from '@/config.js';
+
+import provincias from '@/assets/provincias.json';
+import LoaderVue from '@/components/generics/Loader.vue';
+import SocialIcon from '@/components/generics/SocialIcon.vue';
+import TextEditor from '@/components/generics/TextEditor.vue';
+import Toast from '@/components/dashboard/Toast.vue';
+import Skills from '@/components/dashboard/Skills.vue';
+import ModalPasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
+
+
+const toastMessage = reactive({
+  showToast: false,
+  message: '',
+  typeToast: 'error',
+});
+
+const store = useStore();
+const showLoader = ref(true);
+const showError = ref(false);
+let states = ref([]);
+let cities = ref([]);
+let parroquias = ref([]);
+let userData = ref(null);
+let showPresentation = ref(true);
+let showPasswordModal = ref(false);
+const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
+const statusResponse = computed(() => store.state.statusResponse);
+  
+onMounted(async () => {
+  showLoader.value = true;
+  userData = await store.state.userData;
+
+  if (!userData) {
+    await getUserData();
+  }
+
+  states = Object.values(provincias).map(item => item.provincia);
+  cities = Object.values(
+    Object.values(provincias).filter(
+      item => item.provincia === userData.user.state)[0].cantones
+  ).map(item => item.canton);
+  parroquias = Object.values(
+    Object.values(
+      Object.values(provincias).filter(
+        item => item.provincia === userData.user.state)[0].cantones
+    ).map(item => item).filter(
+      item => item.canton === userData.user.city)[0].parroquias);
+  if (userData) {
+    showLoader.value = false;
+  }
+});
+
+
+// recuperamos los datos del usuario y lo colocamos en el store
+async function getUserData() {
+  showLoader.value = false;
+  let url = serverConfigData.urls.getUser.replace(
+    '{idUser}', serverConfigData.idUser
+  );
+  let response = await serverInteractions.getData(url);
+  store.commit('setStatusResponse', response.status);
+
+  if (response.status.is_success) {
+    store.commit('setUserData', response.response);
+    userData = store.state.userData;
+    showLoader.value = false;
+  } else {
+    console.log('Error al cargar los datos del dashboard');
+  }
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
+}
+
+async function updateProfile() {
+
+  showError.value = true;
+  if (userPresentation) {
+    showPresentation.value = false;
+    userData.user.presentation = userPresentation;
+  }
+  await store.dispatch('updateProfile', userData);
+  userData = await store.state.userData;
+  setTimeout(() => {
+    showPresentation.value = true;
+  }, 200);
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
+
+}
+
+const showToast = (typeToast) => {
+  toastMessage.showToast = true;
+  toastMessage.typeToast = typeToast;
+  setTimeout(() => {
+    toastMessage.showToast = false;
+  }, 4000);
+}
+
+const handleTextEditor = (event) => {
+  userPresentation = event;
+}
+
+const handleUpdateSkills = (event) => {
+  userData.user.disipline = event;
+}
+
+
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  if (!file) {
+    return;
+  }
+
+  showError.value = true;
+  const formData = new FormData();
+  formData.append('file', file);
+
+  let url = serverConfigData.urls.uploadCVFile.replace(
+    '{idUser}', serverConfigData.idUser
+  ) + file.name;
+
+  const response = await serverInteractions.postFile(url, formData);
+  store.commit('setStatusResponse', response.status);
+
+  if (response.status.is_success) {
+    userData.user.cv = serverConfigData.baseUrl + response.response.url;
+    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
+  }
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
+};
+
+const handelModalPassword = () => {
+  showPasswordModal.value = !showPasswordModal.value;
+}
+
+</script>
 <template>
   <div>
     <LoaderVue v-if="showLoader" />
@@ -31,8 +191,15 @@
                       :alt="userData.user.first_name" class="w-2/3 h:auto" />
                   </figure>
                   <div class="flex flex-col xl:flex-row md:gap-2">
-                    <small class="mt-3 btn btn-xs btn-primary text-white">Cambiar Imagen</small>
-                    <small class="mt-3 btn btn-xs btn-primary text-white">Cambiar Clave</small>
+                    <span class="mt-3 btn btn-xs btn-primary text-white">
+                      <PhotoIcon class="h-4 w-4 inline-block" />
+                      Cambiar Imagen
+                    </span>
+                    <span class="mt-3 btn btn-xs btn-primary text-white"
+                      @click="handelModalPassword">
+                      <KeyIcon class="h-4 w-4 inline-block" />
+                      Cambiar Clave
+                    </span>
                   </div>
                 </div>
               </div>
@@ -390,171 +557,10 @@
       </div>
     </div>
     <Toast
-      v-if="toastMessage.showToast" 
-      :typeToast="toastMessage.typeToast"
-      :statusResponse="statusResponse"
+    v-if="toastMessage.showToast" 
+    :typeToast="toastMessage.typeToast"
+    :statusResponse="statusResponse"
     />
-    <ModalPasswordForm></ModalPasswordForm>
+    <ModalPasswordForm v-if="showPasswordModal" @handelModalPassword="handelModalPassword"/>
   </div>
-</template>
-<script setup>
-import { useStore } from 'vuex';
-import { computed, onMounted, ref, reactive } from 'vue';
-import {
-  ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
-  CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon
-}
-  from '@heroicons/vue/24/outline';
-
-import serverInteractions from '@/server-interactions.js';
-import serverConfigData from '@/config.js';
-
-import provincias from '@/assets/provincias.json';
-import LoaderVue from '@/components/generics/Loader.vue';
-import SocialIcon from '@/components/generics/SocialIcon.vue';
-import TextEditor from '@/components/generics/TextEditor.vue';
-import Toast from '@/components/dashboard/Toast.vue';
-import Skills from '@/components/dashboard/Skills.vue';
-import PasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
-
-
-const toastMessage = reactive({
-  showToast: false,
-  message: '',
-  typeToast: 'error',
-});
-
-const store = useStore();
-const showLoader = ref(true);
-const showError = ref(false);
-let states = ref([]);
-let cities = ref([]);
-let parroquias = ref([]);
-let userData = ref(null);
-const password = ref({
-  password: '',
-  password_2: '',
-
-});
-let userPresentation = ref('');
-let showPresentation = ref(true);
-const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
-const statusResponse = computed(() => store.state.statusResponse);
-
-onMounted(async () => {
-  showLoader.value = true;
-  userData = await store.state.userData;
-
-  if (!userData) {
-    await getUserData();
-  }
-
-  states = Object.values(provincias).map(item => item.provincia);
-  cities = Object.values(
-    Object.values(provincias).filter(
-      item => item.provincia === userData.user.state)[0].cantones
-  ).map(item => item.canton);
-  parroquias = Object.values(
-    Object.values(
-      Object.values(provincias).filter(
-        item => item.provincia === userData.user.state)[0].cantones
-    ).map(item => item).filter(
-      item => item.canton === userData.user.city)[0].parroquias);
-  if (userData) {
-    showLoader.value = false;
-  }
-});
-
-
-// recuperamos los datos del usuario y lo colocamos en el store
-async function getUserData() {
-  showLoader.value = false;
-  let url = serverConfigData.urls.getUser.replace(
-    '{idUser}', serverConfigData.idUser
-  );
-  let response = await serverInteractions.getData(url);
-  store.commit('setStatusResponse', response.status);
-
-  if (response.status.is_success) {
-    store.commit('setUserData', response.response);
-    userData = store.state.userData;
-    showLoader.value = false;
-  } else {
-    console.log('Error al cargar los datos del dashboard');
-  }
-
-  if (statusResponse.value.is_success) {
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-}
-
-async function updateProfile() {
-
-  showError.value = true;
-  if (userPresentation) {
-    showPresentation.value = false;
-    userData.user.presentation = userPresentation;
-  }
-  await store.dispatch('updateProfile', userData);
-  userData = await store.state.userData;
-  setTimeout(() => {
-    showPresentation.value = true;
-  }, 200);
-
-  if (statusResponse.value.is_success) {
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-
-}
-
-const showToast = (typeToast) => {
-  toastMessage.showToast = true;
-  toastMessage.typeToast = typeToast;
-  setTimeout(() => {
-    toastMessage.showToast = false;
-  }, 4000);
-}
-
-const handleTextEditor = (event) => {
-  userPresentation = event;
-}
-
-const handleUpdateSkills = (event) => {
-  userData.user.disipline = event;
-}
-
-
-const handleFileUpload = async (event) => {
-  const file = event.target.files[0];
-  if (!file) {
-    return;
-  }
-
-  showError.value = true;
-  const formData = new FormData();
-  formData.append('file', file);
-
-  let url = serverConfigData.urls.uploadCVFile.replace(
-    '{idUser}', serverConfigData.idUser
-  ) + file.name;
-
-  const response = await serverInteractions.postFile(url, formData);
-  store.commit('setStatusResponse', response.status);
-
-  if (response.status.is_success) {
-    userData.user.cv = serverConfigData.baseUrl + response.response.url;
-    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
-  }
-
-  if (statusResponse.value.is_success) {
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-};
-
-</script>
+</template> 
