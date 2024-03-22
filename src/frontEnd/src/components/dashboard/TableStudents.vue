@@ -18,9 +18,9 @@ function emitIdStudent(id) {
 }
 
 const classsStatus = {
-    'POR INICIAR': 'text-sky-900 md:w-1/2',
-    'EN PROCESO': 'text-green-900 md:w-1/2',
-    'FINALIZADO': 'text-red-900 md:w-1/2'
+    'POR INICIAR': 'text-xs text-sky-900',
+    'EN PROCESO': 'text-xs text-green-900',
+    'FINALIZADO': 'text-xs text-red-900'
 };
 
 const store = useStore();
@@ -100,16 +100,15 @@ function filterData(data, filter) {
         <div class="rounded-t mb-0 px-0 border-0">
             <div class="flex flex-wrap items-center px-4 py-2">
                 <div class="relative w-full max-w-full flex-grow flex-1">
-                    <h3 class="text-gray-900">Mis Estudiantes
-                    </h3>
+                    <span class="text-gray-800">Mis Estudiantes
+                    </span>
                 </div>
                 <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <input type="text" class="input input-bordered input-xs" placeholder="buscar" v-model="filter">
-
                 </div>
             </div>
-            <div class="block w-full overflow-x-auto">
-                <table class="table table-border">
+            <div class="overflow-x-auto">
+                <table class="table table-xs table-border 2xl:table-md">
                     <thead>
                         <tr class="bg-gray-200 text-center text-gray-950">
                             <th>#</th>

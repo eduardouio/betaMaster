@@ -133,7 +133,6 @@ function consolidateData(data){
                 </div>
                 <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                     <input type="text" class="input input-bordered input-xs" placeholder="buscar" v-model="filter">
-
                 </div>
             </div>
             <div class="overflow-x-auto">
@@ -142,7 +141,7 @@ function consolidateData(data){
                         <tr class="bg-gray-200 text-center text-gray-950">
                             <th>#</th>
                             <th>Colegio</th>
-							<th>Codigo AMI</th>
+							<th>Codigo AMI</th> 
                             <th>Estudiantes</th>
                             <th>Contacto</th>
                             <th>Provincia</th>
