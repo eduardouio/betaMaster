@@ -28,6 +28,9 @@ export default createStore({
             let url = serverConfigData.urls.updateUser.replace('{idUser}',
                 serverConfigData.idUser
             );
+            userData = userData.user;
+            delete(userData.cv);
+            delete(userData.picture);
             let response = await serverInteractions.putData(url, userData.user); 
             commit('setStatusResponse', response.status);
             if (response.status.is_success) {
