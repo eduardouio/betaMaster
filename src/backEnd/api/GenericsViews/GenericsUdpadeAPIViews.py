@@ -1,3 +1,4 @@
+import json
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -55,18 +56,19 @@ class UpdateUserAPIView(BasedUpdateAPIView):
 class UpdateUserPassword(APIView):
 
     def put(self, request, pk, *args, **kwargs):
-        if not request.data.get('password'):
+        data = json.loads(request.data) 
+        if not data.get('password'):
             return Response(status=400)
 
         # verificamos que el usuario sea el mismo
-        if request.user.pk != pk:
-            return Response(
-                data={'message': 'Error, no puedes actualizar este usuario'},
-                status=401
-            )
+        # if request.user.pk != pk:
+        #     return Response(
+        #         data={'message': 'Error, no puedes actualizar este usuario'},
+        #         status=401
+        #     )
 
         user = CustomUserModel.objects.get(pk=pk)
-        user.set_password(request.data['password'])
+        user.set_password(data['password'])
         user.save()
         return Response(data={'message': 'password actualizado'}, status=200)
 
