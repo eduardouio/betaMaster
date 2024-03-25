@@ -99,8 +99,6 @@ const  serverInteractions = {
 
     },
     async putData(url, data){
-        delete(data.cv);
-        delete(data.picture);
         let response = await fetch(url, {
             method: 'PUT',
             headers: serverConfigData.headers,

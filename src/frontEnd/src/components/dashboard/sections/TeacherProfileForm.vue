@@ -36,16 +36,19 @@ let showPresentation = ref(true);
 let showPasswordModal = ref(false);
 const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
 const statusResponse = computed(() => store.state.statusResponse);
+let userPresentation = '';
   
 onMounted(async () => {
-  showLoader.value = true;
   userData = await store.state.userData;
-
   if (!userData) {
     await getUserData();
-  }
+    loadStates();
 
-  states = Object.values(provincias).map(item => item.provincia);
+  }
+});
+
+const loadStates = function(){
+    states = Object.values(provincias).map(item => item.provincia);
   cities = Object.values(
     Object.values(provincias).filter(
       item => item.provincia === userData.user.state)[0].cantones
@@ -59,12 +62,11 @@ onMounted(async () => {
   if (userData) {
     showLoader.value = false;
   }
-});
-
+  };
 
 // recuperamos los datos del usuario y lo colocamos en el store
 async function getUserData() {
-  showLoader.value = false;
+  showLoader.value = true;
   let url = serverConfigData.urls.getUser.replace(
     '{idUser}', serverConfigData.idUser
   );
@@ -153,9 +155,27 @@ const handleFileUpload = async (event) => {
   }
 };
 
-const handelModalPassword = () => {
+const handelModalPassword = function(){
   showPasswordModal.value = !showPasswordModal.value;
 }
+
+const changePassword = async function(event){
+  showLoader.value = true;
+  let url = serverConfigData.urls.updatePasswordUser.replace(
+    '{idUser}', serverConfigData.idUser
+  );
+  const data = {
+    password: event.password,
+  }
+  const response = await serverInteractions.putData(url, JSON.stringify(data));
+  store.commit('setStatusResponse', response.status);
+  if (response.status.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
+  showLoader.value = false;
+};
 
 </script>
 <template>
@@ -561,6 +581,10 @@ const handelModalPassword = () => {
     :typeToast="toastMessage.typeToast"
     :statusResponse="statusResponse"
     />
-    <ModalPasswordForm v-if="showPasswordModal" @handelModalPassword="handelModalPassword"/>
+    <ModalPasswordForm 
+      v-if="showPasswordModal"
+      @handelModalPassword="handelModalPassword"
+      @changePassword="changePassword($event)"
+    />
   </div>
 </template> 
