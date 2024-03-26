@@ -41,14 +41,15 @@ let userPresentation = '';
 onMounted(async () => {
   userData = await store.state.userData;
   if (!userData) {
-    await getUserData();
-    loadStates();
-
+    return await getUserData();
   }
+  loadStates();
+  showLoader.value = false;
+
 });
 
-const loadStates = function(){
-    states = Object.values(provincias).map(item => item.provincia);
+const loadStates = function () {
+  states = Object.values(provincias).map(item => item.provincia);
   cities = Object.values(
     Object.values(provincias).filter(
       item => item.provincia === userData.user.state)[0].cantones
@@ -62,10 +63,13 @@ const loadStates = function(){
   if (userData) {
     showLoader.value = false;
   }
-  };
+};
 
 // recuperamos los datos del usuario y lo colocamos en el store
 async function getUserData() {
+  if (userData){
+    return;
+  }
   showLoader.value = true;
   let url = serverConfigData.urls.getUser.replace(
     '{idUser}', serverConfigData.idUser
@@ -76,8 +80,10 @@ async function getUserData() {
   if (response.status.is_success) {
     store.commit('setUserData', response.response);
     userData = store.state.userData;
+    loadStates();
     showLoader.value = false;
   } else {
+    alert('Error al cargar los datos del usuario');
     console.log('Error al cargar los datos del dashboard');
   }
 

@@ -33,8 +33,15 @@ PROFESIONS = [
     'MEDICO', 'ABOGADO', 'ECONOMISTA', 'ADMINISTRADOR', 'OTRO',
 ]
 
-with open('accounts/management/commands/statesAndCitiesEC.json', 'r', encoding='utf-8') as file:
-    STATES_EC = json.load(file)
+
+with open(
+    'accounts/management/commands/statesAndCitiesEC.json',
+    'r', 
+    encoding='utf-8'
+) as file:
+
+
+STATES_EC = json.load(file)
 
 BANKS_NAME = [
     'Banco del Austro',
