@@ -76,7 +76,7 @@ const handelModalPassword = function(){
                     <!-- if there is a button in form, it will close the modal -->
                     <button class="btn btn-primary btn-sm text-white" @click="handelModalPassword">
                         <XCircleIcon class="w-5 h-5 text-white" />
-                        Close
+                        Cerrar
                     </button>
                 </form>
             </div>
