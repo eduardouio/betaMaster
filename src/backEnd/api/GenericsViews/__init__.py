@@ -4,3 +4,4 @@ from .CompleteDataProfile import (
     StudentDataForTeacherAPIView,
 )
 from .UploadCVFileView import UploadCVFileView
+from .UploadPictureFileAPIView import UploadPictureFileAPIView

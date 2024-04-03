@@ -40,6 +40,9 @@ export default createStore({
         },
     },
     getters: {
+        getReferences(state){
+            return state.userData.references;
+        },
         getUserData(state) {
             return state.userData;
         },
