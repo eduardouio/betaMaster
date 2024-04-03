@@ -63,8 +63,7 @@ const  serverInteractions = {
     },
     async postFile(url, formData) {
         let headers = serverConfigData.headers;
-        delete headers['Content-Type'];
-        console.dir(headers);
+        headers['Content-Type'] = 'multipart/form-data';
         let response = await fetch(url,{
             method: 'POST',
             headers: headers,
