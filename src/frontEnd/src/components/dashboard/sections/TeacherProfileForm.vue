@@ -1,4 +1,5 @@
 <script setup>
+'use strict';
 import { useStore } from 'vuex';
 import { computed, onMounted, ref, reactive } from 'vue';
 import {
@@ -17,6 +18,8 @@ import TextEditor from '@/components/generics/TextEditor.vue';
 import Toast from '@/components/dashboard/Toast.vue';
 import Skills from '@/components/dashboard/Skills.vue';
 import ModalPasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
+import ModalPictureForm from '@/components/dashboard/ModalPictureForm.vue';
+import PersonalReferences from '@/components/dashboard/sections/PersonalReferences.vue';
 
 
 const toastMessage = reactive({
@@ -34,6 +37,7 @@ let parroquias = ref([]);
 let userData = ref(null);
 let showPresentation = ref(true);
 let showPasswordModal = ref(false);
+let showPictureModal = ref(false);
 const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
 const statusResponse = computed(() => store.state.statusResponse);
 let userPresentation = '';
@@ -161,8 +165,28 @@ const handleFileUpload = async (event) => {
   }
 };
 
-const handelModalPassword = function(){
-  showPasswordModal.value = !showPasswordModal.value;
+const changePicture = async function(file){
+  console.dir(file);
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const url = serverConfigData.urls.uploadProfilePicture.replace(
+    '{idUser}', serverConfigData.idUser
+  ) + file.name;
+
+  const response = await serverInteractions.postFile(url, formData);
+  store.commit('setStatusResponse', response.status);
+
+  if (response.status.is_success) {
+    userData.user.picture = serverConfigData.baseUrl + response.response.url;
+    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
+  }
+
+  if (statusResponse.value.is_success) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
 }
 
 const changePassword = async function(event){
@@ -175,6 +199,7 @@ const changePassword = async function(event){
   }
   const response = await serverInteractions.putData(url, JSON.stringify(data));
   store.commit('setStatusResponse', response.status);
+  showPasswordModal.value = false;
   if (response.status.is_success) {
     showToast('success');
   } else {
@@ -183,6 +208,14 @@ const changePassword = async function(event){
   showLoader.value = false;
 };
 
+// Manejamos los eventos de los modales
+const handelModalPassword = function(){
+  showPasswordModal.value = !showPasswordModal.value;
+};
+
+const handelModalPicture = function(){
+  showPictureModal.value = !showPictureModal.value;
+};
 </script>
 <template>
   <div>
@@ -216,16 +249,18 @@ const changePassword = async function(event){
                       src="https://photoaid.com/en/tools/_next/static/images/before-25ed01ce5b208e9df51888c519ef7949.webp"
                       :alt="userData.user.first_name" class="w-2/3 h:auto" />
                   </figure>
-                  <div class="flex flex-col xl:flex-row md:gap-2">
-                    <span class="mt-3 btn btn-xs btn-primary text-white">
+                  <div class="flex flex-col 2xl:flex-row md:gap-2">
+                    <a class="mt-3 btn btn-xs btn-primary text-white"
+                      @click="handelModalPicture"
+                    >
                       <PhotoIcon class="h-4 w-4 inline-block" />
                       Cambiar Imagen
-                    </span>
-                    <span class="mt-3 btn btn-xs btn-primary text-white"
+                    </a>
+                    <a class="mt-3 btn btn-xs btn-primary text-white"
                       @click="handelModalPassword">
                       <KeyIcon class="h-4 w-4 inline-block" />
                       Cambiar Clave
-                    </span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -502,7 +537,7 @@ const changePassword = async function(event){
                 </div>
               </div>
               <div class="lg:col-span-3">
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
+                <div class="grid gap-4 gap-y-2 grid-cols-1 md:grid-cols-6">
                   <div class="md:col-span-3">
                     <label for="level_education">Nivel de Educación</label>
                     <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
@@ -561,14 +596,22 @@ const changePassword = async function(event){
                     >
                   </Skills>
                   </div>
-
-                  <div class="lg:col-span-6 mt-5 bg-gray-100 p-3">
-                      espacio  para las referencias
-                  </div>
-                  <div class="md:col-span-6">
-                  </div>
                 </div>
               </div>
+            </div>
+            
+            <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
+              <div class="text-gray-700 ">
+                <strong class="font-medium text-lg">Referencias Personales</strong>
+                <div class="card card-side bg-base-100">
+                </div>
+              </div>
+              <div class="lg:col-span-3">
+                <div class="grid gap-4 gap-y-2 grid-cols-1">
+                  <PersonalReferences/>
+                </div>
+              </div>
+            </div>
               <div class="md:col-span-6 text-right py-5">
                 <div class="inline-flex items-end">
                   <button @click="updateProfile" class="btn btn-primary text-white btn-sm">
@@ -577,7 +620,6 @@ const changePassword = async function(event){
                   </button>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -591,6 +633,11 @@ const changePassword = async function(event){
       v-if="showPasswordModal"
       @handelModalPassword="handelModalPassword"
       @changePassword="changePassword($event)"
+    />
+    <ModalPictureForm
+      v-if="showPictureModal"
+      @handelModalPicture="handelModalPicture"
+      @changePicture="changePicture($event)"
     />
   </div>
 </template> 
