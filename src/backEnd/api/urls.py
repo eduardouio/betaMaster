@@ -44,6 +44,7 @@ from api.GenericsViews import (
 )
 
 from api.GenericsViews import UploadCVFileView
+from api.GenericsViews import UploadPictureFileAPIView
 
 from django.urls import path
 
@@ -55,6 +56,11 @@ urlpatterns = [
         "user/update-password/<int:pk>/",
         UpdateUserPassword.as_view(),
         name="api-update-user-password",
+    ),
+    path(
+        "user/upload-picture/<int:pk>/<str:filename>",
+        UploadPictureFileAPIView.as_view(),
+        name="api-upload-picture",
     ),
     path("user/update/<int:pk>/",
          UpdateUserAPIView.as_view(),
@@ -90,7 +96,10 @@ urlpatterns = [
         StudentDataForTeacherAPIView.as_view(),
         name="api-student-data-teacher",
     ),
-    path("user/upload-cv/<int:pk>/<str:filename>", UploadCVFileView.as_view(), name="api-upload-cv"),
+    path("user/upload-cv/<int:pk>/<str:filename>",
+         UploadCVFileView.as_view(),
+         name="api-upload-cv"
+    ),
     # bancos de usuario
     path(
         "bank-account/<int:pk>/",
