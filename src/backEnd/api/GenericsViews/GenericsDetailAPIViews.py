@@ -96,3 +96,4 @@ class SchoolAPIView(RetrieveAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
     #permission_classes = [IsNotUserAS]
+
