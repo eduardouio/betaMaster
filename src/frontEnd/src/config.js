@@ -23,18 +23,19 @@ const serverConfigData = {
         login : baseUrl + '/login/', // POST
         logout : baseUrl + '/logout/', // GET
         // usuarios
-        uploadCVFile : baseUrl + '/api/user/upload-cv/{idUser}/', // POST
-        uploadProfilePicture : baseUrl + '/api/user/upload-picture/{idUser}/', // POST
+        uploadCVFile : baseUrl + `/api/user/upload-cv/${idUser}/`, // POST
+        uploadProfilePicture : baseUrl + `/api/user/upload-picture/${idUser}/`, // POST
         registerUser : baseUrl + '/api/user/add/', // POST
         loginUser : baseUrl + '/login/', // POST
         logoutUser : baseUrl + '/logout/', // GET
-        updatePasswordUser : baseUrl + '/api/user/update-password/{idUser}/', // PUT
-        getUser : baseUrl + '/api/user/{idUser}/', // GET
+        updatePasswordUser : baseUrl + `/api/user/update-password/${idUser}/`, // PUT
+        getUser : baseUrl + `/api/user/${idUser}/`, // GET
+        getUserBankAccount : baseUrl + `/api/user/banks-accounts/${idUser}/`, // GET
         getUsers : baseUrl + '/api/user/users-by-role/{roleName}/', // GET
-        updateUser : baseUrl + '/api/user/update/{idUser}/', // PUT
-        teacherData: baseUrl + '/api/user/complete-data-teacher/{idUser}/', // GET
+        updateUser : baseUrl + `/api/user/update/${idUser}/`, // PUT
+        teacherData: baseUrl + `/api/user/complete-data-teacher/${idUser}/`, // GET
         studentDataByteacher: baseUrl + '/api/user/data-student-by-teacher/student/{idStudent}/teacher/{idTeacher}/', // GET
-        studentData: baseUrl + '/api/user/complete-data-student/{idUser}/', // GET
+        studentData: baseUrl + `/api/user/complete-data-student/${idUser}/`, // GET
         // cursos activos
         getActiveCourse : baseUrl + '/api/active-course/{idActiveCourse}/', // GET
         getActiveCourses : baseUrl + '/api/active-courses/', // GET
@@ -48,6 +49,7 @@ const serverConfigData = {
         updatePaymentSubscription : baseUrl + '/api/payment-subscription/update/{idPaymentSubscription}/', // PUT
         getPaymentSubscription : baseUrl + '/api/payment-subscription/{idPaymentSubscription}/', // GET
         // referencias personales
+        getAllPersonalReferences : baseUrl + `/api/user/personal-reference/${idUser}/`, // GET
         addPersonalReference : baseUrl + '/api/personal-reference/add/', // POST
         updatePersonalReference : baseUrl + '/api/personal-reference/update/{idPersonalReference}/', // PUT
         deletePersonalReference : baseUrl + '/api/personal-reference/delete/{idPersonalReference}/', // DELETE
