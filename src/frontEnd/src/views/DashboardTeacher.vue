@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import serverConfigData from '@/config';
 import Footer from '@/components/Footer.vue';
@@ -8,41 +8,21 @@ import Loader from '@/components/generics/Loader.vue';
 import SideBar from '@/components/dashboard/SideBar.vue';
 import HeaderDashboard from '@/components/dashboard/HeaderDashboard.vue';  
 
-let showLoader = ref(true);
 const store = useStore();
-let dashboardData = {};
+const isLoading = computed(() => store.getters.getIsLoading);
 
 onMounted(() => {
-    document.title = 'Cargando Datos...';
-    loadData();
+    store.dispatch('fetchProfile');
+    store.dispatch('fetchBankAccounts');
+    store.dispatch('fetchStudents');
+    store.dispatch('fetchReferences');
 });
-
-
-// cargamos los datos del dashboard
-async function loadData(){
-    let url = serverConfigData.urls.teacherData.replace(
-        '{idUser}', serverConfigData.idUser
-    );
-    let response = await fetch(
-        url,{
-        method: 'GET',
-        headers: serverConfigData.headers
-    });
-
-    if(response.status != 200){
-        console.log('Error al cargar los datos del dashboard');
-        console.log(response);
-    }else{        
-        store.commit('setDashboardData', await response.json());
-        dashboardData= await store.state.dashboardData;
-        document.title = 'Resumen | Dashboard';
-        showLoader.value = false;
-    }
-}
 </script>
 <template>
-    <Loader v-if="showLoader" />
-    <div v-else>
+    <div>
+        {{ store.state.stagesLoaded }}
+    <Loader v-if="isLoading" />
+    <div v-if="store.state.stagesLoaded===4">
     <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
             <HeaderDashboard />
             <SideBar />
@@ -54,4 +34,5 @@ async function loadData(){
             <!--/Contenido del dashboard-->
         </div>
     </div>
+</div>
 </template>

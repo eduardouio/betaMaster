@@ -1,11 +1,25 @@
 <script setup>
-import { useStore, mapGetters } from 'vuex';
-import { ref } from 'vue';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import { onUnmounted, ref } from 'vue';
 import { CheckIcon, PencilSquareIcon, XCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
-const store = useStore();
-const userData = store.state.userData;
-let showForm = ref(true);
+const references = mapMutations('references', ['setReferences']);
+
+onUnmounted(() => {
+    references.commit('setReferences', [{
+        enterprise: 'Empresa 1',
+        start_date: '2021-01-01',
+        end_date: '2021-01-01',
+        name_contact: 'Contacto 1',
+        relationship: 'Relación 1',
+        type: 'Tipo 1',
+        email: ''
+    }]);
+});
+
+const deleteReferece = function (idx) {
+    store.dispatch('deleteReference', idx);
+};
 
 </script>
 <template>
@@ -43,7 +57,6 @@ let showForm = ref(true);
             <label for="enterprise">Teléfono</label>
             <input type="text" id="enterprise" class="input input-sm input-secondary focus:input-primary w-full md:h-11" />
         </div>  
-
     </div>
     <table v-else class="table table-xs">
         <!-- head -->
