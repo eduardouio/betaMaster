@@ -9,7 +9,7 @@ const module = {
     },
     actions:{
         async fetchReferences({ commit, state, rootState }) {
-            console.log("fetchReferences");
+            
         },
         async updateReference({ commit, state, rootState }, userData) {
         },

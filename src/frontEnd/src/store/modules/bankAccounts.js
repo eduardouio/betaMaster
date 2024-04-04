@@ -1,3 +1,6 @@
+import serverConfigData from "@/config";
+import serverInteractions from "@/server-interactions";
+
 const module = {
     state:{
         bankAccounts: null,
@@ -9,9 +12,14 @@ const module = {
     },
     actions:{
         async fetchBankAccounts({ commit, state, rootState}) {
-            console.log("fetchBankAccounts");
-            commit('setIsLoading', false, { root: true });
-            console.log(rootState.isLoading);
+            let url = serverConfigData.urls.getUserBankAccount;
+            let response = await serverInteractions.getData(url);
+            if (response.status.is_success) {
+                commit('setBankAccounts', response.response);
+                rootState.stagesLoaded += 1;
+            } else {
+                alert('Error en el servidor');
+            }
             
         },
         async updateBankAccount({ commit, state, rootState }, userData) {

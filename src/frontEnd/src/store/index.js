@@ -8,6 +8,7 @@ import profile from "@/store/modules/profile.js";
 export default createStore({
     state: {
         isLoading: true,
+        stagesLoaded: 0,
     },  
     mutations: {
         setIsLoading(state, status) {
