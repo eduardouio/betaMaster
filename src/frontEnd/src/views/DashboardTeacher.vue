@@ -16,6 +16,7 @@ onMounted(() => {
     store.dispatch('fetchBankAccounts');
     store.dispatch('fetchStudents');
     store.dispatch('fetchReferences');
+    store.dispatch('fetchSchools');
 });
 </script>
 <template>
