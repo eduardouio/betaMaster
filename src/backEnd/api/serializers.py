@@ -159,17 +159,10 @@ class UserSerializerPrivate(serializers.ModelSerializer):
             'is_superuser',
             'is_aproved',
             'picture',
+            'cv',
+            'user_permissions',
+            'groups',
         ]
-
-    def to_representation(self, obj):
-        data = {}
-        references = PersonalReferences.objects.filter(id_user=obj)
-        data['user'] = super().to_representation(obj)
-        data['references'] = PersonalReferencesSerializer(
-            references, many=True).data
-        accounts = BankAccount.objects.filter(id_user=obj)
-        data['accounts'] = BankAccountSerializer(accounts, many=True).data
-        return data
 
 
 class ActiveCourseSerializer(serializers.ModelSerializer):
@@ -260,3 +253,5 @@ class PaymentSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
+
