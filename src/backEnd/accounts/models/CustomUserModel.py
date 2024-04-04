@@ -300,8 +300,9 @@ class CustomUserModel(AbstractUser):
     )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS  = []
     objects = CustomUserManager()
+
 # reemplazo y homescholing LAS DOS SI
     @classmethod
     def get(cls, email):

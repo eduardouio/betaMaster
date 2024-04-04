@@ -254,4 +254,3 @@ class PaymentSubscriptionSerializer(serializers.ModelSerializer):
         model = Payment
         fields = '__all__'
 
-

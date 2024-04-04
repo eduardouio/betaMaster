@@ -34,6 +34,7 @@ const serverConfigData = {
         getUsers : baseUrl + '/api/user/users-by-role/{roleName}/', // GET
         updateUser : baseUrl + `/api/user/update/${idUser}/`, // PUT
         teacherData: baseUrl + `/api/user/complete-data-teacher/${idUser}/`, // GET
+        teacherStudents: baseUrl + `/api/user/students-by-teacher/${idUser}/`, // GET
         studentDataByteacher: baseUrl + '/api/user/data-student-by-teacher/student/{idStudent}/teacher/{idTeacher}/', // GET
         studentData: baseUrl + `/api/user/complete-data-student/${idUser}/`, // GET
         // cursos activos

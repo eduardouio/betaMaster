@@ -5,7 +5,8 @@ from api.serializers import (
     SubscriptionSerializerComplete,
     SchoolSerializer,
     PersonalReferencesSerializer,
-    BankAccountSerializer
+    BankAccountSerializer,
+    UserSerializerPublic
 )
 
 from rest_framework.generics import ListAPIView
@@ -23,7 +24,7 @@ from schools.models import School
 
 
 class BasePagination(PageNumberPagination):
-    page_size = 10
+    page_size = 15
 
 
 # /api/subscriptions/<int:pk>/ -> api-subscriptions-list
@@ -87,3 +88,15 @@ class ListUserBanksAccountsAPIView(ListAPIView):
         id_user = self.kwargs['id_user']
         user = UserModel.objects.get(pk=id_user)
         return BankAccount.objects.filter(id_user=user)
+
+
+# /api/user/students-by-teacher/<int:id_teacher>/
+class ListStudentsByTeacherAPIView(ListAPIView):
+    queryset = UserModel.objects.all()
+    serializer_class = UserSerializerPublic
+    pagination_class = BasePagination
+
+    def get_queryset(self):
+        teacher = UserModel.objects.get(pk=self.kwargs['id_teacher'])
+        active_courses = ActiveCourse.objects.filter(teacher=teacher)
+        return [i.student for i in active_courses]

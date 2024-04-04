@@ -9,7 +9,14 @@ const module = {
     },
     actions:{
         async fetchStudents({ commit, state, rootState }) {
-            console.log("fetchStudents");
+            let url = serverConfigData.urls.teacherStudents;
+            let response = await serverInteractions.getData(url);
+            if (response.status.is_success) {
+                commit('setStudents', response.response);
+                rootState.stagesLoaded += 1;
+            } else {
+                alert('Error en el servidor');
+            }
         },
         async updateStudent({ commit, state, rootState }, userData) {
         },
