@@ -24,7 +24,7 @@ from schools.models import School
 
 
 class BasePagination(PageNumberPagination):
-    page_size = 15
+    page_size = 100
 
 
 # /api/subscriptions/<int:pk>/ -> api-subscriptions-list
@@ -94,7 +94,6 @@ class ListUserBanksAccountsAPIView(ListAPIView):
 class ListStudentsByTeacherAPIView(ListAPIView):
     queryset = UserModel.objects.all()
     serializer_class = UserSerializerPublic
-    pagination_class = BasePagination
 
     def get_queryset(self):
         teacher = UserModel.objects.get(pk=self.kwargs['id_teacher'])
