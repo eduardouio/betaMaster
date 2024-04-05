@@ -99,3 +99,15 @@ class ListStudentsByTeacherAPIView(ListAPIView):
         teacher = UserModel.objects.get(pk=self.kwargs['id_teacher'])
         active_courses = ActiveCourse.objects.filter(teacher=teacher)
         return [i.student for i in active_courses]
+
+
+# /api/user/schools-by-teacher/<int:id_teacher>/
+class listSchoolsByTeacherAPIView(ListAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+
+    def get_queryset(self):
+        teacher = UserModel.objects.get(pk=self.kwargs['id_teacher'])
+        active_courses = ActiveCourse.objects.filter(teacher=teacher)
+        schools = [i.id_school for i in active_courses]
+        return schools

@@ -16,7 +16,8 @@ from api.GenericsViews.GenericsListAPIView import (
     ListSchoolsAPIView,
     ListPersonalReferenceAPIView,
     ListUserBanksAccountsAPIView,
-    ListStudentsByTeacherAPIView
+    ListStudentsByTeacherAPIView,
+    listSchoolsByTeacherAPIView,
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
@@ -81,13 +82,18 @@ urlpatterns = [
     ),
     path(
         "user/personal-reference/<int:pk>/",
-        UserDataAPIView.as_view(),
+        ListPersonalReferenceAPIView.as_view(),
         name="api-user-references"
     ),
     path(
         "user/banks-accounts/<int:id_user>/",
         ListUserBanksAccountsAPIView.as_view(),
         name="api-user-banks"
+    ),
+    path(
+        "user/schools-by-teacher/<int:id_teacher>/",
+        listSchoolsByTeacherAPIView.as_view(),
+        name="api-schools-by-teacher"
     ),
     path(
         "user/students-by-teacher/<int:id_teacher>/",
