@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import serverConfigData from '@/config';
 import Footer from '@/components/Footer.vue';
@@ -11,6 +11,14 @@ import HeaderDashboard from '@/components/dashboard/HeaderDashboard.vue';
 const store = useStore();
 const isLoading = computed(() => store.getters.getIsLoading);
 
+const stagesLoaded = computed(() => {
+    console.log('metodo computado', store.getters.getStagesLoaded);
+    if (store.getters.getStagesLoaded === 5) {
+        store.commit('setIsLoading', false);
+    }
+    return store.getters.getStagesLoaded === 5;
+});
+
 onMounted(() => {
     store.dispatch('fetchProfile');
     store.dispatch('fetchBankAccounts');
@@ -18,12 +26,12 @@ onMounted(() => {
     store.dispatch('fetchReferences');
     store.dispatch('fetchSchools');
 });
+
 </script>
 <template>
     <div>
-        {{ store.state.stagesLoaded }}
     <Loader v-if="isLoading" />
-    <div v-if="store.state.stagesLoaded===4">
+    <div v-if="stagesLoaded">
     <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
             <HeaderDashboard />
             <SideBar />
@@ -34,6 +42,9 @@ onMounted(() => {
             </div>
             <!--/Contenido del dashboard-->
         </div>
+    </div>
+    <div v-else class="text-info">
+        Cargando datos...
     </div>
 </div>
 </template>
