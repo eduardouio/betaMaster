@@ -1,8 +1,9 @@
-import { createStore, storeKey } from "vuex";
+import { createStore } from "vuex";
 import references from "@/store/modules/references.js";
 import students from "@/store/modules/students.js";
 import bankAccounts from "@/store/modules/bankAccounts.js";
 import profile from "@/store/modules/profile.js";
+import scholls from "@/store/modules/schools.js";
 
 
 export default createStore({
@@ -12,6 +13,7 @@ export default createStore({
     },  
     mutations: {
         setIsLoading(state, status) {
+            console.log('setIsLoading', status);
             state.isLoading = status;
         },
     },
@@ -19,11 +21,15 @@ export default createStore({
         getIsLoading(state) {
             return state.isLoading;
         },
+        getStagesLoaded(state) {
+            return state.stagesLoaded;
+        }
     },
     modules: {
         profile,
         bankAccounts,
         students,
         references,
+        scholls,
     },
 });
