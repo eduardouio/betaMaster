@@ -4,6 +4,7 @@ import students from "@/store/modules/students.js";
 import bankAccounts from "@/store/modules/bankAccounts.js";
 import profile from "@/store/modules/profile.js";
 import scholls from "@/store/modules/schools.js";
+import courses from "@/store/modules/courses.js";
 
 
 export default createStore({
@@ -31,5 +32,6 @@ export default createStore({
         students,
         references,
         scholls,
+        courses,
     },
 });

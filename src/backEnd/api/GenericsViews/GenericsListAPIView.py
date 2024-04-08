@@ -2,6 +2,7 @@ from api.serializers import (
     StudyPlanSerializer,
     UserSerializerPrivate,
     ActiveCourseSerializerComplete,
+    ActiveCourseSerializer,
     SubscriptionSerializerComplete,
     SchoolSerializer,
     PersonalReferencesSerializer,
@@ -111,3 +112,16 @@ class listSchoolsByTeacherAPIView(ListAPIView):
         active_courses = ActiveCourse.objects.filter(teacher=teacher)
         schools = [i.id_school for i in active_courses]
         return schools
+
+
+# /api/user/courses-by-user/<int:id_teacher>/
+class ListActiveCoursesByUser(ListAPIView):
+    queryset = ActiveCourse.objects.all()
+    serializer_class = ActiveCourseSerializer
+
+    def get_queryset(self):
+        user = UserModel.objects.get(pk=self.kwargs['id_user'])
+        if user.role == 'ESTUDUANTE':
+            return ActiveCourse.objects.filter(student=user)
+
+        return ActiveCourse.objects.filter(teacher=user)

@@ -18,6 +18,7 @@ from api.GenericsViews.GenericsListAPIView import (
     ListUserBanksAccountsAPIView,
     ListStudentsByTeacherAPIView,
     listSchoolsByTeacherAPIView,
+    ListActiveCoursesByUser
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
@@ -104,6 +105,11 @@ urlpatterns = [
         "users-by-role/<str:role_name>/",
         ListUserByRoleAPIView.as_view(),
         name="api-users-by-role-list",
+    ),
+    path(
+        "user/courses-by-user/<int:id_user>/",
+        ListActiveCoursesByUser.as_view(),
+        name="api-active-courses-by-user",
     ),
     path(
         "user/complete-data-teacher/<int:pk>/",
