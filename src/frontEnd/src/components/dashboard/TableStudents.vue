@@ -1,17 +1,10 @@
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch, reactive } from 'vue';
-import {
-ChevronDoubleLeftIcon,
-ChevronDoubleRightIcon,
-ChevronRightIcon,
-ChevronLeftIcon
-}
-    from '@heroicons/vue/24/outline';
+import { onMounted, ref, watch } from 'vue';
+import {    ChevronDoubleLeftIcon, ChevronDoubleRightIcon, 
+            ChevronRightIcon, ChevronLeftIcon
+        } from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config';
-
-// defimimos los emits para actualizar el modal
-const emits = defineEmits(['idStudent']);
 
 function emitIdStudent(id) {
     emits('idStudent', id);
@@ -24,27 +17,20 @@ const classsStatus = {
 };
 
 const store = useStore();
-// datos del store
-let dashboardData = store.state.dashboardData;
-// datos paginados
 const paginatedData = ref([]);
-// pagina actual mostrada
+let listStudents = store.getters.getCourses;
 let currentPage = ref(1);
 let perPage = ref(10);
-// texto del filtro
 let filter = ref('');
-// paginas de la tabla
-let pages = ref(Math.ceil(dashboardData.length / perPage.value));
-// itmes mostrados en la tabla
+let pages = ref(Math.ceil(listStudents / perPage.value));
 let showingItems = ref(0);
 
-onMounted(() => { paginateContent(dashboardData); });
+onMounted(() => { paginateContent(listStudents)});
 
-// miramos la cantidad de registros por pagina
 watch(perPage, (newVal, oldVal) => {
     currentPage.value = 1;
-    pages.value = Math.ceil(dashboardData.length / perPage.value);
-    paginateContent(dashboardData);
+    pages.value = Math.ceil(listStudents / perPage.value);
+    paginateContent(listStudents);
 });
 
 // miramos la pagina actual
@@ -60,17 +46,14 @@ watch(currentPage, (newVal, oldVal) => {
     if (currentPage.value < 1) {
         currentPage.value = 1;
     }
-    paginateContent(dashboardData);
+    paginateContent(listStudents);
 });
 
-// miramos si tenemos el filtro
 watch(filter, (newVal, oldVal) => {
     currentPage.value = 1;
-    paginateContent(dashboardData, newVal);
+    paginateContent(listStudents, newVal);
 });
 
-
-// paginacion de datos
 function paginateContent(data, filter = '') {
     if (filter) {
         data = filterData(data, filter);
@@ -80,14 +63,13 @@ function paginateContent(data, filter = '') {
     showingItems.value = paginatedData.value.length;
 }
 
-// filtro de datos
 function filterData(data, filter) {
     let filteredData = data.filter((item) => {
         return item.student.first_name.toLowerCase().includes(filter.toLowerCase()) ||
             item.student.last_name.toLowerCase().includes(filter.toLowerCase()) ||
-            item.school.name.toLowerCase().includes(filter.toLowerCase()) ||
-            item.active_course.period.toLowerCase().includes(filter.toLowerCase()) ||
-            item.active_course.state.toLowerCase().includes(filter.toLowerCase()) ||
+            item.id_school.name.toLowerCase().includes(filter.toLowerCase()) ||
+            item.period.toLowerCase().includes(filter.toLowerCase()) ||
+            item.state.toLowerCase().includes(filter.toLowerCase()) ||
             item.student.city.toLowerCase().includes(filter.toLowerCase());
     });
     return filteredData;
@@ -124,11 +106,11 @@ function filterData(data, filter) {
                             @click="emitIdStudent(row.student.id)">
                             <td class="pb-0 pl-1">{{ (perPage * (currentPage - 1)) + idx + 1 }}</td>
                             <td class="pb-0 pl-1">{{ row.student.first_name }} {{ row.student.last_name }}</td>
-                            <td class="pb-0 pl-1">{{ row.school.name }}</td>
-                            <td class="pb-0 pl-1">{{ row.active_course.period }}</td>
+                            <td class="pb-0 pl-1">{{ row.id_school.name }}</td>
+                            <td class="pb-0 pl-1">{{ row.period }}</td>
                             <td class="pb-0 pl-1">
-                                <div :class="classsStatus[row.active_course.state]">
-                                    {{ row.active_course.state }}
+                                <div :class="classsStatus[row.state]">
+                                    {{ row.state }}
                                 </div>
                             </td>
                             <td class="pb-0 pl-1">{{ row.student.city }}</td>
@@ -153,7 +135,7 @@ function filterData(data, filter) {
                         </button>
                     </div>
                     <div class="relative text-xs">
-                        Página 1 de {{ pages }} - Mostrando {{ showingItems }} de {{ dashboardData.length }} Registros
+                        Página 1 de {{ pages }} - Mostrando {{ showingItems }} de {{ listStudents.length }} Registros
                     </div>
                     <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                         <span class="text-xs">Elementos por Página </span>

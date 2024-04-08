@@ -29,7 +29,7 @@ const module = {
         }
     },
     getters:{
-        getStudents(state, getters, rootState, rootGetters){
+        getStudents(state){
             return state.students;
         },
     },
