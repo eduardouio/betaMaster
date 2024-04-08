@@ -1,8 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import serverConfigData from '@/config';
 import Footer from '@/components/Footer.vue';
 import Loader from '@/components/generics/Loader.vue';
 import SideBar from '@/components/dashboard/SideBar.vue';
@@ -12,19 +11,20 @@ const store = useStore();
 const isLoading = computed(() => store.getters.getIsLoading);
 
 const stagesLoaded = computed(() => {
-    console.log('metodo computado', store.getters.getStagesLoaded);
-    if (store.getters.getStagesLoaded === 5) {
+    if (store.getters.getStagesLoaded > 5) {
         store.commit('setIsLoading', false);
+        return true;
     }
-    return store.getters.getStagesLoaded === 5;
+    return false;
 });
 
 onMounted(() => {
     store.dispatch('fetchProfile');
     store.dispatch('fetchBankAccounts');
-    store.dispatch('fetchStudents');
     store.dispatch('fetchReferences');
     store.dispatch('fetchSchools');
+    store.dispatch('fetchStudents');
+    store.dispatch('fetchCourses');
 });
 
 </script>
