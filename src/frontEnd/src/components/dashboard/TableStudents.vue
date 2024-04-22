@@ -6,10 +6,6 @@ import {    ChevronDoubleLeftIcon, ChevronDoubleRightIcon,
         } from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config';
 
-function emitIdStudent(id) {
-    emits('idStudent', id);
-}
-
 const classsStatus = {
     'POR INICIAR': 'text-xs text-sky-900',
     'EN PROCESO': 'text-xs text-green-900',
@@ -25,7 +21,15 @@ let filter = ref('');
 let pages = ref(Math.ceil(listStudents / perPage.value));
 let showingItems = ref(0);
 
-onMounted(() => { paginateContent(listStudents)});
+
+const emits = defineEmits(['handleStudent']);
+const handleStudent = (idStudent) => {
+    emits('handleStudent', idStudent);
+};
+
+onMounted(() => { 
+    paginateContent(listStudents);
+});
 
 watch(perPage, (newVal, oldVal) => {
     currentPage.value = 1;
@@ -33,7 +37,6 @@ watch(perPage, (newVal, oldVal) => {
     paginateContent(listStudents);
 });
 
-// miramos la pagina actual
 watch(currentPage, (newVal, oldVal) => {
     if (newVal === -1) {
         currentPage.value = 1;
@@ -74,7 +77,6 @@ function filterData(data, filter) {
     });
     return filteredData;
 }
-
 </script>
 <template>
     <div
@@ -103,7 +105,7 @@ function filterData(data, filter) {
                     </thead>
                     <tbody>
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
-                            @click="emitIdStudent(row.student.id)">
+                            @click="handleStudent(row.student.id)">
                             <td class="pb-0 pl-1">{{ (perPage * (currentPage - 1)) + idx + 1 }}</td>
                             <td class="pb-0 pl-1">{{ row.student.first_name }} {{ row.student.last_name }}</td>
                             <td class="pb-0 pl-1">{{ row.id_school.name }}</td>

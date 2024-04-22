@@ -11,7 +11,7 @@ const store = useStore();
 const isLoading = computed(() => store.getters.getIsLoading);
 
 const stagesLoaded = computed(() => {
-    if (store.getters.getStagesLoaded > 5) {
+    if (store.getters.getStagesLoaded === 6) {
         store.commit('setIsLoading', false);
         return true;
     }
@@ -44,7 +44,8 @@ onMounted(() => {
         </div>
     </div>
     <div v-else class="text-info">
-        Cargando datos...
+        Cargando datos... 
+        {{ store.getters.getStagesLoaded     }}
     </div>
 </div>
 </template>

@@ -1,10 +1,3 @@
-<template>
-<div class="bg-slate-50">
-    <div id="editor">
-      {{ text }}
-    </div>    
-</div>    
-</template>
 <script setup>
 import { onMounted } from 'vue';
 import Quill from 'quill';
@@ -58,6 +51,13 @@ const saveData = () => {
   emits('handleTextEditor', myText);  
 };
 </script>
+<template>
+  <div class="bg-slate-50">
+      <div id="editor">
+        {{ text }}
+      </div>    
+  </div>    
+  </template>
 <style>
 /*!
  * Quill Editor v1.0.0

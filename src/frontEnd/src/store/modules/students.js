@@ -11,15 +11,26 @@ const module = {
         },
     },
     actions:{
-        async fetchStudents({ commit, state, rootState }) {
+        async fetchStudents({ commit, state, rootState, rootGetters }) {
             let url = serverConfigData.urls.teacherStudents;
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
+                console.log('fetchStudents');
                 commit('setStudents', response.response);
-                rootState.stagesLoaded += 1;
+                rootState.stagesLoaded = rootState.stagesLoaded + 1;
             } else {
                 alert('Error en el servidor');
             }
+        },
+        async getStudentData({commit, state, rootState}, idStudent, idTeacher){
+            console.log('Cargamos info del estudiante');
+            let url = serverConfigData.url.studentDataByteacher.replace(
+               '{idStudent}', idStudent 
+            ).replace(
+                '{idTeacher}', idTeacher
+            );
+            let response = await serverInteractions.getData(url)
+
         },
         async updateStudent({ commit, state, rootState }, userData) {
         },

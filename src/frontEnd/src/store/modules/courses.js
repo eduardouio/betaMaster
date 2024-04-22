@@ -12,12 +12,13 @@ const module = {
         },
     },
     actions:{
-        async fetchCourses({ commit, state, rootState }) {
+        async fetchCourses({ commit, state, rootState }){
             let url = serverConfigData.urls.coursesByUser;
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
+                console.log('fecthCourses');
                 commit('setCourses', response.response);
-                rootState.stagesLoaded += 1;
+                rootState.stagesLoaded = rootState.stagesLoaded + 1;
             } else {
                 alert('Error en el servidor');
             }

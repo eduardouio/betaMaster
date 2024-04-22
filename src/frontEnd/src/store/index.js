@@ -6,32 +6,40 @@ import profile from "@/store/modules/profile.js";
 import scholls from "@/store/modules/schools.js";
 import courses from "@/store/modules/courses.js";
 
-
 export default createStore({
-    state: {
-        isLoading: true,
-        stagesLoaded: 0,
-    },  
-    mutations: {
-        setIsLoading(state, status) {
-            console.log('setIsLoading', status);
-            state.isLoading = status;
-        },
+  state: {
+    isLoading: true,
+    stagesLoaded: 0,
+  },
+  mutations: {
+    setIsLoading(state, status) {
+      console.log("setIsLoading", status);
+      state.isLoading = status;
     },
-    getters: {
-        getIsLoading(state) {
-            return state.isLoading;
-        },
-        getStagesLoaded(state) {
-            return state.stagesLoaded;
-        }
+    incrementCounter(state) {
+      state.stagesLoaded = state.stagesLoaded + 1;
     },
-    modules: {
-        profile,
-        bankAccounts,
-        students,
-        references,
-        scholls,
-        courses,
+    enableLoader(state) {
+      state.isLoading = true;
     },
+    disableLoader(state) {
+      state.isLoading = false;
+    },
+  },
+  getters: {
+    getIsLoading(state) {
+      return state.isLoading;
+    },
+    getStagesLoaded(state) {
+      return state.stagesLoaded;
+    },
+  },
+  modules: {
+    profile,
+    bankAccounts,
+    students,
+    references,
+    scholls,
+    courses,
+  },
 });

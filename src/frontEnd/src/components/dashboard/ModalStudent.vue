@@ -29,32 +29,9 @@ const classsStatus = {
 
 const imageDefault = ref('');
 
-onMounted(async() => {
-  console.log('Estamos cargaando los datos del estudiante');
-    console.log('idStudent' +  props.idStudent);
-    let url = serverConfigData.urls.studentDataByteacher.replace(
-        '{idStudent}', props.idStudent
-    );
-
-    url = url.replace(
-        '{idTeacher}', serverConfigData.idUser
-    );
-  
-    let response = await fetch(
-        url,{
-        method: 'GET',
-        headers: serverConfigData.headers
-    });
-
-    if (response.status != 200){
-        console.log('Error al cargar los datos del estudiante');
-        console.log(response);
-    } else {
-        store.commit('setStudentDataByTeacher', await response.json());
-        studentDataByTeacher = await store.state.studentDataByTeacher;
-        imageDefault.value = studentDataByTeacher.student.sex === 'hombre'? imageMenDefault : imageWomanDefault;
-        showLoader.value = false;
-    }
+onMounted(async () => {
+  store.
+  state.dispatch('getStudentData');
 });
 
 function emitCloseModal() {
@@ -119,7 +96,7 @@ function emitCloseModal() {
                     #{{ studentDataByTeacher.active_courses[0].school.id }}
                     )
                   </small>
-                </section>
+              </section>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
                 <span class="font-bold w-2/5">Nacionalidad:</span>

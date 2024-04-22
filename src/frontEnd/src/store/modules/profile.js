@@ -15,8 +15,9 @@ const module = {
             let url = serverConfigData.urls.getUser;
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
+                console.log('fecthProfile');
                 commit('setProfile', response.response);
-                rootState.stagesLoaded += 1;
+                rootState.stagesLoaded = rootState.stagesLoaded + 1;
             } else {
                 alert('Error en el servidor');
             }

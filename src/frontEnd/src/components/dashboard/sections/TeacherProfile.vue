@@ -7,8 +7,6 @@ import {
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
     XMarkIcon, CheckIcon, PencilSquareIcon
 } from '@heroicons/vue/24/outline';
-import serverConfigData from '@/config.js';
-import serverInteractions from '@/server-interactions.js';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import ProfilePicMen from '@/assets/profile-pic-men.png';
 import ProfilePicWomen from '@/assets/profile-pic-woman.png';
@@ -16,28 +14,6 @@ import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 let showLoader = ref(true);
 const store = useStore();
 let userData = {};
-
-onMounted(() => {
-    getUserData();
-});
-
-// recuperamos los datos del usuario y lo colocamos en el store
-async function getUserData() {
-    showLoader.value = true
-    let url = serverConfigData.urls.getUser.replace(
-        '{idUser}', serverConfigData.idUser
-    );
-    let response = await serverInteractions.getData(url);
-    if (response.status.is_success) {
-        store.commit('setUserData', response.response);
-        store.commit('setStatusResponse', response.status);
-        userData = store.state.userData;
-        showLoader.value = false;
-    }else{
-        console.log('Error al cargar los datos del dashboard');
-    }
-}
-
 
 const tabList = reactive({
     personal_data: true,
@@ -51,7 +27,6 @@ function changeTab(tabName) {
     });
 }
 
-// Computed properties
 const geolocation = computed(() => {
     let url = '';
     if (!userData.geolocation) {
@@ -100,20 +75,6 @@ const timeLapsed = ((my_date, years = true) => {
     return `${lapsed} Meses`;
 });
 
-    const cheff = {
-        typo: 'cocina china',
-        cocinar: (plato='')=>{
-            console.log('cocinando', plato);
-        }
-    }
-
-    const eduardo = {
-        nombre: 'Eduardo',
-        apellido: 'Villavicencio',
-        edad: 30,
-        sexo: 'masculino',
-    }
-
 </script>
 <template>
     <div class="text-sm lg:text-md">
@@ -124,22 +85,24 @@ const timeLapsed = ((my_date, years = true) => {
                 <div class="flex flex-col items-center -mt-20 border">
                     <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
-                        
+
                         <div v-if="userData.user.is_active" class="tooltip" data-tip="Perfil Verificado">
-                            <CheckBadgeIcon class="w-5 h-5 inline-block text-success" title="Perfil verificado"/>
+                            <CheckBadgeIcon class="w-5 h-5 inline-block text-success" title="Perfil verificado" />
                         </div>
-                        <div v-else class="tooltip" data-tip="Perfil Verificado" >
-                            <XMarkIcon class="w-5 h-5 inline-block text-success" title="Pendiente de Verificar"/>
+                        <div v-else class="tooltip" data-tip="Perfil Verificado">
+                            <XMarkIcon class="w-5 h-5 inline-block text-success" title="Pendiente de Verificar" />
                         </div>
                         <p class="text-2xl">
                             {{ userData.user.first_name }} {{ userData.user.last_name }}
                         </p>
-                        <div v-if="userData.user.is_homescholing" class="tooltip" data-tip="El Docente está activo para HomeSchooling">
+                        <div v-if="userData.user.is_homescholing" class="tooltip"
+                            data-tip="El Docente está activo para HomeSchooling">
                             <span class="badge" title="Verified">
                                 HomeSchooling
                             </span>
                         </div>
-                        <div v-if="userData.user.is_replacement" class="tooltip" data-tip="El Docente está activo para Reemplazo">
+                        <div v-if="userData.user.is_replacement" class="tooltip"
+                            data-tip="El Docente está activo para Reemplazo">
                             <span class="badge">
                                 Reemplazo
                             </span>
@@ -160,7 +123,7 @@ const timeLapsed = ((my_date, years = true) => {
                     <div v-if="!tabList.personal_data" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
                         <span class="display md:hidden">DP</span>
                         <span class="hidden md:block">Datos Personales</span>
-                        
+
                     </div>
                     <span v-else>Datos Personales</span>
                 </a>
@@ -182,7 +145,8 @@ const timeLapsed = ((my_date, years = true) => {
                 </a>
             </div>
             <!--tab profile-->
-            <div v-if="tabList.personal_data" class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+            <div v-if="tabList.personal_data"
+                class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div class="w-full flex flex-col 2xl:w-3/5">
                     <div class="flex-1 bg-white rounded-lg shadow-xl p-7">
                         <ul class="text-gray-700">
@@ -214,7 +178,8 @@ const timeLapsed = ((my_date, years = true) => {
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Celular:</span>
-                                <span class="text-gray-700">{{ userData.user.phone }} <span class="text-gray-300">|</span>
+                                <span class="text-gray-700">{{ userData.user.phone }} <span
+                                        class="text-gray-300">|</span>
                                     {{
                                         userData.user.phone_2 }}</span>
                             </li>
@@ -233,7 +198,7 @@ const timeLapsed = ((my_date, years = true) => {
                                 <span class="font-bold w-2/5">Ubicación:</span>
                                 <span class="text-gray-700">{{ userData.user.state }}, {{ userData.user.city }} <br> {{
                                     userData.user.address
-                                }}</span>
+                                    }}</span>
                             </li>
                             <li class="flex items-center border-b py-2 space-x-2">
                                 <span class="font-bold w-2/5">Mis Redes:</span>
@@ -273,16 +238,20 @@ const timeLapsed = ((my_date, years = true) => {
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Discapacidad:</span>
                                 <span class="text-gray-700">{{ userData.user.have_disability ? 'SI' : 'NO' }}
-                                    <small v-if="userData.user.have_disability" class="badge badge-info badge-outline">{{
-                                        userData.user.type_disability }} {{ userData.user.disability_persent }}% Carnet:{{
-        userData.card_conadis }}</small>
+                                    <small v-if="userData.user.have_disability"
+                                        class="badge badge-info badge-outline">{{
+                                            userData.user.type_disability }} {{ userData.user.disability_persent }}%
+                                        Carnet:{{
+                                        userData.card_conadis }}</small>
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Modalidades:</span>
                                 <span class="text-gray-700">
-                                    <span v-if="userData.user.is_homescholing" class="badge badge-success badge-outline"> HomeSchooling </span>
-                                    <strong v-if="userData.user.is_replacement" class="badge badge-success badge-outline">Reemplazo</strong>
+                                    <span v-if="userData.user.is_homescholing"
+                                        class="badge badge-success badge-outline"> HomeSchooling </span>
+                                    <strong v-if="userData.user.is_replacement"
+                                        class="badge badge-success badge-outline">Reemplazo</strong>
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
@@ -295,7 +264,8 @@ const timeLapsed = ((my_date, years = true) => {
             </div>
             <!--/tab profile-->
             <!--tab references-->
-            <div v-if="tabList.references" class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+            <div v-if="tabList.references"
+                class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div class="block w-full overflow-x-auto">
                     <table class="table border">
                         <!-- head -->
@@ -383,5 +353,5 @@ const timeLapsed = ((my_date, years = true) => {
             </div>
             <!--/tab bank data-->
         </div>
-</div>
+    </div>
 </template>
