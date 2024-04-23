@@ -4,11 +4,15 @@ import serverInteractions from "@/server-interactions";
 const module = {
     state:{
         students: null,
+        studentData: null,
     },
     mutations: {
         setStudents(state, students) {
             state.students = students;
         },
+        setStudentData(state, studentData) {
+            state.studentData = studentData;
+        }
     },
     actions:{
         async fetchStudents({ commit, state, rootState, rootGetters }) {
@@ -22,15 +26,17 @@ const module = {
                 alert('Error en el servidor');
             }
         },
-        async getStudentData({commit, state, rootState}, idStudent, idTeacher){
+        async fetchStudentData({commit, state, rootState}, idStudent){
             console.log('Cargamos info del estudiante');
-            let url = serverConfigData.url.studentDataByteacher.replace(
+            let url = serverConfigData.urls.studentDataByteacher.replace(
                '{idStudent}', idStudent 
             ).replace(
-                '{idTeacher}', idTeacher
+                '{idTeacher}', serverConfigData.idUser
             );
             let response = await serverInteractions.getData(url)
-
+            if(response.status.is_success){
+                commit('setStudentData', response.response);
+            }
         },
         async updateStudent({ commit, state, rootState }, userData) {
         },
@@ -42,6 +48,9 @@ const module = {
     getters:{
         getStudents(state){
             return state.students;
+        },
+        getStudentData(state){
+            return state.studentData;
         },
     },
 };

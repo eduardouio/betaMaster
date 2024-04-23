@@ -1,23 +1,22 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
-import serverConfigData from '@/config';
 import LoaderVue from '@/components/generics/Loader.vue';
 import { MapPinIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
-import imageMenDefault from '@/assets/profile-pic-men.png';
-import imageWomanDefault from '@/assets/profile-pic-woman.png';
+// import imageMenDefault from '@/assets/profile-pic-men.png';
+// import imageWomanDefault from '@/assets/profile-pic-woman.png';
 
 const store = useStore();
 const emits = defineEmits(['closeModal']);
-let showLoader = ref(true);
-let studentDataByTeacher = null;
+const isLoading = computed(() => store.getters.getIsLoading);
+const studentDataByTeacher = computed(() => store.getters.getStudentData);
 
 const props = defineProps({
     idStudent: {
-        type: String,
+        type: Number,
         required: true,
-        default: ''
+        default: 0
     }
 });
 
@@ -29,25 +28,24 @@ const classsStatus = {
 
 const imageDefault = ref('');
 
-onMounted(async () => {
-  store.
-  state.dispatch('getStudentData');
+onMounted(() => {
+  store.dispatch('fetchStudentData', props.idStudent);
 });
 
 function emitCloseModal() {
-    showLoader.value = true;
+    store.commit('disableLoader');
     emits('closeModal');
 }
 
 </script>
 <template>
   <div class="text-sm md:text-md">
-    <LoaderVue v-if="showLoader" />
+    <LoaderVue v-if="isLoading" />
     <dialog v-else class="modal bg-gray-100/90" open="">
       <div class="modal-box p-3 border border-rounded border-sky-600 border-l-8 w-10/12 max-w-5xl">
         <div class="flex">
           <span class="w-full inline-block text-center text-sm text-cyan-800">
-            (#{{ studentDataByTeacher.student.id }}) Información De Estudiante
+            (# {{ studentDataByTeacher.student.id }}) Información De Estudiante
           </span>
           <XCircleIcon @click="emitCloseModal" class="w-5 h-5 text-red-600 hover:text-red-900 hover:border" />
         </div>
@@ -56,26 +54,26 @@ function emitCloseModal() {
             <div class="card w-96 bg-base-100 shadow-md border rounded-md">
               <div class="card-body flex items-center">
                 <span class="card-title p-1 uppercase text-info text-sm">
-                  {{ studentDataByTeacher.student.first_name }} {{ studentDataByTeacher.student.last_name }}
+                   {{ studentDataByTeacher.student.first_name }}  {{ studentDataByTeacher.student.last_name }}
                 </span>
 
               </div>
               <figure>
                 <img class="w-40 h-40 rounded-md object-cover"
-                  :src="studentDataByTeacher.student.first_name.picture ? studentDataByTeacher.student.first_name.picture : imageDefault"
+                  src=""
                   :alt="studentDataByTeacher.student.first_name" />
               </figure>
             </div>
             <ul class="mt-4">
               <li class="flex gap-4 flex-row justify-between">
                 <SocialIcon v-if="studentDataByTeacher.student.url_facebook"
-                  :url="studentDataByTeacher.student.url_facebook" :icon="'facebook'" />
+                  :url="studentDataByTeacher.student.url_facebook" icon="'facebook'" />
                 <SocialIcon v-if="studentDataByTeacher.student.url_linkedin"
-                  :url="studentDataByTeacher.student.url_linkedin" :icon="'linkedin'" />
+                  :url="studentDataByTeacher.student.url_linkedin" icon="'linkedin'" />
                 <SocialIcon v-if="studentDataByTeacher.student.url_instagram"
-                  :url="studentDataByTeacher.student.url_instagram" :icon="'instagram'" />
+                  :url="studentDataByTeacher.student.url_instagram" icon="'instagram'" />
                 <SocialIcon v-if="studentDataByTeacher.student.url_twiter"
-                  :url="studentDataByTeacher.student.url_twiter" :icon="'twitter'" />
+                  :url="studentDataByTeacher.student.url_twiter" icon="'twitter'" />
               </li>
             </ul>
           </div>
@@ -90,23 +88,23 @@ function emitCloseModal() {
                   <a href="geolocation" target="_blank">
                     <MapPinIcon class="w-5 h-5 text-primary" />
                   </a>
-                  {{ studentDataByTeacher.active_courses[0].school.name }}
+                   {{ studentDataByTeacher.active_courses[0].school.name }}
                   <small class="text-gray-400">
                     (
-                    #{{ studentDataByTeacher.active_courses[0].school.id }}
+                    # {{ studentDataByTeacher.active_courses[0].school.id }}
                     )
                   </small>
               </section>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
                 <span class="font-bold w-2/5">Nacionalidad:</span>
-                <span class="text-gray-700">{{ studentDataByTeacher.student.nationality }}
+                <span class="text-gray-700"> {{ studentDataByTeacher.student.nationality }}
                   <small class="text-gray-300">|</small>
-                  {{ studentDataByTeacher.student.civil_status }}
+                   {{ studentDataByTeacher.student.civil_status }}
                   <small class="text-gray-300">|</small>
                   <span class="badge capitalize"
-                    :class="studentDataByTeacher.student.sex === 'mujer' ? 'text-pink-800' : 'text-green-800'">
-                    {{ studentDataByTeacher.student.sex }}
+                    class2="studentDataByTeacher.student.sex === 'mujer' ? 'text-pink-800' : 'text-green-800'">
+                     {{ studentDataByTeacher.student.sex }}
                   </span>
                 </span>
               </li>
@@ -114,7 +112,7 @@ function emitCloseModal() {
                 <span class="font-bold w-2/5">Correo estudiante:</span>
                 <span class="text-gray-700">
                   <a :href="'mailto:' + studentDataByTeacher.student.email">
-                    {{ studentDataByTeacher.student.email }}
+                     {{ studentDataByTeacher.student.email }}
                   </a>
                 </span>
               </li>
@@ -122,15 +120,15 @@ function emitCloseModal() {
                 <span class="font-bold w-2/5">Correo Colegio:</span>
                 <span class="text-gray-700">
                   <a :href="'mailto:' + studentDataByTeacher.active_courses[0].school.email">
-                    {{ studentDataByTeacher.active_courses[0].school.email }}
+                     {{ studentDataByTeacher.active_courses[0].school.email }}
                   </a>
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
                 <span class="font-bold w-2/5">Nacionalidad:</span>
-                <span class="text-gray-700">{{ studentDataByTeacher.student.nationality }}<small
+                <span class="text-gray-700"> {{ studentDataByTeacher.student.nationality }}<small
                     class="text-gray-300">|</small>
-                  {{ studentDataByTeacher.student.civil_status }}
+                   {{ studentDataByTeacher.student.civil_status }}
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
@@ -139,13 +137,13 @@ function emitCloseModal() {
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
                 <span class="font-bold w-2/5">Discapacidad:</span>
-                <span class="text-gray-700"> {{ studentDataByTeacher.student.have_disability ? 'SI' : 'NO' }}
-                  <small class="badge bg-cyan-50" v-if="studentDataByTeacher.student.have_disability">
-                    {{ studentDataByTeacher.student.type_disability }} {{
-      studentDataByTeacher.student.disability_persent
+                <span class="text-gray-700">  {{ studentDataByTeacher.student.have_disability ? 'SI' : 'NO' }}
+                  <small class="badge bg-cyan-50" vif="studentDataByTeacher.student.have_disability">
+                     {{ studentDataByTeacher.student.type_disability }} 
+      {{ studentDataByTeacher.student.disability_persent
     }} %
                     Carnet:
-                    {{ studentDataByTeacher.student.card_conadis }}
+                     {{ studentDataByTeacher.student.card_conadis }}
                   </small>
                 </span>
               </li>
@@ -155,9 +153,9 @@ function emitCloseModal() {
                   <a href="geolocation" target="_blank">
                     <MapPinIcon class="w-5 h-5 text-primary" />
                   </a>
-                  {{ studentDataByTeacher.student.state }},
-                  {{ studentDataByTeacher.student.city }},
-                  {{ studentDataByTeacher.student.address }}
+                   {{ studentDataByTeacher.student.state }},
+                   {{ studentDataByTeacher.student.city }},
+                   {{ studentDataByTeacher.student.address }}
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
@@ -166,9 +164,9 @@ function emitCloseModal() {
                   <a href="geolocation" target="_blank">
                     <MapPinIcon class="w-5 h-5 text-primary" />
                   </a>
-                  {{ studentDataByTeacher.active_courses[0].school.state }},
-                  {{ studentDataByTeacher.active_courses[0].school.city }},
-                  {{ studentDataByTeacher.active_courses[0].school.address }}
+                   {{ studentDataByTeacher.active_courses[0].school.state }},
+                   {{ studentDataByTeacher.active_courses[0].school.city }},
+                   {{ studentDataByTeacher.active_courses[0].school.address }}
                 </span>
               </li>
             </ul>
@@ -190,16 +188,16 @@ function emitCloseModal() {
               <tbody>
                 <tr v-for="(value, idx) in studentDataByTeacher.active_courses" class=" hover:bg-yellow-50"
                   :key="value">
-                  <td>{{ idx + 1 }}</td>
-                  <td>{{ value.active_course.period }}</td>
-                  <td>{{ value.school.name }}</td>
+                  <td> {{ idx + 1 }}</td>
+                  <td> {{ value.active_course.period }}</td>
+                  <td> {{ value.school.name }}</td>
                   <td>
-                    {{ studentDataByTeacher.active_courses[0].school.state }},
-                    {{ studentDataByTeacher.active_courses[0].school.city }}
+                     {{ studentDataByTeacher.active_courses[0].school.state }},
+                     {{ studentDataByTeacher.active_courses[0].school.city }}
                   </td>
                   <td>
                     <div :class="classsStatus[value.active_course.state]">
-                      {{ value.active_course.state }}
+                       {{ value.active_course.state }}
                     </div>
                   </td>
                 </tr>

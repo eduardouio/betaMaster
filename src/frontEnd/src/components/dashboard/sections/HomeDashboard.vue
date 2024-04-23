@@ -6,11 +6,16 @@ import { ref } from 'vue';
 
 
 let showModal = ref(false);
-let idStudent = ref('0');
+let idStudent = ref(0);
 const cards = ['courses', 'students', 'schools']
 
 const handleStudent = function(myId) {
+    idStudent.value = myId;
     showModal.value = true;
+};
+
+const closeModal = function() {
+    showModal.value = false;
 };
 
 </script>
@@ -26,6 +31,6 @@ const handleStudent = function(myId) {
         <div class="grid grid-cols-1 p-4 gap-4">
             <TableStudents @handleStudent="handleStudent($event)"/>
         </div>
-        <ModalStudent v-if="showModal" :idStudent="idStudent" @closeModal="handelModal" />
+        <ModalStudent v-if="showModal" :idStudent="idStudent" @closeModal="closeModal" />
     </div>
 </template>
