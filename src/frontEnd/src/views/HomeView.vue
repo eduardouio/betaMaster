@@ -2,7 +2,6 @@
   import NavBar from '../components/NavBar.vue';
   import { onMounted } from 'vue';
   import headerImage from '@/assets/images/header-image.svg';
-  import 'animate.css';
 
 </script>
 <template>
