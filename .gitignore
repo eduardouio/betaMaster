@@ -35,3 +35,4 @@ test_db_.tar
 *.pdf
 .project
 venv/
+package-lock.json
