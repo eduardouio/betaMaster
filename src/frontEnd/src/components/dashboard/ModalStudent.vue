@@ -4,8 +4,9 @@ import { useStore } from 'vuex';
 import LoaderVue from '@/components/generics/Loader.vue';
 import { MapPinIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
-// import imageMenDefault from '@/assets/profile-pic-men.png';
-// import imageWomanDefault from '@/assets/profile-pic-woman.png';
+import Map from '@/components/dashboard/Map.vue';
+import imageMenDefault from '@/assets/profile-pic-men.png';
+import imageWomanDefault from '@/assets/profile-pic-woman.png';
 
 const store = useStore();
 const emits = defineEmits(['closeModal']);
@@ -20,13 +21,17 @@ const props = defineProps({
     }
 });
 
+const defaultImage = computed(() => {
+  if (!studentDataByTeacher.value) return imageMenDefault;
+  if (studentDataByTeacher.value.student.picture) return studentDataByTeacher.value.student.picture;
+  return studentDataByTeacher.value.student.sex === 'MUJER' ? imageWomanDefault : imageMenDefault;
+});
+
 const classsStatus = {
     'POR INICIAR': 'text-xs md:text-sm text-sky-900 md:w-1/2 border inline md:p-1 rounded-md',
     'EN PROCESO': 'text-xs md:text-sm text-green-900 md:w-1/2 border inline md:p-1 rounded-md',
     'FINALIZADO': 'text-xs md:text-sm text-red-900 md:w-1/2 border inline md:p-1 rounded-md',
 };
-
-const imageDefault = ref('');
 
 onMounted(() => {
   store.dispatch('fetchStudentData', props.idStudent);
@@ -44,23 +49,22 @@ function emitCloseModal() {
     <dialog v-else class="modal bg-gray-100/90" open="">
       <div class="modal-box p-3 border border-rounded border-sky-600 border-l-8 w-10/12 max-w-5xl">
         <div class="flex">
-          <span class="w-full inline-block text-center text-sm text-cyan-800">
+          <span class="w-full inline-block text-center text-cyan-800 text-xl pb-4">
             (# {{ studentDataByTeacher.student.id }}) Información De Estudiante
           </span>
           <XCircleIcon @click="emitCloseModal" class="w-5 h-5 text-red-600 hover:text-red-900 hover:border" />
         </div>
-        <div class="flex flex-col items-center xl:flex-row xl:items-start rounded-md bg-white p-6">
-          <div class="flex flex-col items-center">
-            <div class="card w-96 bg-base-100 shadow-md border rounded-md">
-              <div class="card-body flex items-center">
+        <div class="flex flex-col xl:flex-row xl:items-start ">
+          <div class="flex flex-col">
+            <div class="w-60 bg-base-100 flex flex-col items-center">
+              <div class="flex">
                 <span class="card-title p-1 uppercase text-info text-sm">
                    {{ studentDataByTeacher.student.first_name }}  {{ studentDataByTeacher.student.last_name }}
                 </span>
-
               </div>
-              <figure>
-                <img class="w-40 h-40 rounded-md object-cover"
-                  src=""
+              <figure class="w-3/4">
+                <img class="rounded-md "
+                  :src="defaultImage"
                   :alt="studentDataByTeacher.student.first_name" />
               </figure>
             </div>
@@ -77,17 +81,14 @@ function emitCloseModal() {
               </li>
             </ul>
           </div>
-
           <div class="flex flex-row px-10 w-full md:flex-col">
             <ul class="text-gray-700 text-wrap md:text-nowrap">
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Colegio:</span>
+                <span class="font-semibold w-2/5">Colegio:
+                </span>
                 <section class="text-gray-700 flex">
                   <small class="text-gray-300">
                   </small>
-                  <a href="geolocation" target="_blank">
-                    <MapPinIcon class="w-5 h-5 text-primary" />
-                  </a>
                    {{ studentDataByTeacher.active_courses[0].school.name }}
                   <small class="text-gray-400">
                     (
@@ -97,7 +98,7 @@ function emitCloseModal() {
               </section>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Nacionalidad:</span>
+                <span class="font-semibold w-2/5">Nacionalidad:</span>
                 <span class="text-gray-700"> {{ studentDataByTeacher.student.nationality }}
                   <small class="text-gray-300">|</small>
                    {{ studentDataByTeacher.student.civil_status }}
@@ -109,7 +110,7 @@ function emitCloseModal() {
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Correo estudiante:</span>
+                <span class="font-semibold w-2/5">Correo estudiante:</span>
                 <span class="text-gray-700">
                   <a :href="'mailto:' + studentDataByTeacher.student.email">
                      {{ studentDataByTeacher.student.email }}
@@ -117,7 +118,7 @@ function emitCloseModal() {
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Correo Colegio:</span>
+                <span class="font-semibold w-2/5">Correo Colegio:</span>
                 <span class="text-gray-700">
                   <a :href="'mailto:' + studentDataByTeacher.active_courses[0].school.email">
                      {{ studentDataByTeacher.active_courses[0].school.email }}
@@ -125,18 +126,7 @@ function emitCloseModal() {
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Nacionalidad:</span>
-                <span class="text-gray-700"> {{ studentDataByTeacher.student.nationality }}<small
-                    class="text-gray-300">|</small>
-                   {{ studentDataByTeacher.student.civil_status }}
-                </span>
-              </li>
-              <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Nro Cedula:</span>
-                <span class="text-gray-700"> {{ studentDataByTeacher.student.dni_number }} </span>
-              </li>
-              <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Discapacidad:</span>
+                <span class="font-semibold w-2/5">Discapacidad:</span>
                 <span class="text-gray-700">  {{ studentDataByTeacher.student.have_disability ? 'SI' : 'NO' }}
                   <small class="badge bg-cyan-50" vif="studentDataByTeacher.student.have_disability">
                      {{ studentDataByTeacher.student.type_disability }} 
@@ -147,32 +137,37 @@ function emitCloseModal() {
                   </small>
                 </span>
               </li>
-              <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Direccion:</span>
+              <li class="flex flex-col items-start md:flex-row md:items-start py-1">
+                <span class="font-semibold w-2/5">Direccion:</span>
                 <span class="text-gray-700 flex flex-row">
-                  <a href="geolocation" target="_blank">
+                  <a :href="'https://www.google.com/maps/search/?api=1&query=' + studentDataByTeacher.student.geolocation" target="_blank">
                     <MapPinIcon class="w-5 h-5 text-primary" />
                   </a>
                    {{ studentDataByTeacher.student.state }},
                    {{ studentDataByTeacher.student.city }},
+                   <br>
                    {{ studentDataByTeacher.student.address }}
                 </span>
               </li>
               <li class="flex flex-col items-start md:flex-row md:items-start border-y py-1">
-                <span class="font-bold w-2/5">Direccion Colegio:</span>
+                <span class="font-semibold w-2/5">Direccion Colegio:</span>
                 <span class="text-gray-700 flex flex-row">
-                  <a href="geolocation" target="_blank">
+                  <a :href="'https://www.google.com/maps/search/?api=1&query=' +studentDataByTeacher.active_courses[0].school.geolocation " target="_blank">
                     <MapPinIcon class="w-5 h-5 text-primary" />
                   </a>
                    {{ studentDataByTeacher.active_courses[0].school.state }},
                    {{ studentDataByTeacher.active_courses[0].school.city }},
+                   <br>
                    {{ studentDataByTeacher.active_courses[0].school.address }}
                 </span>
               </li>
             </ul>
           </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex h-[300px]">
+          <Map :locations="studentDataByTeacher.student.geolocation"/>
+        </div>
+        <div class="flex flex-col"> 
           <span class="text-gray-700">Datos Históricos:</span>
           <div className="overflow-x-auto">
             <table class="table table-xs table-border">

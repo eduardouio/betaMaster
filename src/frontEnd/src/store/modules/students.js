@@ -12,6 +12,9 @@ const module = {
         },
         setStudentData(state, studentData) {
             state.studentData = studentData;
+        },
+        setNullStudentData(state){
+            state.studentData = null;
         }
     },
     actions:{
@@ -36,6 +39,7 @@ const module = {
             let response = await serverInteractions.getData(url)
             if(response.status.is_success){
                 commit('setStudentData', response.response);
+                rootState.isLoading = false;
             }
         },
         async updateStudent({ commit, state, rootState }, userData) {
