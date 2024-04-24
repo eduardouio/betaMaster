@@ -22,6 +22,6 @@ onMounted(()=> {
 });
 </script>
 <template>
-   <div id="mymap" class="h-full w-full"></div>
+   <div id="mymap" class="h-full w-full border border-blue-400"></div>
 </template>
 

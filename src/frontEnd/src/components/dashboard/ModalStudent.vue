@@ -164,7 +164,7 @@ function emitCloseModal() {
             </ul>
           </div>
         </div>
-        <div class="flex h-[300px]">
+        <div class="flex h-[300px]" v-if="studentDataByTeacher.student.geolocation">
           <Map :locations="studentDataByTeacher.student.geolocation"/>
         </div>
         <div class="flex flex-col"> 
