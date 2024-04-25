@@ -11,9 +11,12 @@ import SocialIcon from '@/components/generics/SocialIcon.vue';
 import ProfilePicMen from '@/assets/profile-pic-men.png';
 import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 
-let showLoader = ref(true);
+const showLoader = computed(() => store.getters.getIsLoading);
 const store = useStore();
-let userData = {};
+const urlMap = ref('https://www.google.com/maps/search/?api=1&query=');
+const userData = computed(() => store.getters.getProfile);
+const personalReferences = computed(() => store.getters.getReferences);
+const personalBankData = computed(() => store.getters.getBankAccounts);
 
 const tabList = reactive({
     personal_data: true,
@@ -26,16 +29,6 @@ function changeTab(tabName) {
         tabList[key] = tabName === key;
     });
 }
-
-const geolocation = computed(() => {
-    let url = '';
-    if (!userData.geolocation) {
-        return url;
-    }
-    let coordinates = userData.geolocation.split(',');
-    url = `https://www.google.com/maps/?q=${coordinates[0]},${coordinates[1]}`;
-    return url;
-});
 
 const formatDate = ((my_date) => {
     if (!my_date) {
@@ -86,29 +79,29 @@ const timeLapsed = ((my_date, years = true) => {
                     <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
 
-                        <div v-if="userData.user.is_active" class="tooltip" data-tip="Perfil Verificado">
+                        <div v-if="userData.is_active" class="tooltip" data-tip="Perfil Verificado">
                             <CheckBadgeIcon class="w-5 h-5 inline-block text-success" title="Perfil verificado" />
                         </div>
                         <div v-else class="tooltip" data-tip="Perfil Verificado">
                             <XMarkIcon class="w-5 h-5 inline-block text-success" title="Pendiente de Verificar" />
                         </div>
                         <p class="text-2xl">
-                            {{ userData.user.first_name }} {{ userData.user.last_name }}
+                            {{ userData.first_name }} {{ userData.last_name }}
                         </p>
-                        <div v-if="userData.user.is_homescholing" class="tooltip"
+                        <div v-if="userData.is_homescholing" class="tooltip"
                             data-tip="El Docente está activo para HomeSchooling">
                             <span class="badge" title="Verified">
                                 HomeSchooling
                             </span>
                         </div>
-                        <div v-if="userData.user.is_replacement" class="tooltip"
+                        <div v-if="userData.is_replacement" class="tooltip"
                             data-tip="El Docente está activo para Reemplazo">
                             <span class="badge">
                                 Reemplazo
                             </span>
                         </div>
                     </div>
-                    <p class="text-gray-700 text-md text-center" v-html="userData.user.presentation"></p>
+                    <p class="text-gray-700 text-md text-center" v-html="userData.presentation"></p>
                     <br />
                     <a class="btn btn-sm btn-primary text-white mb-2">
                         <RouterLink to="/dashboard-teacher/edit/">
@@ -153,59 +146,59 @@ const timeLapsed = ((my_date, years = true) => {
                             <li class="flex border-y py-2">
                                 <span class="font-bold w-2/5">Nombres:</span>
                                 <span class="text-gray-700">
-                                    <div class="tooltip" data-tip="Descargar Hoja de Vida" v-if="userData.user.cv">
-                                        <a :href="userData.user.cv">
+                                    <div class="tooltip" data-tip="Descargar Hoja de Vida" v-if="userData.cv">
+                                        <a :href="userData.cv">
                                             <FolderArrowDownIcon class="w-5 h-5 inline-block text-info" />
                                         </a>
                                     </div>
-                                    {{ userData.user.first_name }} {{ userData.user.last_name }}
-                                    <small v-if="userData.user.profesion" class="badge badge-outline badge-neutral">{{
-                                        userData.user.profesion }}</small>
+                                    {{ userData.first_name }} {{ userData.last_name }}
+                                    <small v-if="userData.profesion" class="badge badge-outline badge-neutral">{{
+                                        userData.profesion }}</small>
 
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">F Nacimiento:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.user.date_of_birth) }} <small
-                                        class="text-slate-600">({{ timeLapsed(userData.user.date_of_birth)
+                                <span class="text-gray-700">{{ formatDate(userData.date_of_birth) }} <small
+                                        class="text-slate-600">({{ timeLapsed(userData.date_of_birth)
                                         }})</small></span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Joined:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.user.date_joined) }}<small
-                                        class="text-slate-600">({{ timeLapsed(userData.user.date_joined,
+                                <span class="text-gray-700">{{ formatDate(userData.date_joined) }}<small
+                                        class="text-slate-600">({{ timeLapsed(userData.date_joined,
                                             years = false) }})</small></span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Celular:</span>
-                                <span class="text-gray-700">{{ userData.user.phone }} <span
+                                <span class="text-gray-700">{{ userData.phone }} <span
                                         class="text-gray-300">|</span>
                                     {{
-                                        userData.user.phone_2 }}</span>
+                                        userData.phone_2 }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Email:</span>
                                 <div class="tooltip"
-                                    :data-tip="userData.user.is_confirmed_mail ? 'Correo Confirmado' : 'Sin Confirmar'"
-                                    :class="!userData.user.is_confirmed_mail ? 'tooltip-error' : ''">
-                                    <span class="text-gray-700">{{ userData.user.email }}
-                                        <CheckBadgeIcon v-if="userData.user.is_confirmed_mail"
+                                    :data-tip="userData.is_confirmed_mail ? 'Correo Confirmado' : 'Sin Confirmar'"
+                                    :class="!userData.is_confirmed_mail ? 'tooltip-error' : ''">
+                                    <span class="text-gray-700">{{ userData.email }}
+                                        <CheckBadgeIcon v-if="userData.is_confirmed_mail"
                                             class="w-5 h-5 inline-block text-success" />
                                     </span>
                                 </div>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Ubicación:</span>
-                                <span class="text-gray-700">{{ userData.user.state }}, {{ userData.user.city }} <br> {{
-                                    userData.user.address
+                                <span class="text-gray-700">{{ userData.state }}, {{ userData.city }} <br> {{
+                                    userData.address
                                     }}</span>
                             </li>
                             <li class="flex items-center border-b py-2 space-x-2">
                                 <span class="font-bold w-2/5">Mis Redes:</span>
-                                <SocialIcon :url="userData.user.url_facebook" :icon="'facebook'" />
-                                <SocialIcon :url="userData.user.url_linkedin" :icon="'linkedin'" />
-                                <SocialIcon :url="userData.user.url_instagram" :icon="'instagram'" />
-                                <SocialIcon :url="userData.user.url_twiter" :icon="'twitter'" />
+                                <SocialIcon v-if="userData.url_facebook" :url="userData.url_facebook" :icon="'facebook'" />
+                                <SocialIcon v-if="userData.url_linkedin" :url="userData.url_linkedin" :icon="'linkedin'" />
+                                <SocialIcon v-if="userData.url_instagram" :url="userData.url_instagram" :icon="'instagram'" />
+                                <SocialIcon v-if="userData.url_twiter" :url="userData.url_twiter" :icon="'twitter'" />
                             </li>
                         </ul>
                     </div>
@@ -216,31 +209,31 @@ const timeLapsed = ((my_date, years = true) => {
                             <li class="flex items-center border-y py-2">
                                 <span class="font-bold w-2/5">Ubicación:</span>
                                 <section class="text-gray-700 flex">
-                                    <a :href="geolocation" target="_blank">
+                                    <a :href="urlMap + userData.geolocation" target="_blank">
                                         <MapPinIcon class="w-6 h-6 text-primary" />
                                     </a>
-                                    {{ userData.user.state }}, {{ userData.user.city }}, {{ userData.user.address }}
+                                    {{ userData.state }}, {{ userData.city }}, {{ userData.address }}
                                 </section>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nacionalidad:</span>
-                                <span class="text-gray-700">{{ userData.user.nationality }} <small
-                                        class="text-gray-300">|</small> {{ userData.user.civil_status }}</span>
+                                <span class="text-gray-700">{{ userData.nationality }} <small
+                                        class="text-gray-300">|</small> {{ userData.civil_status }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nro Cedula:</span>
-                                <span class="text-gray-700">{{ userData.user.dni_number }}</span>
+                                <span class="text-gray-700">{{ userData.dni_number }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Nivel Educativo:</span>
-                                <span class="text-gray-700 uppercase">{{ userData.user.level_education }}</span>
+                                <span class="text-gray-700 uppercase">{{ userData.level_education }}</span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Discapacidad:</span>
-                                <span class="text-gray-700">{{ userData.user.have_disability ? 'SI' : 'NO' }}
-                                    <small v-if="userData.user.have_disability"
+                                <span class="text-gray-700">{{ userData.have_disability ? 'SI' : 'NO' }}
+                                    <small v-if="userData.have_disability"
                                         class="badge badge-info badge-outline">{{
-                                            userData.user.type_disability }} {{ userData.user.disability_persent }}%
+                                            userData.type_disability }} {{ userData.disability_persent }}%
                                         Carnet:{{
                                         userData.card_conadis }}</small>
                                 </span>
@@ -248,15 +241,15 @@ const timeLapsed = ((my_date, years = true) => {
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Modalidades:</span>
                                 <span class="text-gray-700">
-                                    <span v-if="userData.user.is_homescholing"
+                                    <span v-if="userData.is_homescholing"
                                         class="badge badge-success badge-outline"> HomeSchooling </span>
-                                    <strong v-if="userData.user.is_replacement"
+                                    <strong v-if="userData.is_replacement"
                                         class="badge badge-success badge-outline">Reemplazo</strong>
                                 </span>
                             </li>
                             <li class="flex border-b py-2">
                                 <span class="font-bold w-2/5">Último Acceso:</span>
-                                <span class="text-gray-700">{{ formatDate(userData.user.last_login) }}</span>
+                                <span class="text-gray-700">{{ formatDate(userData.last_login) }}</span>
                             </li>
                         </ul>
                     </div>
@@ -278,13 +271,10 @@ const timeLapsed = ((my_date, years = true) => {
                                 <th>Inicio</th>
                                 <th>Fin</th>
                                 <th>Estado</th>
-                                <th>
-                                    <CogIcon class="w-5 h-5" />
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(reference, idx) in userData.references" :key="reference.id_reference"
+                            <tr v-for="(reference, idx) in personalReferences" :key="reference.id_reference"
                                 class="hover:bg-yellow-50">
                                 <td>{{ idx + 1 }}</td>
                                 <td>{{ reference.type }}</td>
@@ -298,9 +288,6 @@ const timeLapsed = ((my_date, years = true) => {
                                 <td class="text-center">
                                     <CheckIcon v-if="reference.is_verified" class="w-5 h-5 inline-block text-success" />
                                     <XMarkIcon v-else class="w-5 h-5 inline-block text-error" />
-                                </td>
-                                <td>
-                                    <PencilSquareIcon class="w-5 h-5 inline-block text-primary" />
                                 </td>
                             </tr>
                         </tbody>
@@ -322,13 +309,10 @@ const timeLapsed = ((my_date, years = true) => {
                                 <th>Titular</th>
                                 <th>Correo</th>
                                 <th>Estado</th>
-                                <th>
-                                    <CogIcon class="w-5 h-5" />
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(account, idx) in userData.accounts" :key="account.id_bank"
+                            <tr v-for="(account, idx) in personalBankData" :key="account.id_bank"
                                 class="hover:bg-yellow-50">
                                 <td>{{ idx + 1 }}</td>
                                 <td>{{ account.bank_name }}</td>
@@ -342,9 +326,6 @@ const timeLapsed = ((my_date, years = true) => {
                                 <td class="text-center">
                                     <CheckIcon v-if="account.is_verified" class="w-5 h-5 inline-block text-success" />
                                     <XMarkIcon v-else class="w-5 h-5 inline-block text-error" />
-                                </td>
-                                <td>
-                                    <PencilSquareIcon class="w-5 h-5 inline-block text-primary" />
                                 </td>
                             </tr>
                         </tbody>
