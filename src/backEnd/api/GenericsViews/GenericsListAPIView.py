@@ -40,6 +40,11 @@ class ListPersonalReferenceAPIView(ListAPIView):
     queryset = PersonalReferences.objects.all()
     serializer_class = PersonalReferencesSerializer
 
+    def get_queryset(self):
+        id_user = self.kwargs['pk']
+        user = UserModel.objects.get(pk=id_user)
+        return PersonalReferences.objects.filter(id_user=user)
+
 
 # /api/schools -> api-schools-list
 class ListSchoolsAPIView(ListAPIView):
