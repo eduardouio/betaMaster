@@ -69,7 +69,7 @@ function emitCloseModal() {
               </figure>
             </div>
             <ul class="mt-4">
-              <li class="flex gap-4 flex-row justify-between">
+              <li class="flex gap-1 flex-row items-start">
                 <SocialIcon v-if="studentDataByTeacher.student.url_facebook"
                   :url="studentDataByTeacher.student.url_facebook" icon="'facebook'" />
                 <SocialIcon v-if="studentDataByTeacher.student.url_linkedin"
