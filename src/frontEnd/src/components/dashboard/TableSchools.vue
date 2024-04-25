@@ -10,7 +10,6 @@ import
 		MapPinIcon
     } 
 from '@heroicons/vue/24/outline';
-import serverConfigData from '@/config';
 import LoaderVue from '@/components/generics/Loader.vue';
 
 // emitimos el id del colegio
@@ -31,6 +30,7 @@ let pages = ref(0);
 let currentPage = ref(1);
 let perPage = ref(10);
 let showingItemsTable = ref(0);
+const urlLocation = 'https://www.google.com/maps/search/?api=1&query=';
 
 function paginateContent(data, filter='') {
 	if (filter) {
@@ -56,10 +56,9 @@ function filterData(data, filter) {
 }
 
 onMounted(async() => {
-	const dashboardData = await store.state.dashboardData;
+	const dashboardData = store.getters.getSchools;
 	document.title = 'Colegio | Dashboard';
 	collegesList.value = consolidateData(dashboardData);
-    console.log(collegesList.value);
 	pages.value = Math.ceil(collegesList.value.length / perPage.value);
 	paginateContent(collegesList.value);
     consolidateData(dashboardData);
@@ -97,28 +96,13 @@ watch(currentPage, (newVal, oldVal) => {
 // consolida la infromacion para mostrar los datos 
 function consolidateData(data){
     let seen = new Set();
-    return data.map(item=>item.school).filter((item)=>{
-        if (!seen.has(item.id)) {
-            seen.add(item.id);
+    return data.map(item=>item).filter((item)=>{
+        if (!seen.has(item.id_school)) {
+            seen.add(item.id_school);
             return true
         }
         return false;
-    }).map((item)=>{
-        return  {
-            school: item,
-            students: data.map((row) => row.student).filter((student)=>{
-                return student.id_shool == item.id;
-            }).map((student)=>{
-                return {
-                    student: student,
-                    courses: data.map((row) => row.active_course).filter((course)=>{
-                        return course.id_student == student.id;
-                    })
-                }
-            })
-        }
     });
-
 }
 
 </script>
@@ -142,7 +126,6 @@ function consolidateData(data){
                             <th>#</th>
                             <th>Colegio</th>
 							<th>Codigo AMI</th> 
-                            <th>Estudiantes</th>
                             <th>Contacto</th>
                             <th>Provincia</th>
                             <th>Ubicación</th>
@@ -152,12 +135,16 @@ function consolidateData(data){
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
                             @click="emitIdSchools(row)">
                             <td class="pb-0 pl-1"> {{(perPage * (currentPage - 1)) + idx + 1 }}</td>
-                            <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.school.id }})</small> {{row.school.name}}</td>
-							<td class="pb-0 pl-1"> {{row.school.ami_code}}</td>
-                            <td class="pb-0 pl-1"> {{row.students.length}}</td>
-                            <td class="pb-0 pl-1"> {{row.school.email }}</td>
-                            <td class="pb-0 pl-1"> {{row.school.state }}, {{row.school.city }}</td>
-                            <td class="pb-0 pl-1"> <MapPinIcon class="w-4 h-4 inline-block text-info"/> {{row.school.address }}</td>
+                            <td class="pb-0 pl-1"> <small class="text-gray-500">(#{{ row.id_school }})</small> {{row.name}}</td>
+							<td class="pb-0 pl-1"> {{row.ami_code}}</td>
+                            <td class="pb-0 pl-1"> {{row.email }}</td>
+                            <td class="pb-0 pl-1"> {{row.state }}, {{row.city }}</td>
+                            <td class="pb-0 pl-1">
+                                <a :href="urlLocation + row.geolocation" v-if="row.geolocation" target="_blank">
+                                    <MapPinIcon class="w-4 h-4 inline-block text-info"/> 
+                                </a>
+                                <span>{{row.address }}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

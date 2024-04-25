@@ -18,7 +18,7 @@ const module = {
         }
     },
     actions:{
-        async fetchStudents({ commit, state, rootState, rootGetters }) {
+        async fetchStudents({ commit, state, rootState }) {
             let url = serverConfigData.urls.teacherStudents;
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
