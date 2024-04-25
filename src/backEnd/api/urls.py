@@ -18,7 +18,8 @@ from api.GenericsViews.GenericsListAPIView import (
     ListUserBanksAccountsAPIView,
     ListStudentsByTeacherAPIView,
     listSchoolsByTeacherAPIView,
-    ListActiveCoursesByUser
+    ListActiveCoursesByUser,
+    ListStudentsBySchoolTeacherAPIView,
 )
 from api.GenericsViews.GenericsCreateAPIViews import (
     CarateBanckAccountAPIView,
@@ -129,6 +130,11 @@ urlpatterns = [
     path("user/upload-cv/<int:pk>/<str:filename>",
          UploadCVFileView.as_view(),
          name="api-upload-cv"
+    ),
+    path(
+        'user/students-by-school-teacher/<int:id_user>/<int:id_school>/',
+        ListStudentsBySchoolTeacherAPIView.as_view(),
+        name="api-students-by-school-teacher",
     ),
     # bancos de usuario
     path(

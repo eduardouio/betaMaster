@@ -10,7 +10,6 @@ import
 		MapPinIcon
     } 
 from '@heroicons/vue/24/outline';
-import LoaderVue from '@/components/generics/Loader.vue';
 
 // emitimos el id del colegio
 const emits = defineEmits(['school']);
