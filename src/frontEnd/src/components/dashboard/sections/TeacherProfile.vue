@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router';
 import { useStore } from 'vuex';
 import Loader from '@/components/generics/Loader.vue';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import {
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
     XMarkIcon, CheckIcon, PencilSquareIcon

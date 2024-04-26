@@ -1,37 +1,5 @@
-<template>
-    <div>
-        <span class="text-gray-600"> Seleccionado: <small class="text-info">(Clic para eliminar)</small></span>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pt-4">
-            <ul v-for="item in selectedSkills" :key="item.name">
-                <li @click="updateSkills(item)"
-                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md hover:shadow-lg">
-                    <div class="flex gap-2">
-                        <span class="w-1" :class="item.color"></span>
-                        <span v-text="item.name" class="uppercase text-sm"></span>
-                    </div>
-                    <XCircleIcon class="w-4 h-4 text-error" />
-                </li>
-
-            </ul>
-        </div>
-        <hr class="m-3" />
-        <span class="text-gray-600">Disponibles: <small class="text-info">(Clic para agregar)</small></span>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pt-4">
-            <ul v-for="item in unselectedSkills" :key="item.name">
-                <li @click="updateSkills(item)"
-                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md ">
-                    <div class="flex gap-2">
-                        <span class="w-1" :class="item.color"></span>
-                        <span v-text="item.name" class="uppercase text-sm"></span>
-                    </div>
-                    <CheckCircleIcon class="w-4 h-4 text-success" />
-                </li>
-            </ul>
-        </div>
-    </div>
-</template>
 <script setup>
-import { defineProps, onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 
 const emits = defineEmits(['handleUpdateSkills']);
@@ -95,3 +63,35 @@ onMounted(() => {
 
 
 </script>
+<template>
+    <div>
+        <span class="text-gray-600"> Seleccionado: <small class="text-info">(Clic para eliminar)</small></span>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pt-4">
+            <ul v-for="item in selectedSkills" :key="item.name">
+                <li @click="updateSkills(item)"
+                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md hover:shadow-lg">
+                    <div class="flex gap-2">
+                        <span class="w-1" :class="item.color"></span>
+                        <span v-text="item.name" class="uppercase text-sm"></span>
+                    </div>
+                    <XCircleIcon class="w-4 h-4 text-error" />
+                </li>
+
+            </ul>
+        </div>
+        <hr class="m-3" />
+        <span class="text-gray-600">Disponibles: <small class="text-info">(Clic para agregar)</small></span>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:pt-4">
+            <ul v-for="item in unselectedSkills" :key="item.name">
+                <li @click="updateSkills(item)"
+                    class="bg-gray-200 flex justify-between p-1 gap-2 border border-slate-300 rounded-md ">
+                    <div class="flex gap-2">
+                        <span class="w-1" :class="item.color"></span>
+                        <span v-text="item.name" class="uppercase text-sm"></span>
+                    </div>
+                    <CheckCircleIcon class="w-4 h-4 text-success" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>

@@ -2,7 +2,7 @@
 import TableSchools from '@/components/dashboard/TableSchools.vue';
 import ModalSchool from '@/components/dashboard/ModalSchool.vue';
 
-import { ref, onMounted, reactive } from 'vue';
+import { ref } from 'vue';
 let showModal = ref(false);
 
 function handelModal() {

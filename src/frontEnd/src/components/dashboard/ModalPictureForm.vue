@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 import { XCircleIcon ,ArrowUpTrayIcon, PhotoIcon} from '@heroicons/vue/24/outline';
 
 let image = ref(null);

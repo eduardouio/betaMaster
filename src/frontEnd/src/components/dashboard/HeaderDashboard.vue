@@ -1,6 +1,5 @@
 <script setup>
 import { UserCircleIcon } from '@heroicons/vue/24/outline';
-import { useStore } from 'vuex';
 </script>
 <template>    
                 <!-- Header -->
