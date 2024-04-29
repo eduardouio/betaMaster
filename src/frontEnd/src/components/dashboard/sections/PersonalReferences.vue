@@ -1,21 +1,11 @@
 <script setup>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { useStore } from 'vuex';
 import { onUnmounted, ref } from 'vue';
 import { CheckIcon, PencilSquareIcon, XCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import userRegisterFormVue from '../../userRegisterForm.vue';
 
-const references = mapMutations('references', ['setReferences']);
-
-onUnmounted(() => {
-    references.commit('setReferences', [{
-        enterprise: 'Empresa 1',
-        start_date: '2021-01-01',
-        end_date: '2021-01-01',
-        name_contact: 'Contacto 1',
-        relationship: 'Relación 1',
-        type: 'Tipo 1',
-        email: ''
-    }]);
-});
+const store = useStore();
+const references = store.getters.getReferences;
 
 const deleteReferece = function (idx) {
     store.dispatch('deleteReference', idx);
@@ -24,7 +14,7 @@ const deleteReferece = function (idx) {
 </script>
 <template>
 <div>
-    <div v-if="showForm" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div class="row">
             <label for="enterprise">Empresa</label>
             <input type="text" id="enterprise" class="input input-sm input-secondary focus:input-primary w-full md:h-11" />
@@ -58,7 +48,7 @@ const deleteReferece = function (idx) {
             <input type="text" id="enterprise" class="input input-sm input-secondary focus:input-primary w-full md:h-11" />
         </div>  
     </div>
-    <table v-else class="table table-xs">
+    <table class="table table-xs">
         <!-- head -->
         <thead class="text-gray-600">
             <tr>
@@ -71,7 +61,7 @@ const deleteReferece = function (idx) {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(exp, idx) in userData.references" :key="exp">
+            <tr v-for="(exp, idx) in references" :key="exp">
                 <td>{{ idx + 1 }}</td>
                 <td>{{ exp.enterprise }}</td>
                 <td>{{ exp.type }}</td>

@@ -31,7 +31,7 @@ const module = {
         }
     },
     getters:{
-        getReferences(state, getters, rootState, rootGetters){
+        getReferences(state, getters, rootState){
             return state.references;
         },
     },
