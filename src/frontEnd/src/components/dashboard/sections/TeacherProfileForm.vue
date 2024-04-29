@@ -1,10 +1,10 @@
 <script setup>
-'use strict';
 import { useStore } from 'vuex';
-import { computed, onMounted, ref, reactive } from 'vue';
+import { computed, ref, reactive, onMounted } from 'vue';
 import {
   ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
-  CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon, KeyIcon, PhotoIcon
+  CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon, KeyIcon, PhotoIcon,
+  MapPinIcon
 }
   from '@heroicons/vue/24/outline';
 
@@ -20,8 +20,13 @@ import Skills from '@/components/dashboard/Skills.vue';
 import ModalPasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
 import ModalPictureForm from '@/components/dashboard/ModalPictureForm.vue';
 import PersonalReferences from '@/components/dashboard/sections/PersonalReferences.vue';
+import MapSelector from '@/components/dashboard/MapSelector.vue';
 
+onMounted(() => {
+  loadStates();
+});
 
+const showMapSelector = ref(false);
 const toastMessage = reactive({
   showToast: false,
   message: '',
@@ -29,81 +34,52 @@ const toastMessage = reactive({
 });
 
 const store = useStore();
-const showLoader = ref(true);
+
 const showError = ref(false);
 let states = ref([]);
 let cities = ref([]);
 let parroquias = ref([]);
-let userData = ref(null);
 let showPresentation = ref(true);
 let showPasswordModal = ref(false);
 let showPictureModal = ref(false);
 const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
-const statusResponse = computed(() => store.state.statusResponse);
 let userPresentation = '';
-  
-onMounted(async () => {
-  userData = await store.state.userData;
-  if (!userData) {
-    return await getUserData();
-  }
-  loadStates();
-  showLoader.value = false;
 
-});
+let userData = store.getters.getProfile;
+const statusResponse = computed(() => store.state.statusResponse);
+const showLoader = computed(() => store.getters.getIsLoading);
 
-const loadStates = function () {
-  states = Object.values(provincias).map(item => item.provincia);
-  cities = Object.values(
+
+const loadStates = function (state=null, city=null, parroquia=null) {
+  states.value = Object.values(provincias).map(item => item.provincia);
+  if (!state){
+    cities.value = Object.values(
     Object.values(provincias).filter(
-      item => item.provincia === userData.user.state)[0].cantones
-  ).map(item => item.canton);
-  parroquias = Object.values(
+      item => item.provincia === userData.state)[0].cantones
+    ).map(item => item.canton);
+  }else{
+    cities.value = Object.values(
+    Object.values(provincias).filter(
+      item => item.provincia === state)[0].cantones
+    ).map(item => item.canton);
+
+  }
+  
+  
+  parroquias.value = Object.values(
     Object.values(
       Object.values(provincias).filter(
-        item => item.provincia === userData.user.state)[0].cantones
+        item => item.provincia === userData.state)[0].cantones
     ).map(item => item).filter(
-      item => item.canton === userData.user.city)[0].parroquias);
-  if (userData) {
-    showLoader.value = false;
-  }
+      item => item.canton === userData.city)[0].parroquias);
 };
-
-// recuperamos los datos del usuario y lo colocamos en el store
-async function getUserData() {
-  if (userData){
-    return;
-  }
-  showLoader.value = true;
-  let url = serverConfigData.urls.getUser.replace(
-    '{idUser}', serverConfigData.idUser
-  );
-  let response = await serverInteractions.getData(url);
-  store.commit('setStatusResponse', response.status);
-
-  if (response.status.is_success) {
-    store.commit('setUserData', response.response);
-    userData = store.state.userData;
-    loadStates();
-    showLoader.value = false;
-  } else {
-    alert('Error al cargar los datos del usuario');
-    console.log('Error al cargar los datos del dashboard');
-  }
-
-  if (statusResponse.value.is_success) {
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-}
 
 async function updateProfile() {
 
   showError.value = true;
   if (userPresentation) {
     showPresentation.value = false;
-    userData.user.presentation = userPresentation;
+    userData.presentation = userPresentation;
   }
   await store.dispatch('updateProfile', userData);
   userData = await store.state.userData;
@@ -129,12 +105,21 @@ const showToast = (typeToast) => {
 
 const handleTextEditor = (event) => {
   userPresentation = event;
+  showMapSelector.value = false;
 }
 
 const handleUpdateSkills = (event) => {
-  userData.user.disipline = event;
+  userData.disipline = event;
 }
 
+const handelCoordinates = (event) => {
+  userData.geolocation = event;
+} 
+
+const handelModalMap = function(){
+  console.log('cerrar modal');
+  showMapSelector.value = false;
+}
 
 const handleFileUpload = async (event) => {
   const file = event.target.files[0];
@@ -154,7 +139,7 @@ const handleFileUpload = async (event) => {
   store.commit('setStatusResponse', response.status);
 
   if (response.status.is_success) {
-    userData.user.cv = serverConfigData.baseUrl + response.response.url;
+    userData.cv = serverConfigData.baseUrl + response.response.url;
     store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
   }
 
@@ -178,7 +163,7 @@ const changePicture = async function(file){
   store.commit('setStatusResponse', response.status);
 
   if (response.status.is_success) {
-    userData.user.picture = serverConfigData.baseUrl + response.response.url;
+    userData.picture = serverConfigData.baseUrl + response.response.url;
     store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
   }
 
@@ -228,7 +213,7 @@ const handelModalPicture = function(){
               <h2 class="font-semibold text-xl text-gray-700">Actualización de Perfil</h2>
             </div>
             <div class="lg:col-span-2 text-end">
-              <span v-if="userData.user.is_aproved"
+              <span v-if="userData.is_aproved"
                 class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
                 <ExclamationTriangleIcon class="h-4 w-4 inline-block" />
                 &nbsp;En Revisión
@@ -247,7 +232,7 @@ const handelModalPicture = function(){
                   <figure>
                     <img
                       src="https://photoaid.com/en/tools/_next/static/images/before-25ed01ce5b208e9df51888c519ef7949.webp"
-                      :alt="userData.user.first_name" class="w-2/3 h:auto" />
+                      :alt="userData.first_name" class="w-2/3 h:auto" />
                   </figure>
                   <div class="flex flex-col 2xl:flex-row md:gap-2">
                     <a class="mt-3 btn btn-xs btn-primary text-white"
@@ -271,49 +256,54 @@ const handelModalPicture = function(){
                       <strong class="text-red-500">*</strong>
                       Nombres
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Sus Nombres" v-model="userData.user.first_name" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Sus Nombres" v-model="userData.first_name" />
                   </div>
                   <div class="md:col-span-3">
                     <label for="last_name">
                       <strong class="text-red-500">*</strong>
                       Apellidos
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Sus Apellidos" v-model="userData.user.last_name" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Sus Apellidos" v-model="userData.last_name" />
                   </div>
-                  <div class="md:col-span-3">
+                  <div class="md:col-span-2">
                     <label for="dni_number">
                       <strong class="text-red-500">*</strong>
                       Identificación
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Su Identificación" v-model="userData.user.dni_number" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Su Identificación" v-model="userData.dni_number" />
                   </div>
-                  <div class="md:col-span-3">
+                  <div class="md:col-span-2">
                     <label for="sex">
                       <strong class="text-red-500">*</strong>
                       Sexo
                     </label>
-                    <select v-model="userData.user.sex" class="input input-sm input-secondary focus:input-primary w-full md:h-8"
+                    <select v-model="userData.sex" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                     >
                       <option selected disabled>Seleccione...</option>
-                      <option v-for="item in sexo" :key="item" :value="item" v-text="item"></option>
+                      <option v-for="item in sexo" :key="item" value="item" v-text="item"></option>
                     </select>
                   </div>
-                  <div class="md:col-span-3">
-                    <label for="country">
-                      <strong class="text-red-500">*</strong>
-                      Pais
-                    </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Sus Apellidos" v-model="userData.user.country" readonly />
+                  <div class="md:col-span-2">
+                    <label for="civil_status"><strong class="text-red-500">*</strong> Estado Civil</label>
+                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      v-model="userData.civil_status">
+                      <option disabled> Seleccione...</option>
+                      <option value="SOLTERO"> SOLTERO</option>
+                      <option value="CASADO"> CASADO</option>
+                      <option value="DIVORCIADO"> DIVORCIADO</option>
+                      <option value="VIUDO"> VIUDO</option>
+                      <option value="SEPARADO"> SEPARADO</option>
+                      <option value="OTRO"> OTRO</option>
+                    </select>
                   </div>
-                  <div class="md:col-span-3">
+                  <div class="md:col-span-2">
                     <label for="email">
                       <strong class="text-red-500">*</strong>
                       Correo Electronico:
-                      <small v-if="userData.user.is_confirmed_mail"
+                      <small v-if="userData.is_confirmed_mail"
                         class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
                         <ExclamationTriangleIcon class="h-4 w-4 inline-block" />
                         &nbsp;Correo No Verificado
@@ -324,41 +314,39 @@ const handelModalPicture = function(){
                         &nbsp;Correo Verificado
                       </small>
                     </label>
-                    <input type="email" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="nombre@dominio.com" v-model="userData.user.email" readonly />
+                    <input type="email" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="nombre@dominio.com" v-model="userData.email" readonly />
                   </div>
-                  <div v class="md:col-span-3">
+                  <div v class="md:col-span-2">
                     <label for="date_of_birth">
                       <strong class="text-red-500">*</strong>
                       Fecha de Nacimiento
                     </label>
-                    <input type="date" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Nacimiento" v-model="userData.user.date_of_birth" />
+                    <input type="date" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Nacimiento" v-model="userData.date_of_birth" />
                   </div>
-                  <div class="md:col-span-3">
-                    <label for="geolocation">
+                
+                  <div class="md:col-span-2">
+                    <label for="phone">
                       <strong class="text-red-500">*</strong>
-                      Geolocalización
+                      Celular
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Ubicación" v-model="userData.user.geolocation" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Su Celular" v-model="userData.phone" />
                   </div>
+                  <div class="md:col-span-2">
+                    <label for="phone_2">Tel Fijo</label>
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Su Teléfono" v-model="userData.phone_2" />
+                  </div>
+      
                   <div class="md:col-span-4">
                     <label for="address">
                       <strong class="text-red-500">*</strong>
                       Dirección:
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Su Dirección" v-model="userData.user.address" />
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="country">
-                      <strong class="text-red-500">*</strong>
-                      Pais
-                    </label>
-                    <input type="text" maxlength="13"
-                      class="input input-sm input-secondary focus:input-primary w-full md:h-11" placeholder="Su Pais"
-                      v-model="userData.user.country" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Su Dirección" v-model="userData.address" />
                   </div>
                   <div class="md:col-span-2">
                     <label for="state">
@@ -366,9 +354,10 @@ const handelModalPicture = function(){
                       Provincia
                     </label>
                     <div class="h-10 bg-gray-50 rounded items-center">
-                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                        v-model="userData.user.state">
-                        <option v-for="item in states" v-text="item" :value="item" :key="item">
+                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        v-model="userData.state" @change="loadStates(state=userData.state)">
+                        <option v-for="item in states" :value="item" :key="item">
+                          {{ item }}
                         </option>
                       </select>
                     </div>
@@ -379,8 +368,8 @@ const handelModalPicture = function(){
                       Cantón
                     </label>
                     <div class="h-10 bg-gray-50 rounded items-center">
-                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                        v-model="userData.user.city">
+                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        v-model="userData.city" @change="loadStates(state=userData.state, city=userData.city)">
                         <option v-for="item in cities" :key="item" :value="item" v-text="item">
                         </option>
                       </select>
@@ -391,37 +380,25 @@ const handelModalPicture = function(){
                       <strong class="text-red-500">*</strong>
                       Parroquia
                     </label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                      v-model="userData.user.parroquia">
+                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      v-model="userData.parroquia">
                       <option v-for="item in parroquias" :key="item" :value="item" v-text="item">
                       </option>
                     </select>
                   </div>
                   <div class="md:col-span-2">
-                    <label for="phone">
+                    <label for="geolocation">
                       <strong class="text-red-500">*</strong>
-                      Celular
+                      Geolocalización
                     </label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Su Celular" v-model="userData.user.phone" />
+                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      placeholder="Ubicación" v-model="userData.geolocation"  readonly/>
                   </div>
                   <div class="md:col-span-2">
-                    <label for="phone_2">Tel Fijo</label>
-                    <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                      placeholder="Su Teléfono" v-model="userData.user.phone_2" />
-                  </div>
-                  <div class="md:col-span-2">
-                    <label for="civil_status"><strong class="text-red-500">*</strong> Estado Civil</label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                      v-model="userData.user.civil_status">
-                      <option disabled> Seleccione...</option>
-                      <option value="SOLTERO"> SOLTERO</option>
-                      <option value="CASADO"> CASADO</option>
-                      <option value="DIVORCIADO"> DIVORCIADO</option>
-                      <option value="VIUDO"> VIUDO</option>
-                      <option value="SEPARADO"> SEPARADO</option>
-                      <option value="OTRO"> OTRO</option>
-                    </select>
+                    <span @click="showMapSelector=true" class="btn btn-sm bg-slate-500 text-white">
+                      <MapPinIcon class="w-5 h-5"/>
+                      Obtener Ubicación
+                    </span>
                   </div>
                   <div class="md:col-span-3 md:mt-4 md:border md:rounded-xl">
                     <label class="label cursor-pointer">
@@ -429,7 +406,7 @@ const handelModalPicture = function(){
                       <input 
                         type="checkbox"
                         class="checkbox"
-                        v-model="userData.user.is_homescholing"
+                        v-model="userData.is_homescholing"
                         />
                     </label>
                   </div>
@@ -439,7 +416,7 @@ const handelModalPicture = function(){
                       <input 
                         type="checkbox" 
                         class="checkbox"
-                        v-model="userData.user.is_replacement"
+                        v-model="userData.is_replacement"
                         />
                     </label>
                   </div>
@@ -450,7 +427,7 @@ const handelModalPicture = function(){
                   <TextEditor 
                     v-if="showPresentation"
                     class="h-100"
-                    :text="userData.user.presentation"
+                    :text="userData.presentation"
                     @handleTextEditor="handleTextEditor($event)"
                     >
                   </TextEditor>
@@ -464,32 +441,32 @@ const handelModalPicture = function(){
                         <SocialIcon url="#" icon="facebook" />
                         <label for="url_facebook">Facebook</label>
                       </div>
-                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.url_facebook" />
+                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Facebook" v-model="userData.url_facebook" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="linkedin" />
                         <label for="url_linkedin">Linkedind</label>
                       </div>
-                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.url_linkedin" />
+                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Facebook" v-model="userData.url_linkedin" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="instagram" />
                         <label for="url_instagram">Instagram</label>
                       </div>
-                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.url_instagram" />
+                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Facebook" v-model="userData.url_instagram" />
                     </div>
                     <div class="md:col-span-2">
                       <div class="flex gap-4">
                         <SocialIcon url="#" icon="twitter" />
                         <label for="url_twiter">Twitter</label>
                       </div>
-                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Facebook" v-model="userData.user.url_twiter" />
+                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Facebook" v-model="userData.url_twiter" />
                     </div>
                   </div>
                 </div>
@@ -500,14 +477,14 @@ const handelModalPicture = function(){
                     <div class="md:col-span-3">
                       <label for="have_disability">Tiene alguna discapacidad?</label>
                       <br>
-                      <input type="checkbox" class="checkbox" v-model="userData.user.have_disability" />
-                      <span class="ml-3 text-success" v-if="userData.user.have_disability">SI, Especifique</span>
+                      <input type="checkbox" class="checkbox" v-model="userData.have_disability" />
+                      <span class="ml-3 text-success" v-if="userData.have_disability">SI, Especifique</span>
                       <span class="ml-3 text-info" v-else>Ninguna</span>
                     </div>
-                    <div class="md:col-span-3" v-if="userData.user.have_disability">
+                    <div class="md:col-span-3" v-if="userData.have_disability">
                       <label for="type_disability">Tipo de discapacidad</label>
-                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                        v-model="userData.user.type_disability">
+                      <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        v-model="userData.type_disability">
                         <option select>Seleccione...</option>
                         <option value="MOTRIZ">MOTRIZ</option>
                         <option value="AUDITIVA">AUDITIVA</option>
@@ -516,15 +493,15 @@ const handelModalPicture = function(){
                         <option value="OTRA">OTRA</option>
                       </select>
                     </div>
-                    <div class="md:col-span-3" v-if="userData.user.have_disability">
+                    <div class="md:col-span-3" v-if="userData.have_disability">
                       <label for="disability_persent">Porcentaje</label>
-                      <input type="number" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Teléfono" v-model="userData.user.disability_persent" />
+                      <input type="number" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Teléfono" v-model="userData.disability_persent" />
                     </div>
-                    <div class="md:col-span-3" v-if="userData.user.have_disability">
+                    <div class="md:col-span-3" v-if="userData.have_disability">
                       <label for="card_conadis">Nro de Carnet</label>
-                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-11"
-                        placeholder="Su Teléfono" v-model="userData.user.card_conadis" />
+                      <input type="text" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                        placeholder="Su Teléfono" v-model="userData.card_conadis" />
                     </div>
                   </div>
                 </div>
@@ -540,8 +517,8 @@ const handelModalPicture = function(){
                 <div class="grid gap-4 gap-y-2 grid-cols-1 md:grid-cols-6">
                   <div class="md:col-span-3">
                     <label for="level_education">Nivel de Educación</label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                      v-model="userData.user.level_education">
+                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      v-model="userData.level_education">
                       <option selected>seleccione....</option>
                       <option value="PRIMARIA">PRIMARIA</option>
                       <option value="SECUNDARIA">SECUNDARIA</option>
@@ -554,8 +531,8 @@ const handelModalPicture = function(){
                   </div>
                   <div class="md:col-span-3">
                     <label for="profesion">Profesión</label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-8"
-                      v-model="userData.user.profesion">
+                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
+                      v-model="userData.profesion">
                       <option selected>seleccione....</option>
                       <option value="PROFESOR">PROFESOR</option>
                       <option value="LICIENCIADO">LICIENCIADO</option>
@@ -574,12 +551,12 @@ const handelModalPicture = function(){
                     <span>Hoja de Vida:</span>
                     <div class="flex gap-4">
                       <a class="badge"
-                        :class="userData.user.cv ? 'text-green-600' : 'text-red-500'"
-                        :href="userData.user.cv ? userData.user.cv : '#'">
-                        {{ userData.user.cv ? userData.user.cv : 'Sin Archivo Adjunto'}}
+                        :class="userData.cv ? 'text-green-600' : 'text-red-500'"
+                        :href="userData.cv ? userData.cv : '#'">
+                        {{ userData.cv ? userData.cv : 'Sin Archivo Adjunto'}}
                       </a>
-                      <CheckIcon v-if="userData.user.cv" class="w-5 h-5 text-green-600"></CheckIcon>
-                      <span v-if="userData.user.cv" class="text-green-600">Archivo cargado</span>
+                      <CheckIcon v-if="userData.cv" class="w-5 h-5 text-green-600"></CheckIcon>
+                      <span v-if="userData.cv" class="text-green-600">Archivo cargado</span>
                     </div>
                     <input  
                     @change="handleFileUpload"
@@ -591,7 +568,7 @@ const handelModalPicture = function(){
                   </div>
                   <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
                     <Skills
-                      :skills="userData.user.disipline"
+                      :skills="userData.disipline"
                       @handleUpdateSkills="handleUpdateSkills($event)"
                     >
                   </Skills>
@@ -624,10 +601,11 @@ const handelModalPicture = function(){
         </div>
       </div>
     </div>
+    <MapSelector v-if="showMapSelector"  @emitCoordinates="handelCoordinates" @emitCloseModal="handelModalMap"/>
     <Toast
-    v-if="toastMessage.showToast" 
-    :typeToast="toastMessage.typeToast"
-    :statusResponse="statusResponse"
+      v-if="toastMessage.showToast" 
+      :typeToast="toastMessage.typeToast"
+      :statusResponse="statusResponse"
     />
     <ModalPasswordForm 
       v-if="showPasswordModal"
