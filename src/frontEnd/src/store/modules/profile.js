@@ -63,7 +63,11 @@ const module = {
             return response;
         },
         async updateProfilePasswod({ commit, state, rootState }, userData) {
-
+            let url = serverConfigData.urls.updatePasswordUser;
+              const response = await serverInteractions.putData(
+                url, JSON.stringify(userData)
+            );
+            rootState.statusResponse = response;
         },
     },
     getters:{

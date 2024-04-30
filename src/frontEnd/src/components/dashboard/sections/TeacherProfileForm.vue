@@ -108,6 +108,20 @@ const changePicture = async function(file){
   }
 }
 
+const changePassword = async function(event){
+  showLoader.value = true;
+
+  const response = await store.dispatch(
+    'updateProfilePasswod', {password: event.password}
+  );
+  store.commit('setStatusResponse', await response);
+  if (await response) {
+    showToast('success');
+  } else {
+    showToast('error');
+  }
+  showLoader.value = false;
+};
 
 const showToast = (typeToast) => {
   toastMessage.value.showToast = true;
@@ -164,27 +178,6 @@ const handleFileUpload = async (event) => {
   }
 };
 
-const changePassword = async function(event){
-  showLoader.value = true;
-  let url = serverConfigData.urls.updatePasswordUser.replace(
-    '{idUser}', serverConfigData.idUser
-  );
-  const data = {
-    password: event.password,
-  }
-  const response = await serverInteractions.putData(url, JSON.stringify(data));
-  store.commit('setStatusResponse', await response);
-  showPasswordModal.value = false;
-  if (await response) {
-    debugger;
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-  showLoader.value = false;
-};
-
-// Manejamos los eventos de los modales
 const handelModalPassword = function(){
   showPasswordModal.value = !showPasswordModal.value;
 };
