@@ -29,7 +29,7 @@ const toastTypes = {
 };
 
 onMounted(() => {
-    if (props.statusResponse.is_success) {
+    if (props.statusResponse.status.is_success) {
 
         classToast.value = toastTypes.success;
         statusMessage.value = [
@@ -41,12 +41,12 @@ onMounted(() => {
         return;
     }
 
-    const errors = Object.keys(props.statusResponse.response);
+    const errors = Object.keys(props.statusResponse.status.response);
     if (errors.length > 0) {
         statusMessage.value = errors.map((error) => {
             return {
                 typeError: error,
-                message: props.statusResponse.response[error][0]
+                message: props.statusResponse.status.response[error][0]
             }
             ;
         });
