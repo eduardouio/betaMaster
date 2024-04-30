@@ -36,3 +36,5 @@ test_db_.tar
 .project
 venv/
 package-lock.json
+src/backEnd/media/*
+src/backEnd/media/
