@@ -5,6 +5,7 @@ const module = {
     state:{
         profile: null,
         picture: null,
+        cv: null,
     },
     mutations: {
         setProfile(state, profile) {
@@ -13,6 +14,9 @@ const module = {
         setPicture(state, picture) {
             state.picture = picture;
         },
+        setCV(state, cv) {
+            state.cv = cv;
+        }
     },
     actions:{
         async fetchProfile({ commit, state, rootState }) {
@@ -26,13 +30,21 @@ const module = {
                 rootState.statusResponse = response;
             }
         },
-        async fetchProfilePicture({ commit, state, rootState }) {
-            let url = serverConfigData.urls.uploadProfilePicture;
+        async fetchProfileFile({ commit, state, rootState }, type) {
+            let url = serverConfigData.urls.uploadProfilePicture.replace(
+                '{type}', type
+            );
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
                 rootState.statusResponse = response;
-                if (response.response.url) {
-                    commit('setPicture', serverConfigData.baseUrl +  response.response.url);
+                if (type === 'picture'){
+                    if (response.response.url) {
+                        commit('setPicture', serverConfigData.baseUrl +  response.response.url);
+                    }
+                }else{
+                    if (response.response.url) {
+                        commit('setCV', serverConfigData.baseUrl +  response.response.url);
+                    }
                 }
                 rootState.stagesLoaded = rootState.stagesLoaded + 1;
             } else {
@@ -52,7 +64,9 @@ const module = {
             return response;
         },
         async updateProfileImage({ commit, state, rootState }, formData) {
-            let url = serverConfigData.urls.uploadProfilePicture;
+            let url = serverConfigData.urls.uploadProfilePicture.replace(
+                '{type}', 'upload'
+            );
             let response = await serverInteractions.postFile(url, formData);
             if (response.status.is_success) {
                 rootState.statusResponse = response;
@@ -76,7 +90,10 @@ const module = {
         },
         getPicture(state, getters, rootState, rootGetters){
             return state.picture;
-        }
+        },
+        getCV(state, getters, rootState, rootGetters){
+            return state.cv;
+        },
     },
 };
 

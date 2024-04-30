@@ -57,6 +57,8 @@ const profilePic = computed(() => {
     return ProfilePicMen;
 });
 
+const urlCV = computed(() => store.getters.getCV);
+
 const loadStates = function (state=null, city=null, parroquia=null) {
   states.value = Object.values(provincias).map(item => item.provincia);
   if (!state){
@@ -535,9 +537,9 @@ const handelModalPicture = function(){
                     <span>Hoja de Vida:</span>
                     <div class="flex gap-4">
                       <a class="badge"
-                        :class="userData.cv ? 'text-green-600' : 'text-red-500'"
-                        :href="userData.cv ? userData.cv : '#'">
-                        {{ userData.cv ? userData.cv : 'Sin Archivo Adjunto'}}
+                        :class="urlCV ? 'text-green-600' : 'text-red-500'"
+                        :href="urlCV ? urlCV : '#'">
+                        {{ urlCV ? 'Descargar' : 'No hay Archivo'}}
                       </a>
                       <CheckIcon v-if="userData.cv" class="w-5 h-5 text-green-600"></CheckIcon>
                       <span v-if="userData.cv" class="text-green-600">Archivo cargado</span>

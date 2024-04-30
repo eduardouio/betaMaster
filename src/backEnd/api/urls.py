@@ -64,7 +64,7 @@ urlpatterns = [
         name="api-update-user-password",
     ),
     path(
-        "user/upload-picture/<int:pk>/",
+        "user/upload-picture/<int:pk>/<str:type>/",
         UploadPictureFileAPIView.as_view(),
         name="api-upload-picture",
     ),

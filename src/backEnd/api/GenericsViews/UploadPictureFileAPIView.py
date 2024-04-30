@@ -9,7 +9,7 @@ from accounts.models import CustomUserModel
 # /api/user/upload-picture/<int:pk>/
 class UploadPictureFileAPIView(APIView):
 
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, pk, type, *args, **kwargs):
         file_obj = request.FILES['file']
         user = CustomUserModel.objects.get(pk=pk)
         if not re.search(
@@ -29,17 +29,30 @@ class UploadPictureFileAPIView(APIView):
             'url': user.picture.url
         }, status=status.HTTP_201_CREATED)
 
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, pk, type, *args, **kwargs):
         user = CustomUserModel.objects.get(pk=pk)
-        if not user.picture:
+        if type == 'picture':
+            if not user.picture:
+                return Response({
+                    'message': 'El usuario no tiene imagen de perfil',
+                    'status': 'error',
+                    'url': None
+                }, status=status.HTTP_200_OK)
+
             return Response({
                 'message': 'El usuario no tiene imagen de perfil',
-                'status': 'error',
-                'url': None
+                'status': 'ok',
+                'url': user.picture.url
             }, status=status.HTTP_200_OK)
 
+        if (user.cv):
+            return Response({
+                'message': 'Ruta de hoja de Vida',
+                'status': 'ok',
+                'url': user.cv.url
+            }, status=status.HTTP_200_OK)
         return Response({
-            'message': 'El usuario no tiene imagen de perfil',
-            'status': 'ok',
-            'url': user.picture.url
+            'message': 'El usuario no tiene CV',
+            'status': 'error',
+            'url': None
         }, status=status.HTTP_200_OK)
