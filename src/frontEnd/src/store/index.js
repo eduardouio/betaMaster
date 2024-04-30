@@ -10,6 +10,7 @@ export default createStore({
   state: {
     isLoading: true,
     stagesLoaded: 0,
+    statusResponse: null,
   },
   mutations: {
     setIsLoading(state, status) {
@@ -32,6 +33,9 @@ export default createStore({
     },
     getStagesLoaded(state) {
       return state.stagesLoaded;
+    },
+    getStatusResponse(state) {
+      return state.statusResponse;
     },
   },
   modules: {

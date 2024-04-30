@@ -27,12 +27,10 @@ onMounted(() => {
 });
 
 const showMapSelector = ref(false);
-const toastMessage = reactive({
+const toastMessage = ref({
   showToast: false,
-  message: '',
   typeToast: 'error',
 });
-
 const store = useStore();
 
 const showError = ref(false);
@@ -46,9 +44,8 @@ const sexo = ref(['FEMENINO', 'MASCULINO', 'OTRO']);
 let userPresentation = '';
 
 let userData = store.getters.getProfile;
-const statusResponse = computed(() => store.state.statusResponse);
+const statusResponse = computed(() => store.getters.getStatusResponse);
 const showLoader = computed(() => store.getters.getIsLoading);
-
 
 const loadStates = function (state=null, city=null, parroquia=null) {
   states.value = Object.values(provincias).map(item => item.provincia);
@@ -65,7 +62,6 @@ const loadStates = function (state=null, city=null, parroquia=null) {
 
   }
   
-  
   parroquias.value = Object.values(
     Object.values(
       Object.values(provincias).filter(
@@ -74,32 +70,47 @@ const loadStates = function (state=null, city=null, parroquia=null) {
       item => item.canton === userData.city)[0].parroquias);
 };
 
-async function updateProfile() {
 
-  showError.value = true;
+async function updateProfile() {
+  toastMessage.value.showToast = false;
   if (userPresentation) {
     showPresentation.value = false;
     userData.presentation = userPresentation;
   }
-  await store.dispatch('updateProfile', userData);
-  userData = await store.state.userData;
-  setTimeout(() => {
-    showPresentation.value = true;
-  }, 200);
-
-  if (statusResponse.value.is_success) {
+  const response = await store.dispatch('updateProfile', userData);
+  store.commit('setStatusResponse', await response);
+  if (await response.status.is_success) {
     showToast('success');
   } else {
     showToast('error');
   }
-
 }
 
+const changePicture = async function(file){
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const url = serverConfigData.urls.uploadProfilePicture.replace(
+    '{idUser}', serverConfigData.idUser
+  ) + file.name;
+
+  const response = await store.dispatch('updateProfileImage', formData);
+  store.commit('setStatusResponse', await response);
+  if (await response.status.is_success) {
+    userData.picture = serverConfigData.baseUrl + response.response.url;
+    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
+    showToast('success');
+  }else {
+    showToast('error');
+  }
+}
+
+
 const showToast = (typeToast) => {
-  toastMessage.showToast = true;
-  toastMessage.typeToast = typeToast;
+  toastMessage.value.showToast = true;
+  toastMessage.value.typeToast = typeToast;
   setTimeout(() => {
-    toastMessage.showToast = false;
+    toastMessage.value.showToast = false;
   }, 4000);
 }
 
@@ -136,7 +147,7 @@ const handleFileUpload = async (event) => {
   ) + file.name;
 
   const response = await serverInteractions.postFile(url, formData);
-  store.commit('setStatusResponse', response.status);
+  store.commit('setStatusResponse', response);
 
   if (response.status.is_success) {
     userData.cv = serverConfigData.baseUrl + response.response.url;
@@ -150,30 +161,6 @@ const handleFileUpload = async (event) => {
   }
 };
 
-const changePicture = async function(file){
-  console.dir(file);
-  const formData = new FormData();
-  formData.append('file', file);
-
-  const url = serverConfigData.urls.uploadProfilePicture.replace(
-    '{idUser}', serverConfigData.idUser
-  ) + file.name;
-
-  const response = await serverInteractions.postFile(url, formData);
-  store.commit('setStatusResponse', response.status);
-
-  if (response.status.is_success) {
-    userData.picture = serverConfigData.baseUrl + response.response.url;
-    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
-  }
-
-  if (statusResponse.value.is_success) {
-    showToast('success');
-  } else {
-    showToast('error');
-  }
-}
-
 const changePassword = async function(event){
   showLoader.value = true;
   let url = serverConfigData.urls.updatePasswordUser.replace(
@@ -183,9 +170,10 @@ const changePassword = async function(event){
     password: event.password,
   }
   const response = await serverInteractions.putData(url, JSON.stringify(data));
-  store.commit('setStatusResponse', response.status);
+  store.commit('setStatusResponse', await response);
   showPasswordModal.value = false;
-  if (response.status.is_success) {
+  if (await response) {
+    debugger;
     showToast('success');
   } else {
     showToast('error');
@@ -283,7 +271,7 @@ const handelModalPicture = function(){
                     <select v-model="userData.sex" class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                     >
                       <option selected disabled>Seleccione...</option>
-                      <option v-for="item in sexo" :key="item" value="item" v-text="item"></option>
+                      <option v-for="item in sexo" :key="item" :value="item">{{ item }}</option>
                     </select>
                   </div>
                   <div class="md:col-span-2">
