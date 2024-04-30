@@ -28,3 +28,18 @@ class UploadPictureFileAPIView(APIView):
             'status': 'success',
             'url': user.picture.url
         }, status=status.HTTP_201_CREATED)
+
+    def get(self, request, pk, *args, **kwargs):
+        user = CustomUserModel.objects.get(pk=pk)
+        if not user.picture:
+            return Response({
+                'message': 'El usuario no tiene imagen de perfil',
+                'status': 'error',
+                'url': None
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+            'message': 'El usuario no tiene imagen de perfil',
+            'status': 'ok',
+            'url': user.picture.url
+        }, status=status.HTTP_200_OK)

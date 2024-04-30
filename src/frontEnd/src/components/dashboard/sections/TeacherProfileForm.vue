@@ -21,6 +21,8 @@ import ModalPasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
 import ModalPictureForm from '@/components/dashboard/ModalPictureForm.vue';
 import PersonalReferences from '@/components/dashboard/sections/PersonalReferences.vue';
 import MapSelector from '@/components/dashboard/MapSelector.vue';
+import ProfilePicMen from '@/assets/profile-pic-men.png';
+import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 
 onMounted(() => {
   loadStates();
@@ -32,7 +34,6 @@ const toastMessage = ref({
   typeToast: 'error',
 });
 const store = useStore();
-
 const showError = ref(false);
 let states = ref([]);
 let cities = ref([]);
@@ -46,6 +47,15 @@ let userPresentation = '';
 let userData = store.getters.getProfile;
 const statusResponse = computed(() => store.getters.getStatusResponse);
 const showLoader = computed(() => store.getters.getIsLoading);
+const profilePic = computed(() => {
+    if (store.getters.getPicture) {
+        return store.getters.getPicture
+    }
+    if (userData.sex === 'FEMENINO') {
+        return ProfilePicWomen;
+    }
+    return ProfilePicMen;
+});
 
 const loadStates = function (state=null, city=null, parroquia=null) {
   states.value = Object.values(provincias).map(item => item.provincia);
@@ -70,7 +80,6 @@ const loadStates = function (state=null, city=null, parroquia=null) {
       item => item.canton === userData.city)[0].parroquias);
 };
 
-
 async function updateProfile() {
   toastMessage.value.showToast = false;
   if (userPresentation) {
@@ -89,16 +98,10 @@ async function updateProfile() {
 const changePicture = async function(file){
   const formData = new FormData();
   formData.append('file', file);
-
-  const url = serverConfigData.urls.uploadProfilePicture.replace(
-    '{idUser}', serverConfigData.idUser
-  ) + file.name;
-
   const response = await store.dispatch('updateProfileImage', formData);
   store.commit('setStatusResponse', await response);
+  
   if (await response.status.is_success) {
-    userData.picture = serverConfigData.baseUrl + response.response.url;
-    store.commit('setUserData', JSON.parse(JSON.stringify(userData)));
     showToast('success');
   }else {
     showToast('error');
@@ -219,7 +222,7 @@ const handelModalPicture = function(){
                 <div class="card card-side flex items-center flex-col">
                   <figure>
                     <img
-                      src="https://photoaid.com/en/tools/_next/static/images/before-25ed01ce5b208e9df51888c519ef7949.webp"
+                      :src="profilePic"
                       :alt="userData.first_name" class="w-2/3 h:auto" />
                   </figure>
                   <div class="flex flex-col 2xl:flex-row md:gap-2">

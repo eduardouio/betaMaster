@@ -11,7 +11,7 @@ const store = useStore();
 const isLoading = computed(() => store.getters.getIsLoading);
 
 const stagesLoaded = computed(() => {
-    if (store.getters.getStagesLoaded === 6) {
+    if (store.getters.getStagesLoaded === 7) {
         store.commit('setIsLoading', false);
         return true;
     }
@@ -25,6 +25,7 @@ onMounted(() => {
     store.dispatch('fetchSchools');
     store.dispatch('fetchStudents');
     store.dispatch('fetchCourses');
+    store.dispatch('fetchProfilePicture');
 });
 
 </script>

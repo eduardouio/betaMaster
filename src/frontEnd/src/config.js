@@ -14,6 +14,9 @@ const serverConfigData = {
         'Accept': 'application/json',
         'X-CSRFToken': csrfToken
     },
+    'headersFiles':{
+        'X-CSRFToken': csrfToken
+    },
     'urls': {
         // base
         baseUrl : baseUrl,
@@ -24,7 +27,7 @@ const serverConfigData = {
         logout : baseUrl + '/logout/', // GET
         // usuarios
         uploadCVFile : baseUrl + `/api/user/upload-cv/${idUser}/`, // POST
-        uploadProfilePicture : baseUrl + `/api/user/upload-picture/${idUser}/perfil-${idUser}/`, // POST
+        uploadProfilePicture : baseUrl + `/api/user/upload-picture/${idUser}/`, // POST
         registerUser : baseUrl + '/api/user/add/', // POST
         loginUser : baseUrl + '/login/', // POST
         logoutUser : baseUrl + '/logout/', // GET
