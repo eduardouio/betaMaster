@@ -135,7 +135,13 @@ class UserSerializerPublic(serializers.ModelSerializer):
 class PersonalReferencesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalReferences
-        fields = '__all__'
+        exclude = [
+            'created_at',
+            'updated_at',
+            'document',
+            'id_user_created',
+            'id_user_updated',
+        ]
 
 
 class BankAccountSerializer(serializers.ModelSerializer):
@@ -253,4 +259,3 @@ class PaymentSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
-

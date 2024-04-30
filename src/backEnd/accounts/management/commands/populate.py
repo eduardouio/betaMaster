@@ -369,7 +369,7 @@ class Command(BaseCommand):
                 phone_contact=fake.phone_number(),
                 email_contact=fake.email(),
                 relationship=random.choice(
-                    ['FAMILIAR', 'JEFE', 'AMIGO', 'OTRO']),
+                    'FAMILIAR', 'JEFE INMEDIATO', 'COMPAÑERO DE TRABAJO', 'OTRO'),
                 is_verified=random.choice([True, False]),
                 verification_date=fake.past_datetime(),
                 start_date=start_date,
