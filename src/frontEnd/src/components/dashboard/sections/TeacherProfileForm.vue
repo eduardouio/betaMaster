@@ -1,6 +1,6 @@
 <script setup>
 import { useStore } from 'vuex';
-import { computed, ref, reactive, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import {
   ExclamationTriangleIcon, CheckBadgeIcon, FolderArrowDownIcon,
   CheckIcon, XCircleIcon, XMarkIcon, PencilSquareIcon, KeyIcon, PhotoIcon,
@@ -562,7 +562,6 @@ const handelModalPicture = function(){
                 </div>
               </div>
             </div>
-            
             <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
               <div class="text-gray-700 ">
                 <strong class="font-medium text-lg">Referencias Personales</strong>

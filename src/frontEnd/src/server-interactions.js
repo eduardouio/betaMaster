@@ -37,7 +37,7 @@ const  serverInteractions = {
             headers: serverConfigData.headers,
             body: JSON.stringify(data),
         });
-        if (response.status != 200) {
+        if (response.status != 201) {
             let response_fail = await response.text();
             return {
                 status: {
@@ -131,7 +131,7 @@ const  serverInteractions = {
             method: 'DELETE',
             headers: serverConfigData.headers,
         });
-        if (response.status != 200) {
+        if (response.status != 204) {
             let response_fail = await response.text();
             return {
                 status: {
@@ -143,7 +143,6 @@ const  serverInteractions = {
                 response: null,
             }
         } else {
-            let response_success = await response.json();
             return {
                 status:{
                     is_success: true,
@@ -151,7 +150,7 @@ const  serverInteractions = {
                     url: url,
                     response: null,
                 },
-                response: response_success,
+                response: response,
             };
         }
     },

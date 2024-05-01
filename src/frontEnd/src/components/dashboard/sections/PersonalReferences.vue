@@ -10,19 +10,13 @@ import serverConfigData from '@/config';
 const store = useStore();
 const references = store.getters.getReferences;
 const showForm = ref(false);
-
-const deleteReferece = function (idx) {
-    store.dispatch('deleteReference', idx);
-};
+const isEditing = ref(false);
 const types = {
     'references': ['PERSONAL', 'PROFESSIONAL', ],
     'relationships': [
         'FAMILIAR', 'JEFE INMEDIATO'    , 'COMPAÑERO DE TRABAJO', 'OTRO',
     ],
 }
-const addReference = function () {
-    showForm.value = !showForm.value;
-};
 
 const currentReference = ref();
 
@@ -33,10 +27,11 @@ onMounted(() => {
 const setReference = function(reference){
     currentReference.value = reference;
     showForm.value = true;
-
+    isEditing.value = true;
 };
 
 const resetReference = function(){
+    isEditing.value = false;
     currentReference.value = {
         id_reference:0,
         id_user:serverConfigData.idUser,
@@ -53,45 +48,52 @@ const resetReference = function(){
     }
 };
 
+// crea o actualiza una referencia
+const createReference = async function(){
+    if (isEditing.value){
+        let response = await store.dispatch(
+            'updateReference', currentReference.value
+        );
+        isEditing.value = false;
+    }else{
+        let response = await store.dispatch(
+        'createReference', currentReference.value
+    );
+    }
+    resetReference();
+    showForm.value = false;
+};
+
+const deleteReference = function(idReference){
+    store.dispatch('deleteReference', idReference);
+}
+
+
 </script>
 <template>
 <div>
-    <div class="flex justify-between items-center p-2">
-        <button v-if="!showForm"  @click="showForm = !showForm" class="btn btn-sm bg-lime-600 text-white">
-            <PlusCircleIcon class="w-5 h-5" />
-            Agregar Referencia
-        </button>
-        <button v-else @click="addReference" class="btn btn-sm bg-slate-600 text-white">
-            <FolderArrowDownIcon class="w-5 h-5" />
-            Guardar Referencia
-        </button>
-        <button v-if="showForm" @click="showForm = !showForm" class="btn btn-sm bg-orange-600 text-white">
-            <XCircleIcon class="w-5 h-5" />
-            Cancelar
-        </button>
-    </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4" v-if="showForm">
         <div class="row">
             <label for="enterprise">Empresa</label>
             <input 
                 type="text" 
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.enterprise"
             />
         </div>
         <div class="row">
             <label for="enterprise">Fecha Incio</label>
             <input 
-                type="text"
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                type="date"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.start_date"
             />
         </div>
         <div class="row">
             <label for="enterprise">Fecha Fin</label>
             <input
-                type="text"
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                type="date"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.end_date"
             />
         </div>  
@@ -99,35 +101,35 @@ const resetReference = function(){
             <label for="enterprise">Contacto</label>
             <input
                 type="text"
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.name_contact"
             />
         </div>
         <div class="row">
             <label for="enterprise">Relación</label>
             <select
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.relationship"
             >
-                <option value="">Seleccione</option>
+                <option value="" disabled>Seleccione</option>
                 <option  v-for="op in types.relationships" :value="op" :key="op">{{ op }}</option>
             </select>
         </div>
         <div class="row">
             <label for="enterprise">Tipo Referencia</label>
             <select 
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.type"
             >   
-                <option value="">Seleccione</option>
+                <option value="" disabled>Seleccione</option>
                 <option  v-for="op in types.references" :value="op" :key="op">{{ op }}</option>
             </select>
         </div>
         <div class="row">
             <label for="enterprise">Correo</label>
             <input
-                type="text"
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                type="email"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.email_contact"
             />
         </div>  
@@ -135,7 +137,7 @@ const resetReference = function(){
             <label for="enterprise">Teléfono</label>
             <input
                 type="text"
-                class="input input-sm input-secondary focus:input-primary w-full md:h-11"
+                class="input input-sm input-secondary focus:input-primary w-full md:h-10"
                 v-model="currentReference.phone_contact"
             />
         </div>  
@@ -168,12 +170,32 @@ const resetReference = function(){
                 </td>
                 <td>
                     <span class="flex items-center gap-2">
-                        <PencilSquareIcon class="w-5 h-5 text-primary" @click="setReference(exp)"/>
-                        <XMarkIcon class="w-5 h-5 text-error" />
+                        <PencilSquareIcon
+                            class="w-5 h-5 text-primary"
+                            @click="setReference(exp)"
+                        />
+                        <XMarkIcon
+                            class="w-5 h-5 text-error"
+                            @click="deleteReference(exp.id_reference)"
+                        />
                     </span>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div class="flex justify-between items-center p-5 border mt-5 rounded-sm">
+        <button v-if="!showForm"  @click="showForm = !showForm;" class="btn btn-sm bg-lime-600 text-white">
+            <PlusCircleIcon class="w-5 h-5" />
+            Agregar Referencia
+        </button>
+        <button v-else @click="createReference" class="btn btn-sm bg-slate-600 text-white">
+            <FolderArrowDownIcon class="w-5 h-5" />
+            Guardar Referencia
+        </button>
+        <button v-if="showForm" @click="showForm = !showForm" class="btn btn-sm bg-orange-600 text-white">
+            <XCircleIcon class="w-5 h-5" />
+            Cancelar
+        </button>
+    </div>
 </div>
 </template>
