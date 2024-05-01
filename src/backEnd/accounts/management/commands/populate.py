@@ -36,12 +36,10 @@ PROFESIONS = [
 
 with open(
     'accounts/management/commands/statesAndCitiesEC.json',
-    'r', 
+    'r',
     encoding='utf-8'
 ) as file:
-
-
-STATES_EC = json.load(file)
+    STATES_EC = json.load(file)
 
 BANKS_NAME = [
     'Banco del Austro',
@@ -368,8 +366,12 @@ class Command(BaseCommand):
                 name_contact=fake.name(),
                 phone_contact=fake.phone_number(),
                 email_contact=fake.email(),
-                relationship=random.choice(
-                    'FAMILIAR', 'JEFE INMEDIATO', 'COMPAÑERO DE TRABAJO', 'OTRO'),
+                relationship=random.choice([
+                    'FAMILIAR',
+                    'JEFE INMEDIATO',
+                    'COMPAÑERO DE TRABAJO',
+                    'OTRO'
+                ]),
                 is_verified=random.choice([True, False]),
                 verification_date=fake.past_datetime(),
                 start_date=start_date,
