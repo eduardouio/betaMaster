@@ -575,7 +575,7 @@ const handelModalPicture = function(){
                 </div>
               </div>
             </div>
-              <div class="md:col-span-6 text-right py-5">
+              <div class="md:col-span-6 text-right py-20">
                 <div class="inline-flex items-end">
                   <button @click="updateProfile" class="btn btn-primary text-white btn-sm">
                     <FolderArrowDownIcon class="w-5 h-5 text-white"/>
