@@ -1,12 +1,17 @@
 <script setup>
 import { UserCircleIcon } from '@heroicons/vue/24/outline';
+import { useStore } from 'vuex';
+const store = useStore();
+
+const profile = store.getters.getProfile;
+
 </script>
 <template>    
                 <!-- Header -->
                 <div class="fixed w-full flex items-center justify-between h-10 z-10">
                 <div class="flex items-center justify-start md:justify-center pl-3 w-14 md:w-64 h-10 bg-gray-100 ">
                     <UserCircleIcon class="w-5 h-5 md:mr-10"/> 
-                    <span class="hidden md:block capitalize">NOMBRE PENDIENTE</span>
+                    <span class="hidden md:block uppercase"> {{ profile.first_name }} {{ profile.last_name }}</span>
                 </div>
                 <div class="flex justify-between items-center h-10 bg-gray-100  header-right border-b border-slate-300">
                     <div
