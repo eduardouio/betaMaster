@@ -41,8 +41,8 @@ const formatDate = ((my_date) => {
 });
 
 const profilePic = computed(() => {
-    if (userData.picture) {
-        return userData.picture;
+    if (store.getters.getPicture) {
+        return store.getters.getPicture;
     }
     if (userData.sex === 'male') {
         return ProfilePicWomen;
@@ -103,11 +103,11 @@ const timeLapsed = ((my_date, years = true) => {
                     </div>
                     <p class="text-gray-700 text-md text-center" v-html="userData.presentation"></p>
                     <br />
-                    <a class="btn btn-sm btn-primary text-white mb-2">
+                    <button class="btn btn-sm btn-primary text-white mb-2">
                         <RouterLink to="/dashboard-teacher/edit/">
                             <CogIcon class="w-5 h-5 inline-block" /> Modificar Perfil
                         </RouterLink>
-                    </a>
+                    </button>
                 </div>
             </div>
             <div role="tablist" class="tabs tabs-lifted mt-4">
