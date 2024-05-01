@@ -383,11 +383,11 @@ class Command(BaseCommand):
         teachers = CustomUserModel.objects.filter(role='PROFESOR')
         for teacher in teachers:
             teacher.level_education = random.choice(
-                ['DOCTORADO', 'SUPERIOR', 'MASTER', 'POSTGRADO', 'SUPERIOR']
+                ['DOCTOR', 'SUPERIOR', 'MASTER', 'POSTGRADO', 'SUPERIOR']
             )
             teacher.save()
 
-        students = CustomUserModel.objects.filter(have_disability=True)
+        students = CustomUserModel.objects.filter(have_disability=True) 
 
         for student in students:
             student.disability_type = random.choice(

@@ -243,17 +243,17 @@ urlpatterns = [
     ),
     # referencias personales
     path(
-        "personal-references/add/",
+        "personal-reference/add/",
         CreatePersonalRefAPIView.as_view(),
         name="api-add-personal-reference",
     ),
     path(
-        "personal-references/delete/<int:pk>/",
+        "personal-reference/delete/<int:pk>/",
         DeletePersonalRefAPIView.as_view(),
         name="api-delete-personal-reference",
     ),
     path(
-        "personal-references/update/<int:pk>/",
+        "personal-reference/update/<int:pk>/",
         UpdatePersonalRefAPIView.as_view(),
         name="api-update-personal-reference",
     ),
