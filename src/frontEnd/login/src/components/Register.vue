@@ -4,7 +4,7 @@ import { reactive, ref, defineEmits, computed } from 'vue';
 import  formRegistroEstudiante from '@/assets/img/formRegistroEstudiante.jpg';
 import  formRegistroProfesor from '@/assets/img/formRegistroProfesor.jpg';
 import  formRegistroColegio from '@/assets/img/formRegistroColegio.jpg';
-import serverConfigData from '@/conf';
+import serverConfigData from '@/config.js';
 
 const emits = defineEmits(['changeForm']);
 const message = ref('');

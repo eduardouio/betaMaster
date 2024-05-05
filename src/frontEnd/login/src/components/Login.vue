@@ -1,12 +1,21 @@
 <script setup>
-import { defineEmits } from 'vue';
+import { reactive, defineEmits } from 'vue';
 import logo from '@/assets/img/logo.jpg';
+import serverConfigData from '@/config.js';
 
 const emits = defineEmits(['changeForm']);
-
+const user =  reactive({
+  email: '',
+  password: ''
+})
 const changeForm = function(){
     emits('changeForm');
 }
+
+const login = function(){
+  console.log(user);
+};
+
 </script>
 <template>
     <div class="bg-white sm:bg-gray-200 min-h-screen w-screen flex flex-col justify-center items-center">
@@ -18,7 +27,6 @@ const changeForm = function(){
         <div
             class="w-full bg-gray-200 my-3" style="height: 1px"
         ></div>
-        <form method="post">
           <div class="flex flex-col gap-4 px-0 py-4">
             <div>
               <label class="text-gray-700">Correo Electrónico</label>
@@ -30,6 +38,7 @@ const changeForm = function(){
                 class="py-2 pl-10 border border-gray-200 w-full"
                 placeholder="Correo Electrónico"
                 type="email"
+                v-model="user.email"
               />
             </div>
             <div>
@@ -42,6 +51,7 @@ const changeForm = function(){
                 class="py-2 pl-10 border border-gray-200 w-full"
                 placeholder="Contraseña "
                 type="password"
+                v-model="user.password"
               />
             </div>
             <div class="w-full flex flex-row gap-2">
@@ -86,7 +96,6 @@ const changeForm = function(){
               <a href="#">Forgot password</a>
             </div> -->
           </div>
-        </form>
       </div>
       <div class="p-4">© ACCADEMYLEARNINGROUP 2024</div>
     </div>
