@@ -6,7 +6,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.enums import ChoicesMeta
 from accounts.managers import CustomUserManager
 
 '''
@@ -19,12 +18,11 @@ from accounts.managers import CustomUserManager
 '''
 
 ROLES = (
-    ('ADMINISTRADOR', 'ADMINISTRADOR'),
-    ('INVITADO', 'INVITADO'),
-    ('ESTUDUANTE', 'ESTUDIANTE'),
-    ('PROFESOR', 'PROFESOR'),
-    ('COORDINADOR', 'COORDINADOR'),
-    ('COLEGIO', 'ESCUELA'),
+    ('administrador', 'administrador'),
+    ('estudiante', 'estudiante'),
+    ('profesor', 'profesor'),
+    ('coordinador', 'coordinador'),
+    ('colegio', 'escuela'),
 )
 
 SEX = (
