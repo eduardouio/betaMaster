@@ -18,7 +18,9 @@ const serverConfigData = {
     'urls': {
         baseUrl : baseUrl,
         url_media : baseUrl + '/media/',
-        loginRedirect : baseUrl + '/dashboard/',
+        loginRedirect : baseUrl + '/accounts/home/', // POST
+        loginUser : baseUrl + '/accounts/login/', // POST
+        logoutUser : baseUrl + '/accounts/logout/', // GET
         registerUser : baseUrl + '/api/user/add/', // POST
     }
 }
