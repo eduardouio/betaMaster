@@ -56,6 +56,7 @@ function registerUser(){
 
 // Enviamos lo datos al server
 async function sendData(){
+   
     try{
       let response = await fetch(serverConfigData.urls.registerUser, {
          method: 'POST',
@@ -68,7 +69,7 @@ async function sendData(){
         type_message.value='success';
         setTimeout(()=>{
             window.location.href = serverConfigData.urls.login;
-        }, 2000)
+        }, 100)
       }else{
          const error_message = Object.keys(data).map(key => data[key][0]);
          console.log(error_message);

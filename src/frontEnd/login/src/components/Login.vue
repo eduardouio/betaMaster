@@ -1,10 +1,11 @@
 <script setup>
-import { reactive, defineEmits } from 'vue';
+import { TrackOpTypes, defineEmits, ref } from 'vue';
 import logo from '@/assets/img/logo.jpg';
 import serverConfigData from '@/config.js';
 
+const message = ref('');
 const emits = defineEmits(['changeForm']);
-const user =  reactive({
+const user =  ref({
   email: '',
   password: ''
 })
@@ -13,7 +14,29 @@ const changeForm = function(){
 }
 
 const login = function(){
-  console.log(user);
+  try {
+    fetch(serverConfigData.urls.APILogin, {
+      method: 'POST',
+      headers: serverConfigData.headers,
+      body: JSON.stringify(user.value)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.status === 'success'){
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = '/dashboard';
+      }else{
+        message.value = data.message;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  
 };
 
 </script>
@@ -21,6 +44,9 @@ const login = function(){
     <div class="bg-white sm:bg-gray-200 min-h-screen w-screen flex flex-col justify-center items-center">
       <div class="bg-white shadow-none sm:shadow-lg px-8 sm:px-12 w-full xs:w-full sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-2/6 h-screen sm:h-auto py-8 rounded-xl">
           <img :src="logo" class="cover border-b-2 border-cyan-700"/>
+          <div class="text-orange-600" v-if="message">
+            {{ message }}
+          </div>
         <div class="text-center w-full font-bold text-3xl text-gray-600 p-4">
           INICIO DE SESION
         </div>
@@ -58,6 +84,7 @@ const login = function(){
               <button
                 class="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-0 flex flex-row justify-center items-center gap-1"
                 type="submit"
+                @click="login"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />

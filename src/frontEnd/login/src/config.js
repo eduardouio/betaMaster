@@ -22,6 +22,9 @@ const serverConfigData = {
         loginUser : baseUrl + '/accounts/login/', // POST
         logoutUser : baseUrl + '/accounts/logout/', // GET
         registerUser : baseUrl + '/api/user/add/', // POST
+        login: baseUrl + '/accounts/login/', // POST
+        APILogin : baseUrl + '/api/accounts/login/', // POST
+        homeRedirector: baseUrl + '/accounts/home-redirector/', // GET
     }
 }
 
