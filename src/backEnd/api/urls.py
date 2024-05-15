@@ -52,6 +52,8 @@ from api.GenericsViews import (
 from api.GenericsViews import UploadCVFileView
 from api.GenericsViews import UploadPictureFileAPIView
 
+from api.accounts import LoginAPIView
+
 from django.urls import path
 
 app_name = "api"
@@ -256,5 +258,11 @@ urlpatterns = [
         "personal-reference/update/<int:pk>/",
         UpdatePersonalRefAPIView.as_view(),
         name="api-update-personal-reference",
+    ),
+    # login
+    path(
+        "accounts/login/",
+        LoginAPIView.as_view(),
+        name="api-login",
     ),
 ]
