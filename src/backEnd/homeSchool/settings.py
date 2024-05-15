@@ -84,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'homeSchool.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -153,6 +152,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Modelo de usuario Peronalizado
 AUTH_USER_MODEL = 'accounts.CustomUserModel'
+AUTHENTICATION_BACKENDS = [
+    'common.EmailBackEndAuth.EmailBackEndAuth'
+]
+
+
 LOGIN_URL = '/accounts/login/'
 
 
