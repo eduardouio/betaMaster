@@ -21,7 +21,7 @@ const login = function(){
       body: JSON.stringify(user.value)
     })
     .then(response => response.json())
-    .then(data => {
+    .then(data => {0
       if(data.status === 'success'){
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
