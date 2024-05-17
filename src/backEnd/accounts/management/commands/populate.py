@@ -143,7 +143,13 @@ class Command(BaseCommand):
                 nationality=random.choice(
                     ['ECUATORIANO', 'COLOMBIANO', 'ECUATORIANO', 'PERUANO']
                 ),
-                is_aproved=random.choice([True, False, True]),
+                is_aproved=random.choice([
+                    'APROBADO',
+                    'RECHAZADO',
+                    'PENDIENTE',
+                    'APROBADO',
+                    'APROBADO'
+                ]),
                 have_disability=random.choice([False, False, True, False]),
                 is_confirmed_mail=random.choice([True, False]),
                 state=my_state,
