@@ -17,7 +17,7 @@ const new_user = reactive({
     firstName: '',
     lastName: '',
     email: '',
-    role: 'estudiante',
+    role: 'ESTUDIANTE',
     password: '',
     verify_password: ''
 });
@@ -30,13 +30,13 @@ const passwordMatch = computed(()=>{
 });
 
 const setPicture = computed(()=>{
-    if (new_user.role === 'teacher'){
+    if (new_user.role === 'PROFESOR'){
         return formRegistroProfesor;
     }
-    if (new_user.role === 'student'){
+    if (new_user.role === 'ESTUDIANTE'){
         return formRegistroEstudiante;
     }
-    if (new_user.role === 'school'){
+    if (new_user.role === 'COLEGIO'){
         return formRegistroColegio;
     }
     return formRegistroEstudiante;
@@ -51,12 +51,10 @@ function registerUser(){
         }
     }
     if (isValid){sendData();}
-
 }
 
 // Enviamos lo datos al server
 async function sendData(){
-   
     try{
       let response = await fetch(serverConfigData.urls.registerUser, {
          method: 'POST',
@@ -66,19 +64,16 @@ async function sendData(){
       const data = await response.json();
       if (await response.status == 201){
         message.value = 'Registro exitoso, redireccionando...';
-        type_message.value='success';
         setTimeout(()=>{
             window.location.href = serverConfigData.urls.login;
         }, 100)
       }else{
          const error_message = Object.keys(data).map(key => data[key][0]);
-         console.log(error_message);
-         console.log(data);
          message.value = error_message.join(' ');
-         type_message.value='error';
       }
       
-   }catch(error){
+}catch(error){
+      alert('Error al enviar los datos al servidor, por favor intente de nuevo');
       console.dir(error);
    } 
 }
@@ -148,9 +143,9 @@ async function sendData(){
                             </svg>
                             <select class="py-2 pl-10 border border-gray-200 w-full" v-model="new_user.role">
                                <option disabled selected>Quiero registrarme como...</option>
-                               <option value="profesor">Profesor</option>
-                               <option value="estudiante">Estudiante</option>
-                               <option value="colegio">Colegio</option>
+                               <option value="PROFESOR">Profesor</option>
+                               <option value="ESTUDIANTE">Estudiante</option>
+                               <option value="COLEGIO">Colegio</option>
                             </select>
                          </div>
                       </div>

@@ -18,11 +18,11 @@ from accounts.managers import CustomUserManager
 '''
 
 ROLES = (
-    ('administrador', 'administrador'),
-    ('estudiante', 'estudiante'),
-    ('profesor', 'profesor'),
-    ('coordinador', 'coordinador'),
-    ('colegio', 'escuela'),
+    ('ADMINISTRADOR', 'ADMINISTRADOR'),
+    ('ESTUDIANTE', 'ESTUDIANTE'),
+    ('PROFESOR', 'PROFESOR'),
+    ('COORDINADOR', 'COORDINADOR'),
+    ('COLEGIO', 'ESCUELA'),
 )
 
 SEX = (
@@ -42,7 +42,7 @@ CIVIL_STATUS = (
 
 STATUS_APPROVED = (
     ('APROVADO', 'APROBADO'),
-    ('NO_APROBADO', 'NO APROBADO'),
+    ('NO_APROBADO', 'NO_APROBADO'),
     ('PENDIENTE', 'PENDIENTE'),
 )
 
@@ -195,7 +195,7 @@ class CustomUserModel(AbstractUser):
         'estado de aprobación',
         max_length=40,
         choices=STATUS_APPROVED,
-        default='pending',
+        default='PENDIENTE',
         help_text='Estado de aprobación del usuario.'
     )
     is_confirmed_mail = models.BooleanField(
@@ -298,7 +298,7 @@ class CustomUserModel(AbstractUser):
     )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS  = []
+    REQUIRED_FIELDS = []
     objects = CustomUserManager()
 
 # reemplazo y homescholing LAS DOS SI
