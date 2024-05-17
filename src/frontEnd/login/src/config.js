@@ -20,7 +20,6 @@ const serverConfigData = {
         url_media : baseUrl + '/media/',
         loginRedirect : baseUrl + '/accounts/home/', // POST
         loginUser : baseUrl + '/accounts/login/', // POST
-        logoutUser : baseUrl + '/accounts/logout/', // GET
         registerUser : baseUrl + '/api/user/add/', // POST
         login: baseUrl + '/accounts/login/', // POST
         APILogin : baseUrl + '/api/accounts/login/', // POST
