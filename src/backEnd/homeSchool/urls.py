@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.contrib.staticfiles.urls import static
+from accounts.views import HomeRV
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = True
@@ -26,6 +27,7 @@ admin.site.site_header = ''
 admin.site.site_description = 'Sistema de Escuela En Casa'
 
 urlpatterns = [
+    path('', HomeRV.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls', namespace='api')),
     path('accounts/', include('accounts.urls', namespace='accounts')),

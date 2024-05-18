@@ -1,6 +1,6 @@
 <script setup>
 
-import { reactive, ref, defineEmits, computed } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import  formRegistroEstudiante from '@/assets/img/formRegistroEstudiante.jpg';
 import  formRegistroProfesor from '@/assets/img/formRegistroProfesor.jpg';
 import  formRegistroColegio from '@/assets/img/formRegistroColegio.jpg';
@@ -66,7 +66,7 @@ async function sendData(){
         message.value = 'Registro exitoso, redireccionando...';
         setTimeout(()=>{
             window.location.href = serverConfigData.urls.login;
-        }, 100)
+        }, 3000)
       }else{
          const error_message = Object.keys(data).map(key => data[key][0]);
          message.value = error_message.join(' ');
