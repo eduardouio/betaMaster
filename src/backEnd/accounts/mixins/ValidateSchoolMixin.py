@@ -9,7 +9,7 @@ class ValidateSchoolMixin(LoginRequiredMixin):
         if request.user.is_anonymous:
             return redirect(reverse_lazy('accounts:login'))
 
-        if not request.user.role != 'school':
+        if not request.user.role != 'COLEGIO':
             return redirect(reverse_lazy('accounts:login'))
 
         return super().dispatch(request, *args, **kwargs)
