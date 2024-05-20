@@ -104,7 +104,7 @@ const timeLapsed = ((my_date, years = true) => {
                     <p class="text-gray-700 text-md text-center" v-html="userData.presentation"></p>
                     <br />
                     <button class="btn btn-sm btn-primary text-white mb-2">
-                        <RouterLink to="/dashboard-teacher/edit/">
+                        <RouterLink to="/edit">
                             <CogIcon class="w-5 h-5 inline-block" /> Modificar Perfil
                         </RouterLink>
                     </button>
