@@ -24,10 +24,6 @@ import MapSelector from '@/components/dashboard/MapSelector.vue';
 import ProfilePicMen from '@/assets/profile-pic-men.png';
 import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 
-onMounted(() => {
-  loadStates();
-});
-
 const showMapSelector = ref(false);
 const toastMessage = ref({
   showToast: false,
@@ -35,7 +31,7 @@ const toastMessage = ref({
 });
 const store = useStore();
 const showError = ref(false);
-let states = ref([]);
+let states = ref();
 let cities = ref([]);
 let parroquias = ref([]);
 let showPresentation = ref(true);
@@ -59,27 +55,24 @@ const profilePic = computed(() => {
 
 const urlCV = computed(() => store.getters.getCV);
 
-const loadStates = function (state=null, city=null, parroquia=null) {
-  states.value = Object.values(provincias).map(item => item.provincia);
-  if (!state){
+const loadStates = function (state=null, city=null){
+  cities.value = [];
+  parroquias.value = [];
+  if (state){
     cities.value = Object.values(
     Object.values(provincias).filter(
       item => item.provincia === userData.state)[0].cantones
     ).map(item => item.canton);
-  }else{
-    cities.value = Object.values(
-    Object.values(provincias).filter(
-      item => item.provincia === state)[0].cantones
-    ).map(item => item.canton);
-
   }
-  
-  parroquias.value = Object.values(
-    Object.values(
-      Object.values(provincias).filter(
-        item => item.provincia === userData.state)[0].cantones
-    ).map(item => item).filter(
-      item => item.canton === userData.city)[0].parroquias);
+
+  if(city){
+    parroquias.value = Object.values(
+      Object.values(
+        Object.values(provincias).filter(
+          item => item.provincia === userData.state)[0].cantones
+      ).map(item => item).filter(
+        item => item.canton === userData.city)[0].parroquias);
+  }
 };
 
 async function updateProfile() {
@@ -89,7 +82,6 @@ async function updateProfile() {
     userData.presentation = userPresentation;
   }
   const response = await store.dispatch('updateProfile', userData);
-  store.commit('setStatusResponse', await response);
   if (await response.status.is_success) {
     showToast('success');
   } else {
@@ -187,6 +179,18 @@ const handelModalPassword = function(){
 const handelModalPicture = function(){
   showPictureModal.value = !showPictureModal.value;
 };
+
+onMounted(() => {
+  states.value = Object.values(provincias).map(item => item.provincia);
+  if (userData.city){
+    cities.value.push(userData.city);
+    loadStates(userData.state, userData.city);
+  }
+  if (userData.parroquia){
+    loadStates(userData.state, userData.city);
+    parroquias.value.push(userData.parroquia);
+  }
+});
 </script>
 <template>
   <div>
