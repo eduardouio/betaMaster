@@ -139,7 +139,7 @@ class Command(BaseCommand):
                 url_facebook=random.choice([fake.url(), '']),
                 url_twiter=random.choice([fake.url(), '']),
                 url_linkedin=random.choice([fake.url(), '']),
-                sex=random.choice(['HOMBRE', 'MUJER', 'OTRO']),
+                sex=random.choice(['MASCULINO', 'FENEMINO', 'OTRO']),
                 nationality=random.choice(
                     ['ECUATORIANO', 'COLOMBIANO', 'ECUATORIANO', 'PERUANO']
                 ),
