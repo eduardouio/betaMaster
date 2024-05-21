@@ -82,6 +82,8 @@ class CustomUserModelAdmin(UserAdmin):
         'is_aproved',
         'is_confirmed_mail',
     )
+    
+    search_fields = ('email', 'first_name', 'last_name', 'dni_number')
 
     ordering = ('-date_joined',)
 
