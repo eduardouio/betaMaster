@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.contrib.staticfiles.urls import static
-from accounts.views import HomeRV
+from common.views.HomeRV import HomeRV
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = True
