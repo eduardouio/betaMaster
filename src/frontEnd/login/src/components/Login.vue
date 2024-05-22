@@ -25,7 +25,7 @@ const login = function(){
       if(data.status === 'success'){
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = '/dashboard';
+        window.location.href = '/home-rv/';
       }else{
         message.value = data.message;
       }
