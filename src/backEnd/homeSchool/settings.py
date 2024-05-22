@@ -156,9 +156,7 @@ AUTHENTICATION_BACKENDS = [
     'common.EmailBackEndAuth.EmailBackEndAuth'
 ]
 
-
-LOGIN_URL = '/accounts/login/'
-
+LOGIN = '/accounts/login/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

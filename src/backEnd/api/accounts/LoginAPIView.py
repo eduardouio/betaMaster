@@ -12,11 +12,14 @@ class LoginAPIView(APIView):
 
         if user is not None:
             login(request, user)
-            return Response({'message': 'Usuario autenticado'}, status=200)
+            return Response(
+                {'message': 'Usuario autenticado',  'status': 'success'},
+                status=200
+            )
 
         return Response(
             {
-                'message': 
+                'message':
                 'Usuario no existe, intente registrase o verifque el correo'
             }, status=401
         )

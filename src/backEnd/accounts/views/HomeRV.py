@@ -6,8 +6,11 @@ class HomeRV(LoginRequiredMixin, RedirectView):
     login_url = '/accounts/login/'
     url = '/admin/'
 
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        import ipdb; ipdb.set_trace()
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
+    def get_redirect_url(self, *args, **kwargs):
+        user = self.request.user
+        pages = {
+            'PROFESOR': '/dashboard-profesor/',
+            'ESTUDIANTE': '/dashboard-estudiante/',
+            'COLEGIO': '/dashboard-colegio/',
+        }
+        return pages[user.role]

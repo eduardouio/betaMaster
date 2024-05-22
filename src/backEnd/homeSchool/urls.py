@@ -27,6 +27,7 @@ admin.site.site_header = ''
 admin.site.site_description = 'Sistema de Escuela En Casa'
 
 urlpatterns = [
+    path('home-rv/', HomeRV.as_view(), name='home'),
     path('', HomeRV.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls', namespace='api')),
