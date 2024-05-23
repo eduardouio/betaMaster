@@ -1,4 +1,4 @@
-3<script setup>
+<script setup>
 import 
     { AcademicCapIcon, BuildingLibraryIcon, HomeIcon, UserIcon } 
 from '@heroicons/vue/24/outline';

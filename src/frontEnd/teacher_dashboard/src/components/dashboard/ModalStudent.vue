@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import LoaderVue from '@/components/generics/Loader.vue';
 import { MapPinIcon, XCircleIcon } from '@heroicons/vue/24/outline';

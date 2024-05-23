@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted } from 'vue';
 import Quill from 'quill';
-import { QueueListIcon } from '@heroicons/vue/24/outline';
 
 let quill = null;
 const props = defineProps({
