@@ -1,13 +1,10 @@
 <script setup>
-import {ref, onMounted, computed} from 'vue';
-import { useStore } from 'vuex';
+import { ref, onMounted } from 'vue';
 import { XCircleIcon } from '@heroicons/vue/24/outline';
 import "leaflet/dist/leaflet.css";
-import * as L from 'leaflet';
+import { map, tileLayer, marker } from 'leaflet';
 import LoaderVue from '@/components/generics/Loader.vue';
 
-
-const store = useStore();
 const emits = defineEmits(['emitCloseModal', 'emitCoordinates']);
 const isLoading = ref(true);
 
@@ -23,7 +20,6 @@ const emitCoordinates = (coordinates) => {
 onMounted(()=>{
     getGeoLocation();
 });
-
 
 const getGeoLocation = function () {
     if (navigator.geolocation) {
@@ -46,16 +42,16 @@ const drawMAp = function(position, automate = true){
     
     document.getElementById('mapContainer').innerHTML = `<div id="mymap" class="h-full w-full border border-blue-400"></div>`;
     emitCoordinates(coordinates);
-    var map = L.map('mymap').setView(coordinates, 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var mymap = map('mymap').setView(coordinates, 14);
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-    }).addTo(map);
+    }).addTo(mymap);
     if (automate){
-        var marker = L.marker(coordinates).addTo(map);
+        var mymarker = marker(coordinates).addTo(mymap);
     }else{
-      var marker = L.marker(position).addTo(map);
+      var mymarker = marker(position).addTo(mymap);
     }
-    map.on('click', onMapClick);
+    mymap.on('click', onMapClick);
 
 };
 

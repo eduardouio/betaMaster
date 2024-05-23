@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import "leaflet/dist/leaflet.css";
-import * as L from 'leaflet';
+import { map, tileLayer, marker } from 'leaflet';
 
 const props = defineProps({
     locations: {
@@ -14,11 +14,11 @@ const coordinates = ref(null);
 
 onMounted(()=> {
     coordinates.value = props.locations.split(',').map(Number);
-    var map = L.map('mymap').setView(coordinates.value, 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var mymap = map('mymap').setView(coordinates.value, 15);
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-    }).addTo(map);
-    var marker = L.marker(coordinates.value).addTo(map);
+    }).addTo(mymap);
+    var mymarker = marker(coordinates.value).addTo(mymap);
 });
 </script>
 <template>
