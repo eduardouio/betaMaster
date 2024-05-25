@@ -1,4 +1,3 @@
-from django.contrib.auth import authenticate
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect

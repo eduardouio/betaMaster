@@ -4,7 +4,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class HomeRV(LoginRequiredMixin, RedirectView):
     login_url = '/accounts/login/'
-    url = '/admin/'
 
     def get_redirect_url(self, *args, **kwargs):
         user = self.request.user
