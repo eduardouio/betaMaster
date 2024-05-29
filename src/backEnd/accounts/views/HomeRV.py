@@ -2,6 +2,7 @@ from django.views.generic import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+# /home-rv/
 class HomeRV(LoginRequiredMixin, RedirectView):
     login_url = '/accounts/login/'
 
@@ -11,5 +12,6 @@ class HomeRV(LoginRequiredMixin, RedirectView):
             'PROFESOR': '/dashboard-profesor/',
             'ESTUDIANTE': '/dashboard-estudiante/',
             'COLEGIO': '/dashboard-colegio/',
+            'guest': '/accounts/logout/'
         }
         return pages[user.role]
