@@ -163,7 +163,6 @@ class UserSerializerPrivate(serializers.ModelSerializer):
             'password',
             'is_staff',
             'is_superuser',
-            'is_aproved',
             'picture',
             'cv',
             'user_permissions',
