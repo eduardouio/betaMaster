@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import DashBoardTeacher from '@/views/DashBoardTeacher.vue';
+import DashBoardTeacher from '@/views/DashboardTeacher.vue';
 import HomeDashboard from '@/components/dashboard/sections/HomeDashboard.vue';
 import SchoolsList from '@/components/dashboard/sections/SchoolsList.vue';
 import StudentsList from '@/components/dashboard/sections/StudentsList.vue';
@@ -8,7 +8,7 @@ import TeacherProfileForm from '@/components/dashboard/sections/TeacherProfileFo
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('/dashboard-profesor/'),
   routes: [
     {
       path: '/',
@@ -38,5 +38,13 @@ const router = createRouter({
     }
   ]
 })
+
+console.log('my error -> router/index.js');
+console.dir(router);
+router.beforeEach((to, from, next) => {
+  console.log('Navigating to:', to.fullPath);
+  next();
+});
+
 
 export default router

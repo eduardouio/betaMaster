@@ -6,7 +6,8 @@ import profile from "@/store/modules/profile.js";
 import scholls from "@/store/modules/schools.js";
 import courses from "@/store/modules/courses.js";
 
-export default createStore({
+
+const store =  createStore({
   state: {
     isLoading: true,
     stagesLoaded: 0,
@@ -47,3 +48,5 @@ export default createStore({
     courses,
   },
 });
+
+export default store;

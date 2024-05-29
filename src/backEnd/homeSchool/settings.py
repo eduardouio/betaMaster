@@ -16,9 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'src/backEnd/static'),
-]
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -69,7 +67,8 @@ ROOT_URLCONF = 'homeSchool.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.join.path(BASE_DIR, 'templates/')],
+        # 'DIRS': [os.join.path(BASE_DIR, 'templates/')],
+        'DIRS': ['templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +78,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'homeSchool.wsgi.application'
@@ -123,8 +122,9 @@ TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_L10N = True
 
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -134,12 +134,15 @@ STATICFILES_DIRS = [
     os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2]+['static']),
 ]
 
-STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.sep.join(os.path.abspath(
     __file__).split(os.sep)[:-2]+['media'])
 
-MEDIA_URL = '/media/'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.sep.join(os.path.abspath(
+    __file__).split(os.sep)[:-2]+['static_django'])
 
 STATIC_ROOT = os.sep.join(os.path.abspath(
     __file__).split(os.sep)[:-2]+['static_django'])
@@ -179,3 +182,18 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'admin@academylearningroup.com'
 EMAIL_HOST_PASSWORD = '8BUzUanGA2AK3XL'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
