@@ -20,7 +20,7 @@ const profile = store.getters.getProfile;
                     </div>
                     <ul class="flex items-center">
                         <li>
-                            <a href="/accounts/logout/" class="flex items-center mr-4 hover:text-blue-800">
+                            <a href="#" class="flex items-center mr-4 hover:text-blue-800">
                                 <span class="inline-flex mr-1">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
