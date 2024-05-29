@@ -23,10 +23,16 @@ const colorsStatus = {
 }
 
 const userData =  computed( () => store.getters.getProfile); 
+const activeCourses = computed( () => {
+    return store.getters.getCourses.filter( course => course.status === 'ACTIVO');
+});
 
 </script>
 <template>
     <div class="bg-gray-100">
+        <pre>
+            {{courses}}
+        </pre>
         <div class="container mx-auto my-5 p-5">
             <div class="md:flex no-wrap md:-mx-2 ">
                 <!-- Left Side -->

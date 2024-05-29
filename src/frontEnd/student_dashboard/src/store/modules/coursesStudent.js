@@ -14,6 +14,8 @@ const module = {
     actions:{
         async fetchCourses({ commit, state, rootState }){
             let url = serverConfigData.urls.studentData;
+            console.log('Error');
+            console.log(url);
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
                 commit('setCourses', response.response);
