@@ -13,22 +13,15 @@ const module = {
     },
     actions:{
         async fetchCourses({ commit, state, rootState }){
-            let url = serverConfigData.urls.coursesByUser;
+            let url = serverConfigData.urls.studentData;
             let response = await serverInteractions.getData(url);
             if (response.status.is_success) {
-                console.log('fecthCourses');
                 commit('setCourses', response.response);
                 rootState.stagesLoaded = rootState.stagesLoaded + 1;
             } else {
                 alert('Error en el servidor');
             }
         },
-        async updateCourse({ commit, state, rootState }, userData) {
-        },
-        async deleteCourse({ commit, state, rootState }, userData) {
-        },
-        async createCourse({ commit, state, rootState }, userData) {
-        }
     },
     getters:{
         getCourses(state, getters, rootState, rootGetters){

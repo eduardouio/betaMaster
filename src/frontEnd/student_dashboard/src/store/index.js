@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
-import profile from "@/store/modules/profile.js";
-import scholls from "@/store/modules/schools.js";
-import courses from "@/store/modules/courses.js";
+import profile from "@/store/modules/profileStudent.js";
+import scholls from "@/store/modules/schoolsStudent.js";
+import courses from "@/store/modules/coursesStudent.js";
 
 
 const store =  createStore({
