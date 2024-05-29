@@ -1,5 +1,9 @@
 from rest_framework.generics import CreateAPIView
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+
 from api.serializers import (
     BankAccountSerializer,
     SchoolSerializer,
@@ -31,9 +35,24 @@ class BaseCreateAPIView(CreateAPIView):
 
 # /api/user/add/ -> api-add-user
 class CreateUserAPIView(CreateAPIView):
-    queryset = CustomUserModel.objects.all()
-    serializer_class = UserSerializer
-    # permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        myUser = CustomUserModel.objects.create_user(
+            email=request.data['email'],
+            first_name=request.data['firstName'],
+            last_name=request.data['lastName'],
+            role=request.data['role'],
+        )
+        myUser.set_password(request.data['password'])
+        myUser.save()
+        return Response(
+            {
+                'id': myUser.pk,
+                'email': myUser.email,
+                'message': 'User created successfully.'
+            }, status=status.HTTP_201_CREATED
+        )
 
 
 # /api/bank-account/add/ -> api-add-bank-account
