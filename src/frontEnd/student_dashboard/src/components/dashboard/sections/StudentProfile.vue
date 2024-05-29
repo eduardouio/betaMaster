@@ -5,7 +5,7 @@ import Loader from '@/components/generics/Loader.vue';
 import { computed, reactive, ref } from 'vue';
 import {
     CheckBadgeIcon, CogIcon, NewspaperIcon, MapPinIcon, FolderArrowDownIcon,
-    XMarkIcon, CheckIcon, PencilSquareIcon
+    XMarkIcon, CheckIcon, PencilSquareIcon, ExclamationTriangleIcon
 } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
 import ProfilePicMen from '@/assets/profile-pic-men.png';
@@ -79,11 +79,11 @@ const timeLapsed = ((my_date, years = true) => {
                     <img :src="profilePic" class="w-40 border-4 border-white rounded-full">
                     <div class="flex items-center space-x-2 mt-2">
 
-                        <div v-if="userData.is_active" class="tooltip" data-tip="Perfil Verificado">
+                        <div v-if="userData.is_aproved === 'APROBADO'">
                             <CheckBadgeIcon class="w-5 h-5 inline-block text-success" title="Perfil verificado" />
                         </div>
-                        <div v-else class="tooltip" data-tip="Perfil Verificado">
-                            <XMarkIcon class="w-5 h-5 inline-block text-success" title="Pendiente de Verificar" />
+                        <div v-else class="tooltip" data-tip="Perfil Por Verificar">
+                            <ExclamationTriangleIcon class="w-5 h-5 inline-block text-red-600" title="Pendiente de Verificar" />
                         </div>
                         <p class="text-2xl">
                             {{ userData.first_name }} {{ userData.last_name }}
@@ -118,28 +118,10 @@ const timeLapsed = ((my_date, years = true) => {
                         <span class="hidden md:block">Datos Personales</span>
 
                     </div>
-                    <span v-else>Datos Personales</span>
-                </a>
-                <a role="tab" class="tab h-10" :class="tabList.references ? 'tab-active text-cyan-600' : ''"
-                    @click="changeTab('references')">
-                    <div v-if="!tabList.references" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
-                        <span class="display md:hidden">RE</span>
-                        <span class="hidden md:block">Referencias/Experiencia</span>
-                    </div>
-                    <span v-else>Referencias/Experiencia</span>
-                </a>
-                <a role="tab" class="tab h-10" :class="tabList.bank_data ? 'tab-active text-cyan-600' : ''"
-                    @click="changeTab('bank_data')">
-                    <div v-if="!tabList.bank_data" class="text-md p-1 bg-gray-200 rounded-t-xl w-full">
-                        <span class="display md:hidden">IB</span>
-                        <span class="hidden md:block">Información Bancaria</span>
-                    </div>
-                    <span v-else>Información Bancaria</span>
                 </a>
             </div>
             <!--tab profile-->
-            <div v-if="tabList.personal_data"
-                class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+            <div  class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div class="w-full flex flex-col 2xl:w-3/5">
                     <div class="flex-1 bg-white rounded-lg shadow-xl p-7">
                         <ul class="text-gray-700">
@@ -256,83 +238,6 @@ const timeLapsed = ((my_date, years = true) => {
                 </div>
             </div>
             <!--/tab profile-->
-            <!--tab references-->
-            <div v-if="tabList.references"
-                class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-                <div class="block w-full overflow-x-auto">
-                    <table class="table border">
-                        <!-- head -->
-                        <thead>
-                            <tr class="bg-gray-100 text-center">
-                                <th>#</th>
-                                <th>Tipo</th>
-                                <th>Empresa</th>
-                                <th>Contacto</th>
-                                <th>Inicio</th>
-                                <th>Fin</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(reference, idx) in personalReferences" :key="reference.id_reference"
-                                class="hover:bg-yellow-50">
-                                <td>{{ idx + 1 }}</td>
-                                <td>{{ reference.type }}</td>
-                                <td>{{ reference.enterprise }}</td>
-                                <td>
-                                    {{ reference.name_contact }}
-                                    <small class="badge bg-cyan-50">{{ reference.relationship }}</small>
-                                </td>
-                                <td>{{ reference.start_date }}</td>
-                                <td>{{ reference.end_date }}</td>
-                                <td class="text-center">
-                                    <CheckIcon v-if="reference.is_verified" class="w-5 h-5 inline-block text-success" />
-                                    <XMarkIcon v-else class="w-5 h-5 inline-block text-error" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--/tab references-->
-            <!--tab bank data-->
-            <div v-if="tabList.bank_data" class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-                <div class="block w-full overflow-x-auto">
-                    <table class="table border">
-                        <!-- head -->
-                        <thead>
-                            <tr class="bg-slate-300 text-center">
-                                <th>#</th>
-                                <th>Banco</th>
-                                <th>Nro de Cuenta</th>
-                                <th>Tipo</th>
-                                <th>Titular</th>
-                                <th>Correo</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(account, idx) in personalBankData" :key="account.id_bank"
-                                class="hover:bg-yellow-50">
-                                <td>{{ idx + 1 }}</td>
-                                <td>{{ account.bank_name }}</td>
-                                <td>{{ account.nro_account }}</td>
-                                <td>{{ account.type_account }}</td>
-                                <td>
-                                    {{ account.owner_name }}
-                                    <small class="badge bg-cyan-50">{{ account.owner_dni }}</small>
-                                </td>
-                                <td>{{ account.email_notify }}</td>
-                                <td class="text-center">
-                                    <CheckIcon v-if="account.is_verified" class="w-5 h-5 inline-block text-success" />
-                                    <XMarkIcon v-else class="w-5 h-5 inline-block text-error" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--/tab bank data-->
         </div>
     </div>
 </template>

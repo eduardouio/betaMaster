@@ -1,5 +1,4 @@
 <script setup>
-import CardIndicator from '@/components/dashboard/CardIndicator.vue';
 import TableStudents from '@/components/dashboard/TableStudents.vue';
 import ModalStudent from '@/components/dashboard/ModalStudent.vue';
 import { ref } from 'vue';
@@ -25,13 +24,6 @@ const closeModal = function() {
 </script>
 <template>
     <div>
-        <div class="grid items-center grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 ">
-            <CardIndicator 
-                v-for="card in cards" 
-                :nameCard="card" 
-                :key="card"
-            />
-        </div>  
         <div class="grid grid-cols-1 p-4 gap-4">
             <TableStudents @handleStudent="handleStudent($event)"/>
         </div>

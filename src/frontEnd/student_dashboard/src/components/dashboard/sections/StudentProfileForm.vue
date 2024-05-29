@@ -203,14 +203,15 @@ onMounted(() => {
               <h2 class="font-semibold text-xl text-gray-700">Actualización de Perfil</h2>
             </div>
             <div class="lg:col-span-2 text-end">
-              <span v-if="userData.is_aproved"
-                class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
-                <ExclamationTriangleIcon class="h-4 w-4 inline-block" />
-                &nbsp;En Revisión
+              <span v-if="userData.is_aproved === 'APROBADO'"
+              class="badge rounded-md p-2 pl-3 pr-3 text-green-800 hover:text-white hover:bg-green-800">
+              <CheckBadgeIcon class="h-4 w-4 inline-block" />
+                &nbsp; {{ userData.is_aproved }}
               </span>
-              <span v-else class="badge rounded-md p-2 pl-3 pr-3 text-green-800 hover:text-white hover:bg-green-800">
-                <CheckBadgeIcon class="h-4 w-4 inline-block" />
-                &nbsp;Verificado
+              <span v-else 
+              class="badge rounded-md p-2 pl-3 pr-3 text-error hover:bg-error hover:text-white">
+              <ExclamationTriangleIcon class="h-4 w-4 inline-block" />
+                &nbsp; {{ userData.is_aproved }}
               </span>
             </div>
           </div>
@@ -390,26 +391,6 @@ onMounted(() => {
                       Obtener Ubicación
                     </span>
                   </div>
-                  <div class="md:col-span-3 md:mt-4 md:border md:rounded-xl">
-                    <label class="label cursor-pointer">
-                      <span class="label-text">¿Hago HomeSchooling?</span>
-                      <input 
-                        type="checkbox"
-                        class="checkbox"
-                        v-model="userData.is_homescholing"
-                        />
-                    </label>
-                  </div>
-                  <div class="md:col-span-3 md:mt-4 md:border md:rounded-xl">
-                    <label class="label cursor-pointer">
-                      <span class="label-text">¿Puedo Reemplazar?</span>
-                      <input 
-                        type="checkbox" 
-                        class="checkbox"
-                        v-model="userData.is_replacement"
-                        />
-                    </label>
-                  </div>
                 </div>
                 <div class="lg:col-span-3 mt-5 p-3">
                   <span class="text-info uppercase">Cuentanos un poco de Ti</span>
@@ -494,87 +475,6 @@ onMounted(() => {
                         placeholder="Su Teléfono" v-model="userData.card_conadis" />
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
-              <div class="text-gray-700 ">
-                <strong class="font-medium text-lg">Experiencia Profesional</strong>
-                <div class="card card-side bg-base-100">
-                </div>
-              </div>
-              <div class="lg:col-span-3">
-                <div class="grid gap-4 gap-y-2 grid-cols-1 md:grid-cols-6">
-                  <div class="md:col-span-3">
-                    <label for="level_education">Nivel de Educación</label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
-                      v-model="userData.level_education">
-                      <option selected>seleccione....</option>
-                      <option value="PRIMARIA">PRIMARIA</option>
-                      <option value="SECUNDARIA">SECUNDARIA</option>
-                      <option value="SUPERIOR">SUPERIOR</option>
-                      <option value="POSTGRADO">POSTGRADO</option>
-                      <option value="MASTER">MASTER</option>
-                      <option value="DOCTOR">DOCTOR</option>
-                      <option value="OTRO">OTRO</option>
-                    </select>
-                  </div>
-                  <div class="md:col-span-3">
-                    <label for="profesion">Profesión</label>
-                    <select class="input input-sm input-secondary focus:input-primary w-full md:h-10"
-                      v-model="userData.profesion">
-                      <option selected>seleccione....</option>
-                      <option value="PROFESOR">PROFESOR</option>
-                      <option value="LICIENCIADO">LICIENCIADO</option>
-                      <option value="TÉCNICO">TÉCNICO</option>
-                      <option value="TECNÓLOGO">TECNÓLOGO</option>
-                      <option value="INGENIERO">INGENIERO</option>
-                      <option value="MEDICO">MEDICO</option>
-                      <option value="ABOGADO">ABOGADO</option>
-                      <option value="ECONOMISTA">ECONOMISTA</option>
-                      <option value="ADMINISTRADOR">ADMINISTRADOR</option>
-                      <option value="OTRO">OTRO</option>
-                    </select>
-                  </div>
-                  <div class="md:col-span-6">
-                    <section class="flex flex-col items-start">
-                    <span>Hoja de Vida:</span>
-                    <div class="flex gap-4">
-                      <a class="badge"
-                        :class="urlCV ? 'text-green-600' : 'text-red-500'"
-                        :href="urlCV ? urlCV : '#'">
-                        {{ urlCV ? 'Descargar' : 'No hay Archivo'}}
-                      </a>
-                      <CheckIcon v-if="userData.cv" class="w-5 h-5 text-green-600"></CheckIcon>
-                      <span v-if="userData.cv" class="text-green-600">Archivo cargado</span>
-                    </div>
-                    <input  
-                    @change="handleFileUpload"
-                    type="file"
-                    accept="application/pdf"
-                    class="input input-sm input-bordered input-secondary focus:input-primary w-full"
-                    placeholder="Archivo PDF" />
-                  </section>
-                  </div>
-                  <div class="md:col-span-6 pt-2 bg-gray-50 p-4 border rounded-md">
-                    <Skills
-                      :skills="userData.disipline"
-                      @handleUpdateSkills="handleUpdateSkills($event)"
-                    >
-                  </Skills>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="grid gap-y-1 text-sm grid-cols-1 lg:grid-cols-4 pt-10 border-t border-zinc-300 mt-8">
-              <div class="text-gray-700 ">
-                <strong class="font-medium text-lg">Referencias Personales</strong>
-                <div class="card card-side bg-base-100">
-                </div>
-              </div>
-              <div class="lg:col-span-3">
-                <div class="grid gap-4 gap-y-2 grid-cols-1">
-                  <PersonalReferences/>
                 </div>
               </div>
             </div>

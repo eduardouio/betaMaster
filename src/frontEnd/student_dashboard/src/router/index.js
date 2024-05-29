@@ -1,18 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import DashBoardTeacher from '@/views/DashboardTeacher.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Dashboard from '@/views/Dashboard.vue';
 import HomeDashboard from '@/components/dashboard/sections/HomeDashboard.vue';
 import SchoolsList from '@/components/dashboard/sections/SchoolsList.vue';
 import StudentsList from '@/components/dashboard/sections/StudentsList.vue';
-import TeacherProfile from '@/components/dashboard/sections/TeacherProfile.vue';
-import TeacherProfileForm from '@/components/dashboard/sections/TeacherProfileForm.vue';
+import StudentProfile from '@/components/dashboard/sections/StudentProfile.vue';
+import StudentProfileForm from '@/components/dashboard/sections/StudentProfileForm.vue';
 
 
 const router = createRouter({
-  history: createWebHistory('/dashboard-profesor/'),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
-      component: DashBoardTeacher,
+      component: Dashboard,
       children:[
         {
           path: '',
@@ -28,23 +28,15 @@ const router = createRouter({
         },
         {
           path: 'profile/',
-          component: TeacherProfile,
+          component: StudentProfile,
         },
         {
           path: 'edit/',
-          component: TeacherProfileForm,
+          component: StudentProfileForm,
         },
       ],
     }
   ]
 })
-
-console.log('my error -> router/index.js');
-console.dir(router);
-router.beforeEach((to, from, next) => {
-  console.log('Navigating to:', to.fullPath);
-  next();
-});
-
 
 export default router
