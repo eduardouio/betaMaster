@@ -11,7 +11,7 @@ class HomeRV(LoginRequiredMixin, RedirectView):
         pages = {
             'PROFESOR': '/dashboard-profesor/',
             'ESTUDIANTE': '/dashboard-estudiante/',
-            'COLEGIO': '/dashboard-colegio/',
+            'COLEGIO': '/accounts/logout',
             'guest': '/accounts/logout/'
         }
         return pages[user.role]
