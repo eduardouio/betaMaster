@@ -1,9 +1,9 @@
 // archivos  de configuracion del frontEnd
 
-const csrfToken = 'kjhgfdertyukmnbv';
+const csrfToken = 'csrfTokenAqui';
 const baseUrl = 'http://localhost:8000';
-//usuario profesor
-const idUser = 447;
+//usuario estudiante
+const idUser = 441;
 
 const serverConfigData = {
     'csrfToken': csrfToken,
@@ -44,9 +44,6 @@ const serverConfigData = {
         updatePaymentSubscription : baseUrl + '/api/payment-subscription/update/{idPaymentSubscription}/', // PUT
         getPaymentSubscription : baseUrl + '/api/payment-subscription/{idPaymentSubscription}/', // GET
         // escuelas
-        addSchool : baseUrl + '/api/school/add/', // POST
-        updateSchool : baseUrl + '/api/school/update/{idSchool}/', // PUT
-        deleteSchool : baseUrl + '/api/school/delete/{idSchool}/', // DELETE
         getSchool : baseUrl + '/api/school/{idSchool}/', // GET
         getSchools : baseUrl + '/api/schools/', // GET
         // planes de estudio
