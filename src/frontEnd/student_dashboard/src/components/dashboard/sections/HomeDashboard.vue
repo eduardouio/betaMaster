@@ -2,7 +2,12 @@
 import TableStudents from '@/components/dashboard/TableStudents.vue';
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import { UserCircleIcon, AcademicCapIcon, UserIcon } from "@heroicons/vue/24/outline";
+import { 
+    UserCircleIcon, AcademicCapIcon, UserIcon
+}      
+from "@heroicons/vue/24/outline";
+import picMen from '@/assets/profile-pic-men.png';
+import picWomen from '@/assets/profile-pic-woman.png';
 
 
 const store = useStore();
@@ -23,8 +28,22 @@ const colorsStatus = {
 }
 
 const userData =  computed( () => store.getters.getProfile); 
+
+// listado de cursos activos
 const activeCourses = computed( () => {
-    return store.getters.getCourses.filter( course => course.status === 'ACTIVO');
+    return store.getters.getCourses;
+});
+
+// imagen de perfirl seguún el sexo
+const profilePic = computed( () => {
+    if (store.getters.getPicture){
+        return store.getters.getPicture;
+    }
+
+    if (userData.sex === 'FEMENINO'){
+        return picWomen;
+    }
+    return picMen;
 });
 
 </script>
@@ -52,7 +71,7 @@ const activeCourses = computed( () => {
                     <div class="bg-white p-3 border-t-4 border-green-400">
                         <div class="image overflow-hidden">
                             <img class="h-auto w-full mx-auto"
-                                src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
+                                :src="profilePic"
                                 alt="">
                         </div>
                         <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ userData.first_name }} {{
@@ -143,12 +162,22 @@ const activeCourses = computed( () => {
                                     <span clas="text-green-500">
                                         <AcademicCapIcon class="h-5 w-5 text-lime-700" />
                                     </span>
-                                    <span class="tracking-wide">Cursos Activos</span>
+                                    <span class="tracking-wide">Mis Cursos</span>
                                 </div>
                                 <ul class="list-inside space-y-2">
-                                    <li>
-                                        <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
+                                    <li v-for="course in activeCourses.active_courses" :key="course">
+                                        <div class="text-teal-600">
+                                            {{course.school.name}}
+                                        </div>
+                                        <div class="text-gray-500">
+                                            {{ course.active_course.period }}
+                                        </div>
+                                        <div class="text-gray-500 text-xs">
+                                            {{ course.active_course.state }}
+                                        </div>
+                                        <div class="text-gray-500 text-xs">
+                                            {{ course.school.state }}
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

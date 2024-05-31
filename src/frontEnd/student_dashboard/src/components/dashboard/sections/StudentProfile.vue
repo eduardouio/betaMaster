@@ -44,7 +44,7 @@ const profilePic = computed(() => {
     if (store.getters.getPicture) {
         return store.getters.getPicture;
     }
-    if (userData.sex === 'male') {
+    if (userData.sex === 'FEMENINO') {
         return ProfilePicWomen;
     }
     return ProfilePicMen;
