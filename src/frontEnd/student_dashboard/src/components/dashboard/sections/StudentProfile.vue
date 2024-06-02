@@ -8,8 +8,7 @@ import {
     XMarkIcon, CheckIcon, PencilSquareIcon, ExclamationTriangleIcon
 } from '@heroicons/vue/24/outline';
 import SocialIcon from '@/components/generics/SocialIcon.vue';
-import ProfilePicMen from '@/assets/profile-pic-men.png';
-import ProfilePicWomen from '@/assets/profile-pic-woman.png';
+import serverConfigData from '@/config.js';
 
 const showLoader = computed(() => store.getters.getIsLoading);
 const store = useStore();
@@ -45,9 +44,9 @@ const profilePic = computed(() => {
         return store.getters.getPicture;
     }
     if (userData.sex === 'FEMENINO') {
-        return ProfilePicWomen;
+        return serverConfigData.imgs.picWomen;
     }
-    return ProfilePicMen;
+    return serverConfigData.imgs.picMen;
 });
 
 const timeLapsed = ((my_date, years = true) => {

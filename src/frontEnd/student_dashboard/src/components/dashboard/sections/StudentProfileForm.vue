@@ -21,8 +21,6 @@ import ModalPasswordForm from '@/components/dashboard/ModalPasswordForm.vue';
 import ModalPictureForm from '@/components/dashboard/ModalPictureForm.vue';
 import PersonalReferences from '@/components/dashboard/sections/PersonalReferences.vue';
 import MapSelector from '@/components/dashboard/MapSelector.vue';
-import ProfilePicMen from '@/assets/profile-pic-men.png';
-import ProfilePicWomen from '@/assets/profile-pic-woman.png';
 
 const showMapSelector = ref(false);
 const toastMessage = ref({
@@ -45,12 +43,12 @@ const statusResponse = computed(() => store.getters.getStatusResponse);
 const showLoader = computed(() => store.getters.getIsLoading);
 const profilePic = computed(() => {
     if (store.getters.getPicture) {
-        return store.getters.getPicture
+      return store.getters.getPicture;
     }
     if (userData.sex === 'FEMENINO') {
-        return ProfilePicWomen;
+      return serverConfigData.imgs.picMen;
     }
-    return ProfilePicMen;
+    return serverConfigData.imgs.picMen;
 });
 
 const urlCV = computed(() => store.getters.getCV);

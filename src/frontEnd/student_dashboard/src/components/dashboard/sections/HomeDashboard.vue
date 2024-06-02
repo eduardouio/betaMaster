@@ -6,8 +6,7 @@ import {
     UserCircleIcon, AcademicCapIcon, UserIcon
 }      
 from "@heroicons/vue/24/outline";
-import picMen from '@/assets/profile-pic-men.png';
-import picWomen from '@/assets/profile-pic-woman.png';
+import serverConfigData from '@/config.js';
 
 
 const store = useStore();
@@ -41,9 +40,9 @@ const profilePic = computed( () => {
     }
 
     if (userData.sex === 'FEMENINO'){
-        return picWomen;
+        return serverConfigData.imgs.picWomen;
     }
-    return picMen;
+    return serverConfigData.imgs.picMen;
 });
 
 </script>
@@ -64,6 +63,7 @@ const profilePic = computed( () => {
                             <div class="text-center my-2">
                                 <img class="h-full w-full rounded-md mx-auto bg-cover" :src="store.getters.getPicture"
                                     :alt="userData.first_name + ' ' + userData.last_name">
+                                    <img class="bg-login"/>
                             </div>
                         </div>
                     </div>
