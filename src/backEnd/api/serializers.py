@@ -74,8 +74,10 @@ class CompleteDataForStudentSerializer(serializers.ModelSerializer):
         data['teachers'] = []
 
         for active_course in active_courses:
-
             for teacher in active_course.teacher.all():
+                if teacher.is_aproved != 'APROBADO':
+                    continue
+
                 url = ''
                 if teacher.picture:
                     url = teacher.picture.url
@@ -91,6 +93,8 @@ class CompleteDataForStudentSerializer(serializers.ModelSerializer):
                             'state': teacher.state,
                             'city': teacher.city,
                             'geolocation': teacher.geolocation,
+                            'phone': teacher.phone,
+                            'sex': teacher.sex
                         }
                     )
 
