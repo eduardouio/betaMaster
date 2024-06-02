@@ -2,9 +2,11 @@
 import { TrackOpTypes, defineEmits, ref } from 'vue';
 import logo from '@/assets/img/logo.jpg';
 import serverConfigData from '@/config.js';
+import Loader from '@/components/Loader.vue';
 
 const message = ref('');
 const emits = defineEmits(['changeForm']);
+const isLoading = ref(false);
 const user =  ref({
   email: '',
   password: ''
@@ -14,6 +16,7 @@ const changeForm = function(){
 }
 
 const login = function(){
+  isLoading.value = true;
   try {
     fetch(serverConfigData.urls.APILogin, {
       method: 'POST',
@@ -29,26 +32,36 @@ const login = function(){
       }else{
         message.value = data.message;
       }
+      isLoading.value = false;
     })
     .catch(error => {
       console.error('Error:', error);
+      isLoading.value = false;
     });
   } catch (error) {
     console.error('Error:', error);
+    isLoading.value = false;
   }
   
 };
 
 </script>
 <template>
-    <div class="bg-white sm:bg-gray-200 min-h-screen w-screen flex flex-col justify-center items-center">
+  <div>
+    <Loader v-if="isLoading" />
+    <div  v-else class="bg-white sm:bg-gray-200 min-h-screen w-screen flex flex-col justify-center items-center">
       <div class="bg-white shadow-none sm:shadow-lg px-8 sm:px-12 w-full xs:w-full sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-2/6 h-screen sm:h-auto py-8 rounded-xl">
           <img :src="logo" class="cover border-b-2 border-cyan-700"/>
           <div class="text-orange-600" v-if="message">
             {{ message }}
           </div>
         <div class="text-center w-full font-bold text-3xl text-gray-600 p-4">
-          INICIO DE SESION
+          <p class="m-5">
+            Bienvenido/a
+          </p>
+          <p>
+            ACCADEMY LEARNINGROUP
+          </p>
         </div>
         <div
             class="w-full bg-gray-200 my-3" style="height: 1px"
@@ -80,9 +93,9 @@ const login = function(){
                 v-model="user.password"
               />
             </div>
-            <div class="w-full flex flex-row gap-2">
+            <div class="w-full flex flex-row justify-center gap-2">
               <button
-                class="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-0 flex flex-row justify-center items-center gap-1"
+              class="btn btn-info text-white"
                 type="submit"
                 @click="login"
               >
@@ -91,7 +104,7 @@ const login = function(){
                 </svg> Iniciar Sesión
               </button>
                 <a 
-                  class="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1"
+                class="btn btn-info text-white"
                   @click="changeForm"
                   >
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,5 +138,6 @@ const login = function(){
           </div>
       </div>
       <div class="p-4">© ACCADEMYLEARNINGROUP 2024</div>
+    </div>
     </div>
 </template>

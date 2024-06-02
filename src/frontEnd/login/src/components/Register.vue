@@ -5,9 +5,11 @@ import  formRegistroEstudiante from '@/assets/img/formRegistroEstudiante.jpg';
 import  formRegistroProfesor from '@/assets/img/formRegistroProfesor.jpg';
 import  formRegistroColegio from '@/assets/img/formRegistroColegio.jpg';
 import serverConfigData from '@/config.js';
+import Loader from '@/components/Loader.vue';
 
 const emits = defineEmits(['changeForm']);
 const message = ref('');
+const isLoading = ref(false);
 
 const changeForm = function(){
     emits('changeForm');
@@ -55,6 +57,7 @@ function registerUser(){
 
 // Enviamos lo datos al server
 async function sendData(){
+   isLoading.value = true;
     try{
       let response = await fetch(serverConfigData.urls.registerUser, {
          method: 'POST',
@@ -63,6 +66,7 @@ async function sendData(){
       });
       const data = await response.json();
       if (await response.status == 201){
+         isLoading.value = false;
         message.value = 'Registro exitoso, redireccionando...';
         setTimeout(()=>{
             window.location.href = serverConfigData.urls.login;
@@ -70,16 +74,20 @@ async function sendData(){
       }else{
          const error_message = Object.keys(data).map(key => data[key][0]);
          message.value = error_message.join(' ');
+         isLoading.value = false;
       }
       
 }catch(error){
       alert('Error al enviar los datos al servidor, por favor intente de nuevo');
       console.dir(error);
+      isLoading.value = false;
    } 
 }
 </script>
 <template>
-    <div class="bg-white sm:bg-gray-200 min-h-screen w-screen">
+   <div>
+      <Loader v-if="isLoading" />
+    <div class="bg-white sm:bg-gray-200 min-h-screen w-screen" v-else>
        <div class="container bg-gray-200 mx-auto text-center">
           <span class="text-red-600 text-2xl" v-if="!passwordMatch">
           Las contraseñas no coinciden
@@ -180,7 +188,7 @@ async function sendData(){
                       <div class="mb-6 flex flex-col md:flex-row justify-between gap-2">
                          <button
                             @click="registerUser"
-                            class="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1"
+                            class="btn btn-info text-white"
                             type="button"
                             :disabled="!passwordMatch"  
                             >
@@ -191,7 +199,7 @@ async function sendData(){
                          </button>
                          <button
                             @click="changeForm"
-                            class="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1"
+                            class="btn btn-info text-white"
                             type="button">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -204,6 +212,7 @@ async function sendData(){
              </div>
           </div>
        </div>
+    </div>
     </div>
  </template>
   

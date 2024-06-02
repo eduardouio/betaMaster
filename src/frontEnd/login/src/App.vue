@@ -9,8 +9,6 @@ const handelForm = () => {
     console.log('cambio de formulario');
     showLogin.value = !showLogin.value;
 }
-
-
 </script>
 <template>
     <div>
