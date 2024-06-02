@@ -1,9 +1,10 @@
 <script setup>
 import TableStudents from '@/components/dashboard/TableStudents.vue';
-import { computed, ref } from 'vue';
+import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { 
-    UserCircleIcon, AcademicCapIcon, UserIcon
+    UserCircleIcon, AcademicCapIcon, UserIcon, 
+    DevicePhoneMobileIcon, EnvelopeIcon, MapPinIcon
 }      
 from "@heroicons/vue/24/outline";
 import serverConfigData from '@/config.js';
@@ -13,6 +14,8 @@ const store = useStore();
 let showModal = ref(false);
 let idStudent = ref(0);
 const cards = ['courses', 'students', 'schools']
+const currentCourse = ref(null);
+const UrlMapBase = 'https://www.google.com/maps/?q=';
 
 const handleStudent = function(myId) {
     idStudent.value = myId;
@@ -24,7 +27,17 @@ const colorsStatus = {
     'PENDIENTE': 'bg-yellow-500',
     'APROBADO': 'bg-green-500',
     'RECHAZADO': 'bg-red-500',
+    'EN PROCESO': 'text-green-700',
+    'FINALIZADO': 'text-gray-700',
+    'POR INICIAR': 'text-yellow-700',
+
 }
+
+
+
+onMounted(() => {
+    currentCourse.value = getCurrentCourse();
+});
 
 const userData =  computed( () => store.getters.getProfile); 
 
@@ -45,12 +58,33 @@ const profilePic = computed( () => {
     return serverConfigData.imgs.picMen;
 });
 
+// obtenemos el curso activo
+const getCurrentCourse = () => {
+    const activeCourses =  store.getters.getCourses.active_courses.filter(
+        course => {
+        return  course.active_course.state === 'EN PROCESO'
+    });
+    if (activeCourses.length > 0){
+        return activeCourses[0];
+    }
+    return null;
+};
+
+const getImage = (teacher) => {
+    if (teacher.picture){
+        return teacher.picture;
+    }
+
+    if (teacher.sex === 'FEMENINO'){
+        return serverConfigData.imgs.picWomen;
+    }
+
+    return serverConfigData.imgs.picMen;
+};
+
 </script>
 <template>
     <div class="bg-gray-100">
-        <pre>
-            {{courses}}
-        </pre>
         <div class="container mx-auto my-5 p-5">
             <div class="md:flex no-wrap md:-mx-2 ">
                 <!-- Left Side -->
@@ -59,27 +93,24 @@ const profilePic = computed( () => {
                     <div class="bg-white p-3 hover:shadow">
                         <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
                         </div>
-                        <div class="flex">
-                            <div class="text-center my-2">
-                                <img class="h-full w-full rounded-md mx-auto bg-cover" :src="store.getters.getPicture"
-                                    :alt="userData.first_name + ' ' + userData.last_name">
-                                    <img class="bg-login"/>
-                            </div>
+                        <div class="flex justify-center text-xl">
+                            {{ userData.first_name }} {{ userData.last_name }}
                         </div>
                     </div>
                     <div class="my-4"></div>
                     <div class="bg-white p-3 border-t-4 border-green-400">
-                        <div class="image overflow-hidden">
-                            <img class="h-auto w-full mx-auto"
-                                :src="profilePic"
-                                alt="">
+                        <div class="image overflow-hidden border-b-2 pb-4">
+                            <img class="h-auto w-full mx-auto" :src="profilePic" alt="">
                         </div>
-                        <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{ userData.first_name }} {{
-                            userData.last_name }}</h1>
-                        <h3 class="text-gray-600 font-lg text-semibold leading-6">
-                            Nombre del Colegio
+                        <h3 class="text-gray-600 font-lg text-semibold leading-6 text-info m-2 text-xl">
+                            <span v-if="currentCourse">
+                                {{ currentCourse.school.name }}
+                            </span>
+                            <span v-else>
+                                NO TIENE CURSO ACTIVO
+                            </span>
                         </h3>
-                        <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">
+                        <p class="text-sm text-gray-500 hover:text-gray-600 leading-6 ">
                             {{ userData.presentation }}
                         </p>
                         <ul
@@ -87,18 +118,21 @@ const profilePic = computed( () => {
                             <li class="flex items-center py-3">
                                 <span>Status</span>
                                 <span class="ml-auto">
-                                    <span class="py-1 px-2 rounded text-white text-sm" :class="colorsStatus[userData.is_aproved]">
+                                    <span class="py-1 px-2 rounded text-white text-sm"
+                                        :class="colorsStatus[userData.is_aproved]">
                                         {{ userData.is_aproved }}
                                     </span>
                                 </span>
                             </li>
                             <li class="flex items-center py-3">
-                                <span>Fecha de registro</span>
-                                <span class="ml-auto" v-if="userData.date_aproved">
-                                    {{ userData.date_aproved }}
-                                </span>
-                                <span class="ml-auto text-cyan-700" v-else >
-                                    PENDIENTE
+                                <span>Fecha Aprovación</span>
+                                <span class="ml-auto text-cyan-700">
+                                    <span v-if="userData.date_aproved">
+                                        {{ userData.date_aproved.toLocaleDateString('es-EC') }}
+                                    </span>
+                                    <span v-else>
+                                        NO REGISTRA
+                                    </span>
                                 </span>
                             </li>
                         </ul>
@@ -167,12 +201,13 @@ const profilePic = computed( () => {
                                 <ul class="list-inside space-y-2">
                                     <li v-for="course in activeCourses.active_courses" :key="course">
                                         <div class="text-teal-600">
-                                            {{course.school.name}}
+                                            {{ course.school.name }}
                                         </div>
                                         <div class="text-gray-500">
                                             {{ course.active_course.period }}
                                         </div>
-                                        <div class="text-gray-500 text-xs">
+                                        <div class="text-gray-500 text-xs font-bold"
+                                            :class="colorsStatus[course.active_course.state]">
                                             {{ course.active_course.state }}
                                         </div>
                                         <div class="text-gray-500 text-xs">
@@ -184,40 +219,50 @@ const profilePic = computed( () => {
                             <div>
                                 <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
                                     <span clas="text-green-500">
-                                       <UserCircleIcon class="h-5 w-5 text-lime-700" />
+                                        <UserCircleIcon class="h-5 w-5 text-lime-700" />
                                     </span>
                                     <span class="tracking-wide">Mis Profesores</span>
                                 </div>
-                                <ul class="list-inside space-y-2">
-                                    <li>
-                                        <div class="text-teal-600">Masters Degree in Oxford</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                    </li>
-                                    <li>
-                                        <div class="text-teal-600">Bachelors Degreen in LPU</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2">
-                            <div>
-                                <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                                    <span clas="text-green-500">
-                                        <AcademicCapIcon class="h-5 w-5 text-lime-700" />
-                                    </span>
-                                    <span class="tracking-wide">Cursos Concluidos</span>
+                                <div v-if="currentCourse">
+                                    <ul class="list-inside space-y-2" v-for="teacher in currentCourse.teachers"
+                                        :key="teacher">
+                                        <li class="text-teal-600 flex flex-col gap-1 border-b p-2">
+                                            <div class="flex items-center gap-2">
+                                                <img :src="getImage(teacher)" alt="Imagen de Profesor" class="w-1/12">
+                                                {{ teacher.first_name }} {{ teacher.last_name }}
+                                                /
+                                                <MapPinIcon class="h-4 w-4 text-cyan-700" />
+                                                <a class="text-cyan-700" target="_blank" rel="noreferrer"
+                                                    :href="UrlMapBase + teacher.geolocation.toString()">
+                                                    Mapa
+                                                </a>
+                                                /
+                                                <span class="text-gray-500">
+                                                    {{ teacher.city }}
+                                                </span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="text-sm">
+                                                <a :href="'tel:' + teacher.phone" class="text-info flex">
+                                                    <DevicePhoneMobileIcon class="h-4 w-4 text-lime-700" />
+                                                    {{ teacher.phone }}
+                                                </a>
+                                            </div>
+                                            /
+                                            <div class="flex items-center gap-2">
+                                                <EnvelopeIcon class="h-4 w-4 text-lime-700" />
+                                                <a :href="'mailto:' + teacher.email">
+                                                    {{ teacher.email }}
+                                                </a>
+                                            </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <ul class="list-inside space-y-2">
-                                    <li>
-                                        <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                        <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                    </li>
-                                </ul>
+                                <div v-else>
+                                    NO REGISTRA UN CURSO ACTIVO
+                                </div>
                             </div>
-
                         </div>
                         <!-- End of Experience and education grid -->
                     </div>

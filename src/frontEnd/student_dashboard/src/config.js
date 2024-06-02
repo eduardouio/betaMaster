@@ -19,7 +19,7 @@ const serverConfigData = {
     },
     'imgs':{
         'picMen': baseUrl + '/static/img/profile-pic-men-06ccc709.png',
-        'picWomen': '/static/img/profile-pic-woman-65e24cbc.png',
+        'picWomen': baseUrl + '/static/img/profile-pic-woman-65e24cbc.png',
     },
     'urls': {
         // base
