@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import profile from "@/store/modules/profileStudent.js";
 import courses from "@/store/modules/coursesStudent.js";
+import schools from "@/store/modules/schoolsStudent.js";
 
 
 const store =  createStore({
@@ -38,6 +39,7 @@ const store =  createStore({
   modules: {
     profile,
     courses,
+    schools,
   },
 });
 

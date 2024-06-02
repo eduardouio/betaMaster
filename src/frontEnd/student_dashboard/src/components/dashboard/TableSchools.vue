@@ -29,7 +29,7 @@ let pages = ref(0);
 let currentPage = ref(1);
 let perPage = ref(10);
 let showingItemsTable = ref(0);
-const urlLocation = 'https://www.google.com/maps/search/?api=1&query=';
+const UrlMapBase = 'https://www.google.com/maps/?q=';
 
 function paginateContent(data, filter='') {
 	if (filter) {
@@ -43,7 +43,6 @@ function paginateContent(data, filter='') {
 
 // filtro de datos
 function filterData(data, filter) {
-	
     let filteredData = data.filter((item) => {
         return item.school.name.toLowerCase().includes(filter.toLowerCase()) || 
         item.school.state.toLowerCase().includes(filter.toLowerCase()) || 
@@ -56,8 +55,7 @@ function filterData(data, filter) {
 
 onMounted(async() => {
 	const dashboardData = store.getters.getSchools;
-	document.title = 'Colegio | Dashboard';
-	collegesList.value = consolidateData(dashboardData);
+	collegesList.value = consolidateData(dashboardData.results);
 	pages.value = Math.ceil(collegesList.value.length / perPage.value);
 	paginateContent(collegesList.value);
     consolidateData(dashboardData);
