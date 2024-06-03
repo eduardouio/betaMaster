@@ -1,39 +1,37 @@
 <script setup>
 import { useStore } from 'vuex';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {    ChevronDoubleLeftIcon, ChevronDoubleRightIcon, 
-            ChevronRightIcon, ChevronLeftIcon
+            ChevronRightIcon, ChevronLeftIcon, DevicePhoneMobileIcon,
+            MapPinIcon, XCircleIcon
         } from '@heroicons/vue/24/outline';
 import serverConfigData from '@/config';
-
-const classsStatus = {
-    'POR INICIAR': 'text-xs text-sky-900',
-    'EN PROCESO': 'text-xs text-green-900',
-    'FINALIZADO': 'text-xs text-red-900'
-};
+import SocialIcon from '@/components/generics/SocialIcon.vue';
 
 const store = useStore();
 const paginatedData = ref([]);
-let listStudents = store.getters.getCourses;
+const listStudents = ref([])
 let currentPage = ref(1);
 let perPage = ref(10);
 let filter = ref('');
-let pages = ref(Math.ceil(listStudents / perPage.value));
+let pages = ref(0);
 let showingItems = ref(0);
-
+const UrlMapBase = 'https://www.google.com/maps/?q=';
 
 const emits = defineEmits(['handleStudent']);
 const handleStudent = (idStudent) => {
     emits('handleStudent', idStudent);
 };
 
-onMounted(() => { 
+onMounted(() => {
+    listStudents.value = store.getters.getTeachers;
+    pages = Math.ceil(listStudents.value.length / perPage.value)
     paginateContent(listStudents);
 });
 
 watch(perPage, (newVal, oldVal) => {
     currentPage.value = 1;
-    pages.value = Math.ceil(listStudents / perPage.value);
+    pages.value = Math.ceil(listStudents.value / perPage.value);
     paginateContent(listStudents);
 });
 
@@ -57,7 +55,20 @@ watch(filter, (newVal, oldVal) => {
     paginateContent(listStudents, newVal);
 });
 
+function getPic(teacher) {
+    if (teacher.picture){
+        return teacher.picture;
+    }
+
+    if (teacher.sex === 'FEMENINO'){
+        return serverConfigData.imgs.picWomen;
+    }
+
+    return serverConfigData.imgs.picMen;
+};
+
 function paginateContent(data, filter = '') {
+    data  = data.value;
     if (filter) {
         data = filterData(data, filter);
     }
@@ -68,15 +79,16 @@ function paginateContent(data, filter = '') {
 
 function filterData(data, filter) {
     let filteredData = data.filter((item) => {
-        return item.student.first_name.toLowerCase().includes(filter.toLowerCase()) ||
-            item.student.last_name.toLowerCase().includes(filter.toLowerCase()) ||
-            item.id_school.name.toLowerCase().includes(filter.toLowerCase()) ||
-            item.period.toLowerCase().includes(filter.toLowerCase()) ||
+        if (!item.state){item.state = '';}
+        if (!item.city){item.city = '';}
+        return item.first_name.toLowerCase().includes(filter.toLowerCase()) ||
+            item.last_name.toLowerCase().includes(filter.toLowerCase()) ||
             item.state.toLowerCase().includes(filter.toLowerCase()) ||
-            item.student.city.toLowerCase().includes(filter.toLowerCase());
+            item.city.toLowerCase().includes(filter.toLowerCase());
     });
     return filteredData;
 }
+
 </script>
 <template>
     <div
@@ -96,26 +108,53 @@ function filterData(data, filter) {
                     <thead>
                         <tr class="bg-gray-200 text-center text-gray-950">
                             <th>#</th>
-                            <th>Estudiante</th>
-                            <th>Colegio</th>
-                            <th>Periodo</th>
-                            <th>Estado</th>
+                            <th>Nombres</th>
                             <th>Ubicación</th>
+                            <th>Correo</th>
+                            <th>Profesión</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="row, idx in paginatedData" class=" hover:bg-yellow-50" :key="row"
-                            @click="handleStudent(row.student.id)">
-                            <td class="pb-0 pl-1">{{ (perPage * (currentPage - 1)) + idx + 1 }}</td>
-                            <td class="pb-0 pl-1">{{ row.student.first_name }} {{ row.student.last_name }}</td>
-                            <td class="pb-0 pl-1">{{ row.id_school.name }}</td>
-                            <td class="pb-0 pl-1">{{ row.period }}</td>
-                            <td class="pb-0 pl-1">
-                                <div :class="classsStatus[row.state]">
-                                    {{ row.state }}
-                                </div>
+                            @click="handleStudent(row.id)">
+                            <td class="pb-0 pl-1 w-[50px]">
+                                <div class="flex gap-1">
+                                {{ (perPage * (currentPage - 1)) + idx + 1 }}
+                                <img :src="getPic(row)" :alt="'Profesor' + row.last_name + row.first_name">
+                            </div>
                             </td>
-                            <td class="pb-0 pl-1">{{ row.student.city }}</td>
+                            <td class="pb-0 pl-1">
+                                <div class=" flex items-center">
+                                <div class="flex items-center justify-start gap-3 p-1 w-7/12 xl:w-6/12">
+                                    <SocialIcon v-if="row.url_facebook" url="row.url_facebook" icon="facebook" />
+                                    <XCircleIcon v-else class="w-5 h-5 text-gray-300" />
+                                    <SocialIcon v-if="row.url_twiter" url="row.url_twiter" icon="twitter" />
+                                    <XCircleIcon v-else class="w-5 h-5 text-gray-300" />
+                                    <SocialIcon v-if="row.url_linkedin" url="row.url_linkedin" icon="linkedin" />
+                                    <XCircleIcon v-else class="w-5 h-5 text-gray-300" />
+                                </div>      
+                                {{ row.first_name }} {{ row.last_name }} 
+                            </div>
+                            </td>
+                            <td class="pb-0 pl-1">
+                                <div class="flex gap-2">
+                                <span>{{ row.state }}</span>
+                                <span class="font-sm text-gray-300">/</span>
+                                <span>{{ row.city }}</span>
+                                <a :href="UrlMapBase + String(row.geolocation)" target="_blank">
+                                    <MapPinIcon class="w-4 h-4 text-red-600" />
+                                </a>
+                            </div>
+                            </td>
+                            <td class="pb-0 pl-1">
+                                {{ row.email }}
+                            </td>
+                            <td class="pb-0 pl-1">
+                                {{ row.profesion }}
+                                <div class="flex items-center">
+                                        {{ item }}
+                            </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -136,7 +175,7 @@ function filterData(data, filter) {
                             <ChevronDoubleRightIcon class="h-4 w-4" />
                         </button>
                     </div>
-                    <div class="relative text-xs">
+                    <div class="relative text-xs" v-if="listStudents">
                         Página 1 de {{ pages }} - Mostrando {{ showingItems }} de {{ listStudents.length }} Registros
                     </div>
                     <div class="relative w-full max-w-full flex-grow flex-1 text-right">

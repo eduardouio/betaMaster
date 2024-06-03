@@ -1,5 +1,5 @@
 <script setup>
-import TableCandidates from '../TableCandidates.vue';
+import TableCandidates from '../TableTeachers.vue';
 </script>
 <template>
     <TableCandidates/>

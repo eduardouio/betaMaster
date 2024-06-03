@@ -1,5 +1,5 @@
 <script setup>
-import TableStudents from '@/components/dashboard/TableStudents.vue';
+import TableTeacher from '@/components/dashboard/TableTeachers.vue';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { 

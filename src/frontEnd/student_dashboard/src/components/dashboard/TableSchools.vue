@@ -58,7 +58,7 @@ onMounted(async() => {
 	collegesList.value = consolidateData(dashboardData.results);
 	pages.value = Math.ceil(collegesList.value.length / perPage.value);
 	paginateContent(collegesList.value);
-    consolidateData(dashboardData);
+    consolidateData(dashboardData.results);
 });
 
 // miramos si tenemos el filtro
@@ -98,7 +98,7 @@ function consolidateData(data){
             seen.add(item.id_school);
             return true
         }
-        return false;
+        return [];
     });
 }
 
@@ -137,9 +137,7 @@ function consolidateData(data){
                             <td class="pb-0 pl-1"> {{row.email }}</td>
                             <td class="pb-0 pl-1"> {{row.state }}, {{row.city }}</td>
                             <td class="pb-0 pl-1">
-                                <a :href="urlLocation + row.geolocation" v-if="row.geolocation" target="_blank">
                                     <MapPinIcon class="w-4 h-4 inline-block text-info"/> 
-                                </a>
                                 <span>{{row.address }}</span>
                             </td>
                         </tr>

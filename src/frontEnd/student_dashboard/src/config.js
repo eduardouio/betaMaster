@@ -35,7 +35,7 @@ const serverConfigData = {
         logoutUser : baseUrl + '/accounts/logout/', // GET
         updatePasswordUser : baseUrl + `/api/user/update-password/${idUser}/`, // PUT
         getUser : baseUrl + `/api/user/${idUser}/`, // GET
-        getUsers : baseUrl + '/api/user/users-by-role/{roleName}/', // GET
+        getUsers : baseUrl + '/api/users-by-role/{roleName}/', // GET
         updateUser : baseUrl + `/api/user/update/${idUser}/`, // PUT
         teacherData: baseUrl + `/api/user/complete-data-teacher/${idUser}/`, // GET
         coursesByUser: baseUrl + `/api/user/courses-by-user/${idUser}/`, // GET
