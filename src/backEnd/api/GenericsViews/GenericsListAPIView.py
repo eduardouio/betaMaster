@@ -81,8 +81,15 @@ class ListUserByRoleAPIView(ListAPIView):
     pagination_class = BasePagination
 
     def get_queryset(self):
-        role = self.kwargs['role_name']
-        return UserModel.objects.filter(role=role).order_by('pk')
+        roles = {
+            'student': 'ESTUDIANTE',
+            'teacher': 'PROFESOR',
+            'school': 'COLEGIO'
+        }
+        role = self.kwargs.get('role_name')
+        return UserModel.objects.filter(
+            role=roles[role], is_aproved='APROBADO'
+        ).order_by('pk')
 
 
 # /api/user/banks-accounts/<int:id_user>
