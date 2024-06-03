@@ -33,6 +33,7 @@ bun.*
 test_db_.tar
 .pdf
 *.pdf
+pnpm-lock.yaml
 .project
 venv/
 package-lock.json
