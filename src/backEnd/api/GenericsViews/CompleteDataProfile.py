@@ -3,7 +3,8 @@ from accounts.models import CustomUserModel
 from rest_framework.response import Response
 from api.serializers import (
     CompleteDataForTeacherSerializer,
-    CompleteDataForStudentSerializer
+    CompleteDataForStudentSerializer,
+    UserSerializerPublic
 )
 from django.shortcuts import get_object_or_404
 
@@ -83,9 +84,8 @@ class StudentDataForTeacherAPIView(APIView):
                             row['teachers'].append(teacher)
 
                 data.append(row)
-
         report = {
-            'student': serializer.data['student'],
+            'student': UserSerializerPublic(user).data,
             'active_courses': data
         }
 
